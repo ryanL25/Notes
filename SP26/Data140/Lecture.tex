@@ -1,0 +1,37 @@
+\documentclass[a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{textcomp}
+\usepackage{amsmath, amssymb}
+\usepackage{parskip}
+\usepackage{float}
+
+% figure support
+\usepackage{import}
+\usepackage{xifthen}
+\pdfminorversion=7
+\usepackage{pdfpages}
+\usepackage{transparent}
+\newcommand{\incfig}[1]{%
+	\def\svgwidth{\columnwidth}
+	\import{./figures/}{#1.pdf_tex}
+}
+
+
+\pdfsuppresswarningpagegroup=1
+\begin{document}
+	
+\section{Distribution of a Random Variable}
+A Distribution is two connected sets. One is the set of all possible values $\Omega$ and the probabilities of those values. This can result in silly blunders :D. So when faced with random variables, list all possible values. (This will give partial credit!)
+
+
+\[P(\text{rain today} = 0.65, P(\text{rain tomorrow}) = 0.45\]
+$P(\text{rain today and tmr}) = P(\text{rain tmr}) \cdot P(\text{rain tmr} \mid \text{rain today})$
+
+We can only say that this probability is bounded by $\le .45$, because one is a subset of another.  
+Similarly, if we are looking at the probability at least one day rains, we have an lower bound of $\ge .65$, because worse case tomorrow is inside today. 
+
+
+
+\end{document}

@@ -1,0 +1,88 @@
+\documentclass[a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{textcomp}
+\usepackage{amsmath, amssymb}
+\usepackage{parskip}
+\usepackage{float}
+
+% figure support
+\usepackage{import}
+\usepackage{xifthen}
+\pdfminorversion=7
+\usepackage{pdfpages}
+\usepackage{transparent}
+\newcommand{\incfig}[1]{%
+	\def\svgwidth{\columnwidth}
+	\import{./figures/}{#1.pdf_tex}
+}
+
+\title{IEOR 173: Lecture 2}
+\date{26 Janurary 2026} 
+\pdfsuppresswarningpagegroup=1
+
+\begin{document}
+\maketitle
+
+\section{random Variables }
+
+Sample Space: $X : S \rightarrow \mathbb{R}$ 
+e.g S: outcomes of 2 die rolls, X: max value rolled
+
+\begin{itemize}
+	\item X discrete: $P(x) = P(X=x)$, e.g $P(X=5) = P(1,4) + P(2,3) + ... = \frac{4}{36}$
+	\item X cont $P(x) = density func = \int_a^b f(y) dy = P(x\le x)$. eg. normal, exponential, uniform, chi squared
+\end{itemize}
+
+Ex: $X \sim \text{Bern}(p)$ 
+
+
+
+Indicators: Roll 1 die then $I\{2 or 3\}$ 1 if 2 or 3, 0 otherwise. $\sim Bern(\frac{1}{3}$.
+
+Ex: $x \sim Bin(n, p)$ X = \# of success of n trials/ prob of p successes = $\sum_{i=1}{n} I_x$ where $I_1 \sim Bin(n, p)$ for all
+
+\section{Expected Value}
+\[E(X) = \sum x_ip_i(x)\]
+
+For a bernoulli dist, $E[I\{A\}] = P\{A\}$
+
+$X \sim Bin(n,p)$, then $E(x) = np$, $EX = [\sum I_i] =  \sum E[I_i] = \sum^n p = np$. Using indicators for the EX is a lot easier than using the original way to do it
+
+$x\sim geo(p) \implies EX = \frac{1}{p}^n = \sum_i i(1-p)^{i-1}p = \frac{1}{p}$
+
+For a continuous random variable, $E(X) = \int_{-\infty}^{\infty} x F_9x) dx$  
+
+$X \sim unif(a,b)$, $EX = \int_a^bx \frac{1}{b-a}dx$
+
+EX: Mean if infinity, but the probability is not infinity. St. Petersburg Paradox: St. Peter decides who gets to go to heaven, but presents a gambling problem. Flip a coin. If the first heads appears on the first toss, win \$1. Heads on the second toss win \$2, heads on the third toss win \$4. So it keeps doubling. 
+
+\[E(x) = 1 \frac{1}{2} + 2 \frac{1}{4} + 4 \frac{1}{8} + ... = \frac{1}{2} + \frac{1}{2} + ... + \frac{1}{2} = \infty\]
+
+\[E(g(X)) \neq g(EX)\]
+Unless g is linear, and $P(X=\alpha) = 1$
+
+\section{Variance} 
+Variance:  $Var(X) = E[(X-EX)^2]$ Expected square deviations/errors. 
+For computation, its easier to see that $Var(X) = E(X^2) - (EX)^2$
+
+\[X\sim Bern(p)\]
+\[
+	E[X^2] = 1p + 0(1-p) = p = EX \implies X^2 \sim X \sim Bern(p)
+\]
+
+\[
+	Var(x) = p - p^2 = p(1-p)
+\]
+\[
+	Stdev(X) = \sqrt{Var(X)}
+\]
+Expectation is Linear: $E[a + \sum b_i x_i] = a+ \sum b_i EX_i$
+
+Variation is not: $Var(a+\sum_b^i x_i) = b^2 \sum Var(X_i)$ 
+ONLY IF INDEPENDENT!! 
+
+
+
+\end{document}

@@ -1,0 +1,90 @@
+\documentclass[a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath, amssymb}
+\usepackage{parskip}
+\usepackage{float}
+
+% figure support
+\usepackage{import}
+\usepackage{xifthen}
+\pdfminorversion=7
+\usepackage{pdfpages}
+\usepackage{transparent}
+\newcommand{\incfig}[1]{%
+	\def\svgwidth{\columnwidth}
+	\import{./figures/}{#1.pdf_tex}
+}
+
+\title{160 Lecture 2}
+\date{26 Jan 2026} 
+\pdfsuppresswarningpagegroup=1
+
+\begin{document}
+\maketitle
+
+\section{Unit Variation over an Interval} 
+How do we minimize a function over an Interval (a, b]? 
+
+Terminology: 
+$$x \in \mathbb{R}$$
+\[F: \mathbb{R} \rightarrow \mathbb{R}\]
+X in the real numbers, and F is a function mapping from Real numbers to Real numbers
+
+$x$ is the variable or parameter or decision. 
+
+In a convex form, we write it as 
+
+\begin{align*}
+	\text{min} \quad  &f(x)\\
+	s.t. \quad& x \ in (a,b]
+.\end{align*}
+
+We can assume $a, b = \pm \infty$ as well. 
+
+\subsection*{Minima and Maxima}
+A point is a global min if $f(x*) \leq f(x) \forall x \in (a, b]$. similarily, global max just flips the sign to $\geq$ 
+
+However, this is often hard to find. Local minimums are easier to find. $f(x*) \leq f(x) \forall I \ \{x\}$,  or in other words $\exists f(x*) \leq f(x) \forall x \in X \cap \{x \pm \Delta\}$. Intuitively, a large $\Delta$ is not going to work here, because it might encompass more local mins. However, it still works because we say there exists. 
+
+A strict local min is where $F(x^*) < f(x) \forall x \in \{x-\delta, x+\delta\}\backslash \{x*\}$. Basically, it is a local min that is not repeated, such as the function $f(x) = 3$. On the interval from [4,5], there is a local min of 3, however, it is not strict because there are infinitely many local mins in the neighborhood. 
+
+These naturally let us ask the following two questions about optimization. 
+\begin{itemize}
+	\item How to characterize those points?
+	\item How to find the numerical values of those points? 
+\end{itemize}
+
+To answer these questions we use Taylor Series Approximations or Expansions. 
+
+\subsection*{Taylor Series}
+
+1.) Dominance: The idea that in a taylor series, if $\Delta$ is small, then the upper term polynomial term dominates the rest. How small is small? EH Who cares? The basic idea is ignore high order terms 
+
+Mean Value Theory: 
+\begin{enumerate}
+	\item First order approximation (Linear) : $F(x + \Delta) = f(x) \sim f(x) + f'(x)\Delta$. There $\exists z$ from $x$ to $x + \Delta$ $f(x + \Delta) = f(x) + f'(z)\Delta$
+	\item Second order approximation (quadratic) $f(x + \Delta) \sim f'(x)\Delta + \frac{f''(x + \Delta)}{2}$. Then follows first order approx steps
+\end{enumerate}
+
+EX: Imagine $f(x) = e^x$. find the Linear approx of this function. 
+
+So we need to find the approximation around the nominal point. here we will choose $0$.
+\[
+f(0 + \Delta) = f(0) + f'(z)\Delta\]
+
+\[f(0 + \Delta) = 0 + e^{z}\Delta\]
+
+
+If $f(x^*)$ is a local min of a function, then $f'(x^*) = 0$. Intuition is picking a neighborhood, zoom in and it slowly becomes flat. Later we will define tangent plan and others.  
+
+Proof: If $F(x*) \neq 0$, then $x*$ is not a min.    
+
+2.) Truncation. 
+
+
+
+
+ 
+\end{document}

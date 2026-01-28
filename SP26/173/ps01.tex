@@ -1,0 +1,216 @@
+\documentclass{report}
+\input{../../preamble}
+\input{../../macros}
+\input{../../letterfonts}
+
+\title{\Huge{IEOR 173}\ Problem Set 01}
+\author{\huge{Ryan Lin}}
+\date{}
+
+\begin{document}
+\maketitle
+\chapter{Textbook Questions}
+\qs{12}{Let E and F be mutually exclusive events. Suppose the experiment is repeated until either event $E$ or $F$ occurs. What is the sample space of this experiment. Show that the probability that event $E$ occurs before F is $P(E) / [P(E) + P(F)$ 
+
+Let $N$ be when neither $E$ or $F$ is chosen.
+	\[\Omega = \{E, F, NE, NF, NNE, NNF, ... N^nE, N^nF\}\]
+
+	Since the original experiment is performed n times, to the probability that $E$ comes before $F$ means that neither $E$ or $F$ occurs, until $E$ occurs once. Thus, the probability that $E$ appears on the $n$th time is $P(E) \times (1- p)^{n-1}$, where $p = P(E) + P(F)$. The $(1-p)^{n-1}$ term represents that neither $E$ or $F$ has been seen. Then, after $E$ is seen, then $F$ has to be seen if the experiment repeats until $F$ is seen.  
+
+	
+\[P(E \text{before} F) = \sum_{i=1}^\infty P(E)(1-p)^n-1 = P(E)\sum{i=0}^\infty (1-p)^{n-1} \]
+
+We can rewrite $\sum_{i=1}^\infty (1-p)^{n-1}$ as $\sum_{j=0}^\infty (1-p)^{n}$, which is a geometric series.
+
+Therefore, $\sum_{i=1}^\infty (1-p)^{n-1} = \frac{1}{1-(1-p)} = \frac{1}{p}$ 
+
+Thus
+
+\[P(E \text{before}F) = \frac{P(E)}{p} = \frac{P(E)}{P(E) + P(F)}\]
+
+}
+
+\qs{14}{The probability of winning on a single toss of the dice is $p$ $A$ starts, and if he fails, he passes to $B$. They continue until one of them wins. What are their respective probabilities of winning? 
+
+	\[P(A \text{ win}) = p + \left( \frac{1-p}{p} \right)^2 p + \left( \frac{1-p}{p} \right)^4 p \dots  \]
+
+Essentially, the probability that $A$ wins is a geometric series with a ratio of $(1-p)^2$, which can be simplified into: 
+\[P(A \text{ win}) = \frac{p}{1-(1-p)^2} = \frac{p}{1- (1 -2p + p^2)} = \frac{1}{(2-p)}\]
+
+Similarly, 
+\[P(B \text{ win}) = \left( \frac{1-p}{p} \right) p+ \left( \frac{1-p}{p} \right)^3p + \left( \frac{1-p}{p} \right) ^5 p + \dots = (1-p) \left( 1 + \left( \frac{1-p}{p} \right) ^2 +   \left( \frac{1-p}{p} \right) ^4 + \dots \right) \]
+
+\[P(B \text{ win} = (1-p) P(A) = \frac{1-p}{(2-p)} \]
+
+}
+
+\qs{17}{each of 3 people tosses a coin. If one toss differs from the others, the game ends. If not, then start over. What is the probability that the game will end with the first round? If all coins are biased and have prob $\frac{1}{4}$ of heads, what is the prob that the game will end at the first round? 
+
+	\[\Omega = \{HHH, HHT, HTH, HTT, THH, THT, TTH, TTT\]
+\[P(\text{game ends first round}) = \frac{6}{8}= \frac{3}{4}\]
+
+\[P(\text{first round with biased coins}) = 1 - P(\text{all same side}) = 1 - P(HHH) - P(TTT) = 1 - \left( \frac{1}{4} \right)^3 - \left( \frac{3}{4} \right)^4 = \frac{9}{16}\]
+}
+
+
+\qs{18}{
+If a family has 2 children, what is the probability that both are girls given(a) eldest is a girl, (b) at least one is a girl? 
+Since we assume each child is born is equally likely to be a boy or girl, the birth of a child is independent from other births. 
+
+\[P(\text{both girls} \mid \text{eldest is girl} = \frac{.5 \times .5}{.5}= .5l\]
+
+\[P(\text{both girls} \mid \text{at least one is girl} = \frac{P(\text{both girls, at least one girl})}{P(\text{at least one girl)}}\]
+
+Having at least one girl is a subset of both being girls. Therefore the numerator is $0.25$ $P(\text{at least one girl}) = 1 - P(\text{no girl} = 1- .25 = .75$
+
+\[P(\text{both girls} \mid \text{at least one girl} = \frac{.25}{.75} = \frac{1}{3}\]
+}
+
+
+\qs{23}{For events $E_1, E_2, \dots, E_n$ 
+
+\begin{align*}
+	P(E_1, E_2, \dots, E_n) &= P(E_1)P(E_2, E_3, \dots, E_n \mid E_1)\\ 
+				&= P(E_1)P(E_2 \mid E_1)P(E_3, E_4, \dots, E_n \mid E_1, E_2) \\
+				&= P(E_1)P(E_2 \mid E_1)P(E_3 \mid E_1,E_2)P(E_4, E_5, \dots, E_n \mid E_1, E_2, E_3)\\
+				&\vdots \\ 
+				&=  P(E_1)P(E_2 \mid E_1)P(E_3 \mid E_1,E_2)P(E_4, E_5, \dots, E_n \mid E_1, E_2, E_3)\dots P(E_n \mid E_1 \dots E_{n-1})
+\end{align*}
+
+}
+
+\qs{28}{
+If the occurrence of $B$ makes $A$ more likely, then that means that $A$ overlaps with $B$ such that
+\[
+P(A \mid B) > P(A)
+\]
+	\[\frac{P(A \cap B)}{P(B)} > P(A)\]
+\[
+P(A \cap B) > P(A) P(B) \implies \frac{P(A \cap B)}{P(A)} > P(B) \implies P(B \mid A) > P(B)\]
+
+Thus, the occurrence of $A$ also makes $B$ more likely
+}
+\qs{29}{Suppose $P(E) = 0.6$ What is $P(E \mid F)$?
+
+a.) When $E$ and $F$ are mutually exclusive $P(E \mid F) = 0$, since only one event can happen.
+
+b.) When $E$ is a subset of $F$, then $0.6 \le P(E \mid F) \le 1$ 
+
+c.) When $F$ is a subset of $E$, then $P(E \mid F) = 1$
+} 
+\qs{35}{Fair coin is flipped. Probability that
+
+a.) H, H, H, H. $P(HHHH) = \frac{1}{2} ^ 4 = \frac{1}{16}$
+
+b.) $P(THHH) = \frac{1}{16}$
+
+c.) T, H, H, H occurs before H, H, H, H
+Let $P(A)$ be seeing THHH
+
+Let $P(B)$ be seeing HHHH
+
+Let $p = P(A) + P(B)$
+
+\[P(A \text{ before } B) = P(A) + (1-p)P(A \text{ before } B) \]
+\[P(A) = P(A \text{ before } B) (2 - p) \rightarrow P(A \text{ before } B) = \frac{P(A)}{2 - p}\]
+
+$P(A \text{ before } B) = \frac{1}{16}/\frac{2}{16} = \frac{1}{2}$
+
+}
+
+
+\qs{41}{Black dominates over brown. Suppose that a black rat with two black parents has a brown sibling
+
+a.) What is prob that this rat is pure black rat? Since it has a brown sibling, that means that both parents have to be carriers of the recessive allele. Therefore $\Omega = {BB, Bb, bB, bb}$, and $P(BB \mid \text{black}) = \frac{1}{3}$
+
+b.) Suppose when black rat is mates with brown rat, all 5 of their offspring are black. What is the probability that the rat is pure black rat? 
+
+The outcome space for a black rat mating with a brown rat's offspring is $\Omega = {Bb, bB, bb}$, therefore $P(\text{5 black offspring}) = \left( \frac{2}{3} \right) ^3 = \frac{8}{27}$. 
+
+\begin{align*}
+P(\text{pure black} \mid \text{5 black offspring}) 
+&= \frac{P(\text{pure}) \, P(\text{5 black} \mid \text{pure})}
+       {P(\text{pure}) 
+        + P(\text{hybrid}) \, P(\text{5 black} \mid \text{hybrid})} \\
+&= \frac{\frac{1}{3} \cdot 1}{\frac{1}{3} \cdot 1 + \frac{2}{3} \cdot \frac{1}{32}} \\
+&= \frac{16}{17}
+\end{align*}
+
+
+}
+\qs{46}{Jailer Problem. 
+
+	I think the jailer's reasoning is wrong. Even if A knows which of the three prisoners will be freed, his chance of execution does not change. Regardless of who was executed, then the condition probability stays the same; it will always stay $\frac{1}{3}$, because the jailer's response is dependent on who was executed. It is similar to the Monty Hall problem, where the host's response is decedent on the state of the game.}
+\chapter{Given Questions}
+\qs{1}{If there are 25 randomly selected people in a room (e.g., it's not a convention of twins), what is the
+chance that at least 2 people in the room have the same birthday (day and month, not year)? Hint:
+Compute the probability of no match, and use problem 23.
+
+\[P(\text{at least 2 shared bday}) = 1-P(\text{no shared bday}) = 1- \prod_{i=1}^{N} \frac{365-(i-1)}{365} = 0.5687\]
+Computed used python
+}
+
+\qs{2}{Suppose we have 4 six-sided die, labeled A, B, C, and D. A has "4" on four sides and "0" on two
+sides. B has "3" on all six sides. C has "2" on four sides and "6" on two sides. D has "5" on three sides and
+"1" on three sides. Find the probability that (a) A will beat B (by rolling a higher number); (b) B will beat
+C; (c) C will beat D; (d) D will beat A. (Hint: you should notice a bit of a paradox, which is related to the
+voting paradox.)
+
+
+a.)
+\[
+	\frac{4}{6} = \frac{2}{3}
+\]
+
+b.)
+\[
+	\frac{4}{6} = \frac{2}{3}
+\]
+
+c.)
+\[
+	\frac{2}{6} + \frac{4}{6}\times \frac{3}{6} = \frac{2}{3}
+\]
+
+d.)
+\[
+	\frac{3}{6} + \frac{3}{6} \times \frac{2}{6} = \frac{2}{3}\]
+
+}
+
+
+\qs{3}{A prominent mathematician, Jean d'Alembert, argued that there is a 1/3 probability of two tails when a
+coin is flipped twice. He reasoned that we could obtain a head on the first flip, a head on the second flip,
+or no heads. Therefore, the probability of two tails (no heads) is 1/3. Similarly, he reasoned that a coin
+flipped three times could yield a head on the first flip, a head on the second flip, a head on the third flip,
+or no heads. Therefore, the probability of three tails is 1/4. Explain the flaw in d'Alembert's reasoning.
+
+
+The flaw is that he double counts the possibility of having $HH$. By saying we could obtain a heads on flips 1,2 or no heads, $\Omega = {HH, HT, TH, TT}$. By saying we could obtain a head on the first flip, we have the possibility of $HH, HT$. On the second flip, we have $HH, TH$. Finally then we have $TT$. However, this double counts $HH$, which makes the events not mutually exclusive and independent. }
+
+
+\qs{4}{Manager. She is accurate 95\% of the time assessing the qualifications of white Anglo candidates. She is accurate only 90\% of the time for candidates of color. She hires candidates that she assess are qualified. In the pool of candidates, 60\% of the white candidates and 60\% of the candidates of color are qualified. 
+
+$P(\text{employee} | \text{qualified white}) = 0.95$
+
+$P(\text{employee} \mid \text{qualified poc}) = 0.6$
+
+
+\[P(\text{qualified} \mid \text{employee}) = \frac{P(\text{qualified})P(\text{employee} \mid \text{qualified})}{P(\text{employee)}}\]	
+a.)
+\[P(\text{white employee}) = \frac{0.6}{0.95}+ \frac{0.4}{0.05} = 0.59\]
+\[P(\text{qualified} \mid \text{white employee}) = \frac{0.6 \times 0.95}{0.59} = 0.966\]
+
+b.) 
+\[P(\text{employee of color}) = 0.6 \cdot 0.8 + 0.4 \cdot 0.2 = 0.56\]
+\[P(\text{qualified} \mid \text{employee of color} = \frac{0.6 \cdot 0.8}{0.56} = 0.857\]
+
+
+Even though the two populations are equally qualified for the job, the manager's difference in assessing qualification makes it significantly harder for qualified people of color to be hired, which can create systemic inequality and a lack of diversity
+}
+
+\qs{5}{Two events that are independent are a coin toss and a random card from a deck. Two mutually exclusive events are getting an A in IEOR 173 and getting a B in IEOR 173}
+
+\qs{6}{No, drugs B did not necessarily have a higher success rate. It is the simpson's paradox that was covered in the first lecture. Partitioning the success rate between men and women results in conditional probabilities that obscure the truth. }
+
+\end{document}
