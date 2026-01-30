@@ -1,37 +1,262 @@
-\documentclass[a4paper]{article}
 
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage{textcomp}
-\usepackage{amsmath, amssymb}
-\usepackage{parskip}
-\usepackage{float}
+\documentclass{report}
 
-% figure support
-\usepackage{import}
-\usepackage{xifthen}
-\pdfminorversion=7
-\usepackage{pdfpages}
-\usepackage{transparent}
-\newcommand{\incfig}[1]{%
-	\def\svgwidth{\columnwidth}
-	\import{./figures/}{#1.pdf_tex}
+\input{../../preamble}
+\input{../../macros}
+\input{../../letterfonts}
+
+\title{\Huge{Data 140}\ Lecture Notes}
+\author{\huge{Ryan Lin}}
+\date{}
+
+\begin{document}
+\maketitle
+\newpage% or \cleardoublepage
+% \pdfbookmark[<level>]{<title>}{<dest>}
+\pdfbookmark[section]{\contentsname}{toc}
+\tableofcontents
+\pagebreak
+
+\chapter{}
+\section{Lecture 1}
+
+\textbf{Outcome space}: Set of all possible outcomes, denoted by $\Omega$. $\omega$ is a single outcome. 
+
+Experiment: Roll a die once. (six sided fair die). $\Omega = \{1,2,3,4,5,6\}$
+
+Event: Subset of outcome set (A, B, C, etc). Ex: Multiple of 3: $\{3,6\}$
+
+If the model is "equally likely outcomes", then P(multiple of 3) = $\frac{2}6$ = $\frac{\text{\# event}}{\# \Omega}$
+
+\subsection{Collisions in Hashing}
+$N$ codes, where $N \in \mathbb{Z}^+$, where there are $n$ individuals. A collision happens when 2 individuals are assigned the same code. 
+
+\textbf{Model} For each individual, pick one code uniformly at random from the $N$ codes, regardless of regardless of all other assignment (independtly). 
+
+$$P(\text{no collision}) = \frac{N!/n!}{N^n} = \prod_{i=0}^{n-2} \frac{N-i}{N}$$
+$$P(\text{at least one collision}) = 1-P(\text{no collision}) = 1 - \prod_{i=0}^{n-1} \frac{N-i}{N}$$
+
+A simple way to think about this is human birthdays. 
+
+Assumptions: 
+\begin{itemize}
+    \item Each person is equally likely to be born on each of the 365 days of the year. However, this is not actually true since we have lost leap years and bunching of birth dates, twins, triplets, etc 
+\end{itemize}
+
+Under these simplifying assumptions. Compute.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{birthday_graph.png}
+\end{figure}
+
+\begin{align*}
+    \log(P(\text{no collision})) & = \sum_{i=0}^{n-1} \log (\frac{N-i}{N})\\ 
+    & = \sum_{i=0}^{n-1} \log (1- \frac{i}{N})\\
+    & \sim \sum_ i \frac{-i}N \approx - \frac{1}N \sum i\approx -\frac{1}{N} \frac{(n-1)(n)} {2}
+\end{align*}
+
+For small i, $log (1 + x) \sim x$
+
+\chapter{}
+\section{Lecture 02: Rules of Probability} 
+
+\begin{enumerate}
+    \item $\Omega$ outcome space
+    \item Events are subsets of $\Omega$
+    \item Probability $P$ is a function on events $P(A)$
+\end{enumerate}
+
+\subsubsection{Axioms of Probability:} (Ground Rules) 
+\begin{enumerate}
+    \item $P(A) \geq 0 \forall A$ All probabilities are nonnegative
+    \item $P(\Omega) = 1$ The whole outcome space should be 1 
+    \item Addition rule (union) $P(\cup_i A_i) = \sum _i P(A_i)$, given that $A_1, A_2, ...$ are mutually exclusive (don't overlap)
+\end{enumerate}
+
+
+
+\subsubsection{Ex: Complements}
+Taking the inverse of a subset. $P(A^c) + P(A)= P(\Omega)$. these build on the basic axioms 
+
+
+\subsubsection{Ex: Unions} If we know the $P(\text{result} = 5) = P(\text{result} \leq 5) - P(\text{result} \leq 4)$
+
+
+\subsubsection{Conditional Probability}
+\[P(B|A) = \frac{P(AB)}{P(A)}  \]
+
+This works because if you say A occurs, then $\Omega = A$. Conditioning reduces your outcomes space. Then, since A has occurred then the $\omega = A \cap B$. 
+
+\subsubsection{Ex: Tickets} Say you are drawing 2 tickets out of 3 without replacement. What is the probability that oyu get a blue and a red ticket? 
+
+$P(BR) = \frac{1}6  = \frac{1}2 \text{ of } \frac{1}3 = P(\text{first B}) \cdot P(\text{second R} | \text{first B})$ 
+
+\subsection{Notation and Language}
+\begin{enumerate}
+    \item Outcome space: $\Omega$ 
+    \item Random Variable: $\Omega \rightarrow \mathbb{R}$
+    \item 
+\end{enumerate}
+
+\subsubsection{EX: A die rolled 5 times}
+$\Omega = 6^5$, which is the results of 5 rolls of a die
+\\Statistic $S:$ sum of the 5 numbers. 
+\\Function $\Omega \rightarrow \{5,6,7,..,30\}$
+
+If we try to find 
+\[P(S > 15) = \sum_{k=16}^{30}P(S = k)\]
+
+Which we read as, the chance that the sum exceeds 15 is the sum of the individual chances, where the results are the bounds [16,30].
+
+Let $D_1 =$ first roll, and $D_2 =$ Second roll. Is $D_1 = D_2$?
+
+\[\omega = [3,1,3,4,2] \] 
+Clearly, this shows that $D_1 \neq D_2$. They are different random variables. However, the distributions for $D_1$ and $D_2$ are the same. each value has the same uniform distribution. Therefore $D_1 \stackrel{d}{=} D_2 $ in \textbf{distribution}
+
+
+\subsubsection{Random Variables}
+$X, Y$ are two random variables. 
+
+\[P(X=x, Y=y)\]
+This means the probability that the random variable $X$ equals a given value $x$. The comma is an intersection, thus it is $X = x$ and $Y = y$. 
+
+If you sum over all possible $x$ and $y$, you get 1. 
+
+\[P(X=1, Y=4) = .0625\]
+
+\chapter{}
+\section{Lecture 04: 29 Jan 2026}
+
+Finished with basic concepts and methods for calculating probabilities. This lecture will be about applying these concepts in basic models. 
+They are a set of assumptions about data we see in the world. Involve some elements of probabilities.
+
+\noindent
+What makes a good model?
+\begin{itemize}
+	\item reflects the setting of the experiment
+	\item do not try to match every detail of that setting. No model that will pick up on everything. Pick up just enough that you can answer interesting questions
+\end{itemize}
+To illustrate a model, we have a Population of size $N$. This population is split into $G$ good and $B$ bad. 
+\newline \smallskip
+\thm{Hypergeometric Model}{
+Population of size $N = G + B$ 
+
+Good refers to something you care about, bad is everything else. These are not value statements or implications of morality. It is like Red or not Red.
+
+
+From this population, get a simple random sample of size $n$. A SRS  shuffle the population and take n. This is the same as sampling $n$ times without replacement. With this we can find something like $P(\text{g good elements in a sample})$
+
+
+\[P(\text{g good elements in a sample}) = \frac{\binom{G}{g} \cdot \binom{B}{n-g}}{\binom{N}{n}}\]
+
+The denominators is the total possible samples. The numerator is getting how many good elements, where we choose g good elements and have the rest bad. This is why we have the $n-g$. A quick check is that $G + B = N$ and $g + b = n$. 
+
+This equation is a hyper-geometric probability function. $(N, G, n)$. the numbers here are the fixed elements in the model. So in this model, we fix the number of elements, the number of good elements, and our sample size. 
+}
+We would use this model when we draw without replacement, such as drawing from a deck of cards. Then, we also have to define what good means; does it mean that we get aces, we get a two pair, etc? 
+
+\subsection{Sample with replacement:}
+
+\ex{Roll a die}{Roll a die 5 time. What is the probability $P(\text{2 sixes})$?
+
+Intuitively, the chance of 2 sixes should be small. This is for a sanity check at the end. 
+
+We can think about this as 5 possible slots to fill with each trial. One way we can get a good event is 66321. we can also assume that probability of one roll is not affected by other roll. We can say that the probability that one happens is 
+\[\left( \frac{1}{6} \right) ^2 \left( \frac{5}{6} \right) ^3\]
+
+Then, we can count how many ways we can get this event; basically, out of 5 places how many times can we choose 2 places? Thus
+
+\[P(\text{2 sixes} = \binom{5}{2} \left( \frac{5}{6} \right) ^2 \left( \frac{5}{6} \right) ^3\]
 }
 
+\thm{Binomial Expansion}{
+The new model for this is: 
+\begin{itemize}
+	\item $n$ independent Success Failure totals (S/F)
+	\item each trial you have probability $p$ of $S$ 
+\end{itemize}
 
-\pdfsuppresswarningpagegroup=1
-\begin{document}
-	
-\section{Distribution of a Random Variable}
-A Distribution is two connected sets. One is the set of all possible values $\Omega$ and the probabilities of those values. This can result in silly blunders :D. So when faced with random variables, list all possible values. (This will give partial credit!)
+\[P(\text{k successes}) = \binom{N}{k} p^k (1-p)^{n-k} \quad k = 0,1,2, \dots, n\]
+The key to this formula is the independence of the trials. Any pattern of k successes and n-k failures will have this formula.
+
+This is the Binomial(n,p) distribution. It is used in the case when you have $n$ independent trials, and you are trying to find the probability of $k$ successes.
+
+Checking this formula: 
+\[P(\text{0 successes}) = \binom{n}{0}p^0(1-p)^n-0 = (1-p)^n\]
+
+We want to examine this $\binom{n}{0}$
+
+\[\binom{n}{0} = \frac{n!}{0!(n-0)!}\]
+
+We define $0! = 1$ is because of binomials! Define math on how you want to use them lol. The key here is the $\binom{n}{k}$ comes from he binomial expansion and pascal's triangle. 
+
+\begin{equation}(a+b)^n = \sum_{k=0}^n \binom{n}{k}a^k b^{n-k} 
+\label{Binomial Expansion}
+\end{equation}
+ 
+We can take the binomial expansion, the binomial distribution function is $(p - (1-p))^n = 1^n = 1$. 
+
+}
+
+\nt{If running these calculations in Python, you can either do a sum of probability mass function (pdf), which evaluates how the probability $k$ successes, or cumulative distribution function (pdf), which evaluates the probability you get $\le k$ successes}
+
+\subsection{How to identify the mode of a discrete distribution}
+\begin{itemize}
+	\item  $X$ binomial(n,p) distribution.
+	\item P(k) = P(X=k)
+\end{itemize}
+
+This interprets to $X$ counting number of successes of $n$ independent success/failure trials, each of which has $p$ probability of success. 
+
+\begin{align*}
+	P(0) &= (1-p)^n	\\
+	P(1) &= P(0) \cdot \frac{P(1)}{P(0)}\\
+	P(2) &= P(1) \cdot \frac{P(2)}{P(1)} = P(1) \cdot R(2) 
+.\end{align*}
+
+This is called the consecutive odds ratios. 
+\[R(k) = P(k) \cdot \frac{P(k)}{P(k-1)}, \quad k=1,2,\dots,n\] 
+
+This is to build the probabilities from the R'S, instead of brute forcing calculations. 
+
+In the binomial distribution: 
+
+\[R(k) = \frac{\frac{n!}{k! (n-k)!}p^k(1-p)^{n-k}}{\frac{n!}{(k-1)!(n-k+1)!}p^{k-1}(1-p)^{n-k+1}}\]
+
+We do this because it is a lot easier to cancel things out. 
+
+\[R(k) = \frac{(n-k+1)p}{k(1-p)} = \left( \frac{n+1}{k} -1 \right) \frac{p}{1-p}\]
+
+As $k$ increases, $R(k)$ decreases in $k$. 
 
 
-\[P(\text{rain today} = 0.65, P(\text{rain tomorrow}) = 0.45\]
-$P(\text{rain today and tmr}) = P(\text{rain tmr}) \cdot P(\text{rain tmr} \mid \text{rain today})$
+\nt{Usually by convention we have $q = 1-p$}
 
-We can only say that this probability is bounded by $\le .45$, because one is a subset of another.  
-Similarly, if we are looking at the probability at least one day rains, we have an lower bound of $\ge .65$, because worse case tomorrow is inside today. 
+If $R(k) = 1 \iff R(k) = R(k-1)$, $R(k) < 1 \iff R(k) < R(k-1)$, $R(k) > 1 \iff P(k) > P(k-1)$ 	
 
+this shows us that a decreasing function can only have 1 or 0 times to cross P = 1. So the binomial mode is the Largest $k$ so that $P(k) \geq P(k-1)$, because that is when it is rising. 
 
+This happens when 
 
+\[\left( \frac{n+1}{k} -1 \right) \frac{p}{q} \geq 1 \]
+\[\frac{n+1}{k}-1 \geq \frac{1-p}{p}\]
+\[\frac{n+1}{k} \ge \frac{1}{p}\]
+\[k \le (n+1)p\]
+
+Thus, the mode is the integer part of $(n+1)p$ 
+
+\subsection{Situation where n large, $p_n$ small} 
+When this happens, the natural thing is that $np_n \rightarrow \text{number } \mu > 0$
+
+In the binomial distribution
+
+\[P(0) = (1-p_n)^n \apporx e^{-\mu}\]
+\[\log(P(0)) = n \log (1-P_n) \s_im -n(p_n) \approx -/mu\]
+
+\[P(1) \approx e^{-\mu} \cdot \frac{\mu}{1}\]
+
+Basically, you can show that 
+\[R(k) \rightarrow \frac{\mu}{k} \text{as } n \rightarrow \infty\]
+
+This is what is known as the Poisson distribution
 \end{document}
