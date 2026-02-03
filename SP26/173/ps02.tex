@@ -1,0 +1,89 @@
+
+\documentclass{report}
+
+\input{../../preamble}
+\input{../../macros}
+\input{../../letterfonts}
+
+\title{\Huge{IEOR 173}\ Problem Set 2}
+\author{\huge{Ryan Lin}}
+\date{}
+
+\begin{document}
+\maketitle
+\newpage% or \cleardoublepage
+% \pdfbookmark[<level>]{<title>}{<dest>}
+\pdfbookmark[section]{\contentsname}{toc}
+\tableofcontents
+\pagebreak
+
+\chapter{}
+\section{Textbook Problems}
+
+\qs{23}{Coin having prob $p$ is successively flipped until the $r$th head appears. Argue that $X$, the number of flips required will be $n$, $n \ge r$, with prob 
+
+	\[P\{X=n\} = \binom{n-1}{r-1}p^r(1-p)^{n-r}, n\ge r\]
+
+
+Since $X$ is the number of flips required to get $r$ flips, then that means that in the first $n-1$ trials, there has to be $r-1$ flips. Thus, since each flip is independent, $ X \sim \Binom(n-1, p) $ 	
+
+\[ P(X = n) = \binom{n-1}{r-1}p^{r-1}(1-p)^{n-r}\cdot p = \binom{n-1}{r-1}p^r(1-p)^{n-r} \]
+}
+
+\qs{26}{Suppose that two teams are playing series of games, independent. Team A wins with prob $p$ and Team B wins with prob $(1-p)$. The winner is the first team to win $i$ games. 
+
+Find the expected number of games played when 
+
+i.) i=2
+
+Let $X$ be the number of games until one team wins. 
+
+Let $A_i$ be if team A wins game $i$ 
+
+Let $B_i$ be if team B wins game $i$
+
+Let $ q = q-p $ 
+\vspace{5mm}
+
+There are 6 ways the game can end. 
+
+\begin{itemize}
+	\item $A_1A_2$
+	\item $B_1B_2$
+	\item $A_1B_2A_3$
+	\item $A_1B_2B_3$
+	\item $B_1A_2B_3$
+	\item $B_1A_2A_3$
+\end{itemize}
+
+\[E[X] = \sum_{}^{}(n\cdot P(X=n)\]
+\[E[X] = 2\cdot P(X=2) + 3 \cdot P(X=3)\]
+
+\[P(X=2) = p \cdot p + q \cdot q = p^2 + q^2\]
+
+\[P(X=3) = p \cdot q \cdot p + p \cdot q \cdot q + q \cdot p \cdot q + q \cdot p \cdot p = p^2q + pq^2 + q^2p + qp^2 = 2(p^2q + pq^2) = 2pq(q + p) = 2pq\]
+
+\[E[X] =  2p^2 + 2q^2 + 6pq = 2(2p^2 -2p + 1) + 6(p-p^2) = 2 +2p -2p^2  \]
+
+ii.) i=3
+when $i=3$, the game can end in 3, 4, 5 matches. 
+
+\[P(X=3) = p^3 + q^3\]
+\[P(X=4) = P(\text{A wins 2/3 games})p + P(\text{B wins 2/3 games}q) = \binom{3}{2}p^2q \\cdot p + \binom{3}{2}q^2p \cdot q \]
+
+
+
+}
+
+\qs{28}{}
+
+\qs{40}{}
+
+\qs{46}{}
+
+\qs{51}{}
+
+\section{Fun Problems} 
+\qs{1}{}
+
+\end{document}

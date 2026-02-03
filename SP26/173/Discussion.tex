@@ -1,0 +1,106 @@
+
+\documentclass{report}
+
+\input{../../preamble}
+\input{../../macros}
+\input{../../letterfonts}
+
+\title{\Huge{IEOR 173}\ Discussion Notes}
+\author{\huge{Ryan Lin}}
+\date{}
+
+\begin{document}
+\maketitle
+\newpage% or \cleardoublepage
+% \pdfbookmark[<level>]{<title>}{<dest>}
+\pdfbookmark[section]{\contentsname}{toc}
+\tableofcontents
+\pagebreak
+
+\chapter{}
+\section{Discussion 02}
+\subsection{Discrete Random Variables}
+
+Discrete random var takes values in a countable set. $\{0,1,2,\dots, n\}$
+
+Probability Mass function (EMF): $P(X=k)$
+
+\subsection{Common Discrete Dusts}
+
+\paragraph{Bernoulli} $X \in \{0,1\}$
+
+\paragraph{Binomial} $X \sim binom(n,p)$
+
+\paragraph{Geometric} Number of trials until first success. 
+
+
+\subsection{Expectation and Variance}
+\begin{equation}E[X] = \sum k \cdot P(X=x)  \end{equation}
+
+\begin{equation}
+	Var(X) = E[X^2] - (E[X])^2
+\end{equation}
+
+
+\subsection{Key techniques} 
+
+Indicator Variable: Define $I = 1 \text{ if event A occurs}, 0 \text{ otherwise}$
+ 
+
+Then, $E[I] = P(A)$ 
+
+Strategy: Express $X = \sum_i I_i$ and use linearity of expectations.
+
+\subsection{Binomial Coefficients} 
+
+\begin{equation}\binom{n}{k} = \frac{n!}{k!(n-k)!}\end{equation}
+Number of ways to choose $k$ items out of $n$ items. 
+
+
+\section{Homework Problems} 
+
+\qs{Homework 1}{Let $X$ denote the number of white balls selected when k ball are chosen at random from an urn containing $n$ white and $m$ black balls. 
+
+1.) Compute P(X =i) 
+
+\[P(X=i) = \frac{\binom{n}{i} \cdot \binom{m}{k-i}}{\binom{n+m}{k}}\]
+
+2.) 
+Let $X = \sum X_i$ 
+
+\[E[X] = \sum E[X_i] = \sum_{i=1}^{k} \frac{n}{n+m} = k \frac{n}{n+m} \]
+
+The probability of each ball does not change, because the indicator function just indicates if the ith ball is white. You don't know the whether or not the other balls have been removed or not, thus the probability does not change. However, they are still dependent. 
+
+We can also use $Y_j$ as well, where $Y$ is if white ball $j$ is selected. 
+
+\[EY_j = P_j = \frac{k}{n+m}\]
+\[EX = \sum_i^{n+m}EY_i = n \cdot \frac{k}{n+m}\]
+
+3.) Compute Var($X_i$) using your expression of $X$ as a function of $X_i$. 
+Each $X_i$ is a Bern wiht $p = \frac{n}{n+m}$
+
+\[Var(X_i) = pq  = \frac{n}{n+m} \cdot \frac{m}{n+m} = \frac{nm}{(n+m)^2}\]
+
+\[Cov(X_i, X_j) = E[X_i, X_j] - E[X_i]E[X_j]\]
+
+Since we are sampling without replacement, 
+
+\[P(X_1 = 1, X_2 = 1) = \frac{n}{n+m} \cdot \frac{n-1}{n+m-1}\]
+
+Since if $X_k = 0$, then we only care that they are both equal to one. 
+
+Thus, 
+
+\begin{align*}
+	Cov(X_1, X_2) = \frac{n(n-1)}{(n+m)(n+m-1)} - \frac{n^2}{(n+m)^2} \\ 
+\end{align*}
+
+TODO: SIMPLIFY 
+
+then there is k choose 2 Covariances. 
+
+
+
+}
+\end{document}

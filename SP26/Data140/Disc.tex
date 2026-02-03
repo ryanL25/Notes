@@ -1,0 +1,141 @@
+
+\documentclass{report}
+
+\input{../../preamble}
+\input{../../macros}
+\input{../../letterfonts}
+
+\title{\Huge{Data140}\ Disc Notes}
+\author{\huge{Ryan Lin}}
+\date{}
+
+\begin{document}
+\maketitle
+\newpage% or \cleardoublepage
+% \pdfbookmark[<level>]{<title>}{<dest>}
+\pdfbookmark[section]{\contentsname}{toc}
+\tableofcontents
+\pagebreak
+
+\chapter{}
+\section{Discussion 02}
+
+\ex{Ch 5 Ex 12}{Small org has n> 12 workers. Assume each worker's birthday is uniformly distributed. Find the chance there is at least one month in which none of the workers has their birthday. 
+
+Let $M_i$ be if month $i$ has no birthdays. 
+
+\[P(\Cup M_i) = \sum p(M_i) - \sum_i \sum_{j = i}^N P(M_i, M_j) + \dots \]
+\begin{align*}
+	& = \sum P(M_i) - \sum P(M_i M_j) + \dots \sum_k^{12}(-1)^{k+1} 12C(12-k) \\ 
+	& = 12P(M_1)^{n} - 12C2 P(M_1, M_2)^{n} + \dots \\
+	& = \frac{11}{12}^{n} - \frac{10}{12}^{n}  + \dots
+.\end{align*}
+}
+
+\ex{Ch5 Ex 9 }{Consider 5 card hand dealth from a standard card deck. find probability of being dealt. 
+
+a.) four of a kind 
+\[P(\text{four of a kind}) = \frac{\# outcomes}{\text{total outcomes}} = \frac{13 \cdot 12 \cdot 4 C 4 \cdot 4 C 1}{12 C 5}\]
+Make sure to check for distinction. It does matter what 
+
+
+b.) one pair 
+\[P(\text{one pair}) = \frac{13 \cdot 12 C 3 \cdot  4 C 2 \cdot 4(4 C 1)}{52 C 5} \]
+In this example, bcd are not distinct. We do not care about order for this. Therefor the 12C3. 
+
+}
+
+\section{Sup 02: Waiting Times, Bionmial/Hypergeomotric/Multinomial}
+\ex{Chp 6 Ex 2}{If oyu bet on "red" at roulette, chance of winning is 18/38. They are independent. Suppose you keep betting on red and stop when you have won 6 bets 
+
+There are independent bets, pointing us to a binomial distribution. 
+
+a.) chance you place exactly 10 bets?
+
+\[P(\text{exactly 10 bets}) = \binom{9}{5} \frac{18}{38}^5 \frac{20}{38}^4 \cdot \frac{18}{38}\]
+
+This is $P(\text{exactly 10 bets}) = P(X=5, \text{6th red on 10th bet}) = P(\text{5 reds on 1-9}) \cdot P(\text{Red on 10th})$
+
+
+b.) What is the chance that you place more than 10 bets? 
+
+Let Y be number of reds in 10 bets. $Y\sim Binom(10, \frac{18}{38})$	
+
+\[P(Y \leq 5) = \sum_{k=0}^5 P(Y(y=k) = \sum \binom{10}{k}\frac{18}{38}^k \frac{28}{38}^{10-k} \]
+
+
+}
+\ex{Ch 6 Ex 10}{Test for disease predicts correct with chance .99. Suppose the test is run on 300 patients, independently
+
+
+a.) Chance for at least 295 patients the result is correct? Find numeral value.
+
+Let $X$ be number of correct results. $X \sim binom(300, .99)$
+
+\[P(X\ge 295) = \sum_{k=295}^{300} P(X=k) = \sum_{k=295}^{300} \binom{300}{k} (.99^k)(.01)^{300-k}\]
+
+b.) Justify a Poisson approx for the chance in (a) and find the value of the approx. 
+
+In general, if you have a Binomial(n,p) $\approx$ Poisson(np), when n is large and p is small. 
+
+Let $Y$ be the number of patients with incorrect test results (failures) 
+
+\[Y \sim binom(300, 0.01)\]
+
+Now we have a big $N$ and small $p$, therefore $Y \approx Poisson(3)$. This is useful because we know $X+Y = 300$, therefore if we want to find $P(x \ge 295) = P(300-Y \ge 295) = P(Y\le 5)$ 
+
+\[P(Y\le 5) = \sum_{k=0}^5 e^{\frac{-33^k}{k!}} \approx .91608\]
+
+
+}
+
+
+\ex{Ch 6 Ex 4}{class consists of 40 freshmen, 60 sophomores, 30 juniors, and 20 seniors. SRS of 10 students
+
+a.) distribution of number of sophomores
+
+Model: without replacement. 
+
+Let $S$ be the number of sophomores in the sample.
+
+\[S \sim Hypergeometric(150,60,10)\]
+
+Hyper geometric has 3 arguments, \# in population, \# of Good, \# sample size.
+
+
+b.) joint dist of number of freshmen and sophomores
+
+Let $F$ be \# Freshmen in the sample
+\[P(F=f, S=s) = \frac{\binom{40}{f} \binom{60}{5} \binom{50}{10-(f+s)}}{\binom{150}{10}}, \quad 0\le f+s \le 10\]
+
+We know that $0 \le f+s \le 10$. 
+
+
+c.) conditional dist of the number of freshmen in the sample given that there are 4 sophomores.
+
+What we do here is the division rule combining parts a and b.
+}
+
+\ex{Ch 6 Ex 11}{Seven dice rolled. Find prob of 
+
+a.) exactly 2 6s 
+
+Let $X$ be the number of 6s rolled. $X \sim binom(7, \frac{1}{6})$
+
+\[P(X=2) = \binom{7}{2} \frac{1}{6}^2 \frac{5}{6}^5\]
+
+b.) two fours, two fives, and 3 sixes
+
+\[P(4,4,5,5,6,6,6) = \frac{1}{6} ^2 \cdot \frac{1}{6}^2 \cdot \frac{1}{6}^3\]
+
+Multiply this by number of ways we can get this combination of numbers. Therefore, multiply the original sequence by $\binom{7}{2} \binom{5}{2} \binom{3}{3}$
+
+c.) three of one face and four of another
+
+\[P(\text{three of one face and four another}) = \binom{7}{3} (\frac{1}{6})^3 (\frac{1}{4})^4 \cdot \binom{6}{1} \cdot \binom{5}{1}\]
+It can't be $\binom{6}{2}$ because that would be asking for equal rolls counts, because order matters in the problem. You have to get 3 and 4. 
+
+d.) each face appears
+
+e.) three each of two different faces }
+\end{document}

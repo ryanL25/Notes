@@ -1,0 +1,64 @@
+
+\documentclass{report}
+
+\input{../../preamble}
+\input{../../macros}
+\input{../../letterfonts}
+
+\title{IEOR 164: Assignment 1}
+\author{Ryan Lin}
+\date{}
+
+\begin{document}
+\maketitle
+\qs{minimize following functions}{
+a.) Min $||x||_1$ s.t $||Ax - b||_\infty \le 1$ 
+
+\begin{align*}
+	\text{min}: \quad &\sum_it_i  \\
+\text{s.t}: \quad &t_i	\ge  x_i\\
+	&t_i \ge -x_i\\
+	  &1 \ge a_i^T x -b_i \\
+	  &1 \ge -a_i^Tx+b_i \\
+	  &t_i \ge 0
+\end{align*}
+
+b.) Min $||Ax - b||_1 + ||x||_\infty$
+\begin{align*}
+\text{min}: \quad & \sum t_i + u \\
+\text{s.t}: \quad & t_i \ge (a_i^Tx-b)_i \\
+		  & t_i \ge -(a_i^Tx-b)_i \\
+		  & u \ge x_i  \\
+		  & u \ge -x_i \\
+		  & t_i \ge 0, u \ge 0
+\end{align*}
+}
+
+\qs{Hospital Shift Schedule}{A hospital wants to make a weekly night shift schedule for its nurses. The demand for the night shift on different days is given. Every nurse works 5 days in a row. 
+
+a.) Formulate a linear program to minimize total number of nurses used while meeting all demand.
+
+\begin{itemize}
+	\item Let $x_i$ be the number of nurses starting on day $i$ for $i \in \{1,2,\dots,7\}$
+	\item Let $d_i$ be the number of nurses needed on day $i$ for $i \in \{1,2,\dots, 7\}$
+\end{itemize}
+
+\begin{align*}
+	\text{min}: \quad & \sum_{i=1}^7 x_i \\
+	\text{s.t}: \quad 
+    &x_1 {}+{} &  &  &x_4 {}+{} &x_5 {}+{} &x_6 {}+{} &x_7 \geq d_1 \\
+    &x_1 {}+{} &x_2 {}+{} &  &  &x_5 {}+{} &x_6 {}+{} &x_7 \geq d_2 \\
+ \quad  &x_1 {}+{} &x_2 {}+{} &x_3 {}+{} & &  &x_6 {}+{} &x_7 \geq d_3 \\
+ \quad  &x_1 {}+{} &x_2 {}+{} &x_3 {}+{} &x_4 {}+{} &  &  &x_7 \geq d_4 \\
+ \quad  &x_1 {}+{} &x_2 {}+{} &x_3 {}+{} &x_4 {}+{} &x_5  & & \geq d_5 \\
+ \quad  &  &x_2 {}+{} &x_3 {}+{} &x_4 {}+{} &x_5 {}+{} &x_6  & \geq d_6 \\
+ \quad  &  &  &x_3 {}+{} &x_4 {}+{} &x_5 {}+{} &x_6 {}+{} &x_7 \geq d_7 \\
+    & x_i \ge 0 \forall i 
+\end{align*}
+
+
+b.) The optimal objective value is 110, with 60 nurses on day 1, 10 on day 3, 10 on day 4, 20 on day 5, and 10 on day 6. 
+
+
+}
+\end{document}
