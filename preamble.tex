@@ -688,19 +688,10 @@
   }%
 }
 \providecommand*{\pdv}[3][]{\frac{\partial^{#1}#2}{\partial#3^{#1}}}
-%  - others
-\DeclareMathOperator{\Lap}{\mathcal{L}}
-\DeclareMathOperator{\Var}{Var} % varience
-\DeclareMathOperator{\Cov}{Cov} % covarience
-\DeclareMathOperator{\E}{E} % expected
+
 
 % Since the amsthm package isn't loaded
 
-% I prefer the slanted \leq
-\let\oldleq\leq % save them in case they're every wanted
-\let\oldgeq\geq
-\renewcommand{\leq}{\leqslant}
-\renewcommand{\geq}{\geqslant}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % TABLE OF CONTENTS
