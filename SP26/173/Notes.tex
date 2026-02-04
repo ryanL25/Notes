@@ -186,7 +186,7 @@ Because geometric dists are memoryless, we can condition on the first step.
 Let $I = I \{\text{1st trial is a success}\} \sim Bern(p)$ 
 
 Compute $EX$
-
+ 
 $$EX = E[ E[X|I]] = \sum_{\text{all i}} E[X | I = i) p(I=i) = E[X| I = 1] p(I=1) + E[X | I= 0 ] p(I=0)$$
 
 $$ = 1p + (1+EX)(1-p) \implies EX = \frac{1}{p}$$ 
@@ -212,5 +212,127 @@ Need $E[N]$
 First thing that we need to think about is conditioning. It would be helpful to know how many packets start the busy period, therefore we condition on $X = \# \text{packets that start the busy period (b.p)}$, where $X \in \{1, 2\}$. Thus we also need to know $P(X=1) = P(A = 1 | A=1 \text{or} = 2) = \frac{p_1}{p_1 + p_2} $ and $P(X=2) i = P(A =2 | \dots) = \frac{p_2}{p_1+p_2}$.  
 
 \[E[N] = E[E[N|X]] = EN|X = 1] \frac{p_1}{p_1 + p_2} + E[N|X=2] \frac{p_2}{p_1+p_2} \]
+}
+
+\chapter{}
+\section{Lecture 05} 
+
+\subsection{Packet Transmission (cont)}
+
+\ex{Packet Transmission (cont)}{
+
+Packet transmission appends $ A_i $ i.i.d. $ p_0, p_1, p_2 $. 
+$ N =  $ length of busy period. We still want $ E[N] $ 
+
+\[X = \begin{cases} 1 \frac{p_1}{p_1+p_2} \\ 2 \frac{p_2}{p_1+p_2} \end{cases}\]
+\[E[N] = E[E[N|X]] = E[N|X = 1] \frac{p_1}{p_1 + p_2} + E[N|X=2] \frac{p_2}{p_1+p_2} \]
+
+We now need to compute $ E[N|X=n] $. 
+
+For simplicity $ E[N_1] = E[N| X=1] $:
+
+It would help to know how many packets we get at time 1
+
+\[E[N_1] = E[E[N_1 | A]]\]
+
+where $ A $  is the number of arrivals in the slot of the busy period. 
+
+\begin{align*}
+	E[N] &=  E[N_1 | A = 0]p_0 + E[N_1 | A=1]p_1  + E[N_1 | A=2]p_2\\ 
+	&= 1p_0 + (1+E[N_1])p_1 + (1+E[N_2])p_2  \\
+.\end{align*}
+
+We can use the 	$ 1 + E[N_1] $ because of the i.i.d. and the memory less state. 
+
+\[E[N_2] = E[N_2 | A=0]p_0 + E[N_2 | A=1]p_1 + E[N_2 | A=2]p_2\]
+
+\[E[N_2] = (1+E[N_1])p_0 + (1+E[N_2])p_1 + (1+E[N_2]) p_2\]
+
+The last term is because the buffer only has storage for 2 packets. If one goes out, then one gets replaced and the other gets sent away. 
+
+We can thus solve for $ E[N_1] $ and $ E[N_2] $, which we can plug into the original equation. 
+
+This is a very simple Markov Chain.
+\vspace{10mm}
+
+
+}
+
+\subsection{Computing Variance:} 
+
+$ \Var(x) $  in two methods
+
+\begin{enumerate}
+	\item Use $ \Var(x) = E[X^2] - E[X]^2 $, condition for $ E[X^2] + E[X] $ 
+	\item Condition Var formula
+\end{enumerate}
+
+Example for method 1: 
+
+\[X \sim geo(p)\]
+
+\[E[X^2] = E[E[X^2]| I] \text{where} I  = \text{indicator of success } \sim \Bern(p) \]
+
+\[E[X^2] = E[X^2 | I =1]p + E[X^2| I=0](1-p)\]
+ \[ = 1p + (E[(X+1)^2])(1-p) = p + E[X^2 + 2x +1](1-p)\]
+\[= p + (E[X^2] + E[2X] + 1 )(1-p)\]
+
+Solve for $ E[X^2] = \frac{n-p}{p^2}$
+
+\[\Var(X) = E[X^2] - (E[X]) ^2  = \frac{2-p}{p^2} - \left( \frac{1}{p} \right) ^2 = \frac{1-p}{p^2} \]
+
+
+How do we get the method 2 formula? 
+
+\proof{Conditional Variance Formula}{
+
+	\begin{align*}
+		[E[\Var(X|Y)] + \Var(E[X|Y]) &= E[E[X|Y ^2] - (E[X|Y])^2] + E[E[X|Y]^2] - E[E[E[X|Y]^2]]^2 \\
+		&= E[E[X^2|Y]] - E[E[X|Y]]^2 + E[X^2] - E[X]^2 \\ 
+		&=  \Var(X) \\
+	.\end{align*}
+
+
+}
+
+
+\thm{$ X\perp Y \implies \Var(XY) = \Var(X)$}{
+\[X\perp Y \implies \Var(XY) = E[Y^2]\Var(x)+ E[X]^2 \Var(Y) = E[X^2]\Var(Y) + E[Y]^2 \Var(x) \]
+
+\begin{align*}
+	\Var(XY) &= E[\Var(XY | y)] + \Var(E[XY | y]) \\ 
+.\end{align*}
+
+For the first term: 
+\[\Var(XY | Y = y) = \Var(X_y | Y = y) = y^2\Var(X) \implies \Var(XY | y) = y^2 \Var(X)\]	
+We can do this because $ X $  is independent of Y. 
+
+\vspace{5mm}
+For the second term:
+
+\[E[XY | Y=y] = yE[X] \implies E[XY | y] = YE[X] \]
+
+Therefore, 
+\[\Var(XY) = E[Y^2 \Var(X)] + \Var(YE[X]) = \Var(X)E[Y^2] + E[X]^2 \Var(Y)\]
+}
+
+\thm{}{
+$ X_i $ is i.i.d. $ N $ is an integer valued random variable independent of the $ X_i $ s. Find the $ \Var(\sum_{}^{N} X_i) $
+
+
+$$ \Var(\sum_{}^{N}X_i) = E[\Var(\sum_{}^{N}X_i | N)]  + \Var(E[\sum_{}^{N}X_i|N)] $$
+
+For the first term: 
+
+\[\Var(\sum_{}^{N}X_i | N=n) = \Var(\sum_{}^{n} X_n |N=n) = \sum_{}^{N}\Var(X | N=n) = \sum_{}^{n}\Var(X) = n\Var(X_i)\]
+
+We proved the second term earlier. 
+\[E[\Var(\sum_{}^{N}X_i)] = E[N\Var(X_i)] + \Var(NE[X_i]) = E[N]\Var(X_i) + \Var(N) E[X_i]^2\]
+
+If $ N \perp X $ 
+
+\[\Var(NX) = E[X^2]\Var(N) + E[N^2]\Var(X)\]
+
+This one is like the catering example, where everyone orders the same thing. The other is if all the $ X_i $ are i.i.d., therefore ordering different things. Therefore the first is more variable than the second. 
 }
 \end{document}
