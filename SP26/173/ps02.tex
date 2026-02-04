@@ -11,13 +11,9 @@
 
 \begin{document}
 \maketitle
-\newpage% or \cleardoublepage
 % \pdfbookmark[<level>]{<title>}{<dest>}
-\pdfbookmark[section]{\contentsname}{toc}
-\tableofcontents
 \pagebreak
 
-\chapter{}
 \section{Textbook Problems}
 
 \qs{23}{Coin having prob $p$ is successively flipped until the $r$th head appears. Argue that $X$, the number of flips required will be $n$, $n \ge r$, with prob 
@@ -69,21 +65,155 @@ ii.) i=3
 when $i=3$, the game can end in 3, 4, 5 matches. 
 
 \[P(X=3) = p^3 + q^3\]
-\[P(X=4) = P(\text{A wins 2/3 games})p + P(\text{B wins 2/3 games}q) = \binom{3}{2}p^2q \\cdot p + \binom{3}{2}q^2p \cdot q \]
+\[P(X=4) = P(\text{A wins 2/3 games})p + P(\text{B wins 2/3 games})q = \binom{3}{2}p^2q \cdot p + \binom{3}{2}q^2p \cdot q \]
+
+X\[P(X=5) = `1-P(X=3) - P(X=4)\]
 
 
+\begin{align*}
+	E[X] &=  3P(X=3) + 4P(X=4) + 5P(X=5) \\ 
+	&=  3P(X=3) + 4P(X=4) + 5(1-P(X=3)-P(X=4))\\
+	&= 5-2P(X=3)-P(X=4) \\
+	&= 5 - 2(p^3 + q^3) - (\binom{3}{2}p^3q + \binom{3}{2}q^3p) \\
+	&= 5 - 2(p^3 + q^3) - 3(p^3q + q^3p) \\
+	&= 5 - 2p^3 - 2q^3 - 3p^3q -3q^3p \\
+	&= 5 - p^3(2 + 3q) -q^3(2 + 3p) \\
+	&= 5 - p^3(5 - 3p) - (1-p)^3 (2+3p) \\
+\end{align*}
 
 }
 
-\qs{28}{}
+\qs{28}{Suppose we want to generate random variable $X$ that is equally like to be 0 or 1, and that we have a biased coin that lands heads with prob $p$ 
 
-\qs{40}{}
+\begin{enumerate}
+	\item Flip the coin, let $ 0_1 $ be the result (either heads or tails)
+	\item Flip coin again, let $ 0_2$ be result. 
+	\item If $ 0_1 $ and $ 0_2 $ are the same, go back to step 1. 
+	\item If $ 0_2 $ is heads, set $X=0$, otherwise set $X=1$ 
+\end{enumerate}
 
-\qs{46}{}
+a.) Show that the random var $X$ is equally likely to be 0 or 1
+\vspace{5mm}
 
-\qs{51}{}
+Since $ 0_1 $ and $ 0_2 $ are guaranteed to be different by step 3 of the procedure, we know that one will be heads, while the other will be tails. Essentially, this limits the event space to be $ \Omega = \{HT, TH\} $. Thus,  it will be $P(X=0) = P(0_2 \text{ is heads}) = \frac{1}{2}$ and $ P(X=1) = P(0_2 \text{ is tails}) = \frac{1}{2} $. 
+
+
+\vspace{5mm}
+b.) Can we use a simpler procedure that flips the coin until last 2 are different, and sets $X=0$ if last flip is heads and $X=0$ if it is tails?
+
+No. If this was the case, then the states depend on the first flip, rather than the last 2. Since we are dealing with a biased coin towards heads, then it is more likely for the first result to be heads. Then, the only time we would stop is if we get tails. e.g $ HHHHHT $, $ HHT $, $ HHHHHHHHT $. Conversely, if we got tails on the first flip, then we would only stop when we get heads. Since the probabilities for heads is greater, then that means the first case would be more likely, thus $ X=0 $ would be more likely to occur than the other case. 
+}
+ 
+\qs{40}{Suppose that two teams are playing a series of games, each of which is independently won by team A with probability $ p $  and by team B with probability $ 1-p $.
+The winner of the series is the first team to win four games. Find the expected
+number of games that are played, and evaluate this quantity when p = 1/2.
+
+
+Let $ X $ be the number of games that are played. $ q=1-p $ 
+$ X $ can take on $ \{4, 5, 6, 7\} $. 
+
+\[E[X] = 4P(X=4) + 5P(X=5) + 6 P(X=6) + 7 P(X=7) \]
+
+\[P(X=4) = p^4 + q^4\]
+\[P(X=5) = \binom{4}{3}p^3q^1 \cdot p + \binom{4}{3}q^3p^1 \cdot q = \binom{4}{3}p^4q + \binom{4}{3}q^4p\]
+\[P(X=6) = \binom{5}{3}p^3q^2 \cdot p + \binom{5}{3}q^3p^2 \cdot q = \binom{5}{3}p^4q^2 + \binom{5}{3}q^4p^2\]	
+\[P(X=7) = \binom{6}{3}p^3q^3 \cdot p + \binom{6}{3}q^3p^3 \cdot q = \binom{6}{3}p^3q^3(p+q) = \binom{6}{3}p^3q^3\]
+
+\[E[X] = 4(p^4 + q^4) + 20(p^4q + q^4p) + 60(p^4q^2 + q^4p^2) + 140p^3q^3 \]
+
+When $ p=\frac{1}{2}, q=\frac{1}{2} $ 
+
+\[E[X] = \frac{93}{16}\]
+}
+
+
+
+
+
+\qs{46}{
+
+a.) If $ X $ is a nonneg integer, show that 
+
+
+\[E[X] = \sum_{n=1}^{\infty} P(X\ge n) = \sum_{n=0}^{\infty } P(X >n) \]
+
+Let $ I_n $ be 1 if $ n \le X $ and 0 if $n >X$ 
+
+Let $ X = \sum_{n=1}^{\infty } I_n $ 
+
+\[E[X] = \sum_{n=1}^{\infty } E[I_n] = \sum_{n=0}^{\infty } E[I_{n+1}] = \sum_{n=0}^{\infty }P(X > n)\]
+
+b.) If $ X $ and $ Y $ are nonneg integers random vars, show that 
+\[E[XY] = \sum_{n=1}^{\infty }\sum_{m=1}^{\infty }P(X\ge n, Y \ge m)\]
+
+
+Let 
+
+\[I_n = \begin{cases} 1 & \text{if } n \le X \\ 0 & \text{if } n > X \end{cases}\]
+
+
+\[J_n = \begin{cases} 1 & \text{if } n \le Y \\ 0 & \text{if } n > Y \end{cases}\]
+
+\[E[XY]= E[\sum_{n=1}^{\infty }\sum_{m=1}^{\infty } I_n J_m] = \sum_{n=1}^{\infty }\sum_{m=1}^{\infty }E[I_nJ_m] = \sum_{n=1}^{\infty }\sum_{m=1}^{\infty } P(X\le n, Y\le m) \]
+}
+
+\qs{51}{A coin, having probability $ p $ of landing heads, is flipped until a head appears for the $ r $th time. Let $ N $ denote the number of flips required. Calculate $ E[N] $.
+
+Let $ X_n $ be the number of flips until head $n$ appears. In lecture, we found that $ E[X] = \frac{1}{p} $ 
+
+Therefore
+
+\[E[N] = E[\sum_{n=1}^{r } X_n] = \sum_{n=1}^{r}E[X_n] = \sum_{n=1}^{r} \frac{1}{p} = \frac{r}{p} \]
+
+}
 
 \section{Fun Problems} 
-\qs{1}{}
+\qs{1}{
+
+1. Let X denote the number of white balls selected when k balls are chosen at random from an urn
+containing n white and m black balls.
+
+
+(a) Compute $P(X = i)$.
+
+\[P(X=i) = \frac{\binom{n}{i} \cdot \binom{m}{k-i}}{\binom{n+m}{k}}\]
+\vspace{5mm}
+(b) For $ i = 1, 2, \dots , k; j = 1, 2, \dots , n,$ let $Xi = I(i\text{’th ball is white})$ and $Yj = I(\text{white ball j is selected})$. Compute E[X] in two ways by expressing X first as a function of the Xi’s and then of the Yj’s.
+
+
+\[E[X] = \sum_{i=1}^{k} E[X_i] = \sum_{i=1}^{k}\frac{n}{n+m} = k \frac{n}{n+m}\]
+
+
+\[E[Y_j] = \frac{k}{n+m}\]
+
+This happens because we have $ k $ chances to get white ball $ j $ 
+
+
+\[E[X] = \sum_{j=1}^{n} E[Y_j]= n \cdot  \frac{k}{n+m} \]
+
+\vspace{5mm}
+(c) Compute Var(X) using your expression of X as a function of the Xi’s.
+Each $ X_i \sim \Bern(p)$, $ p=\frac{n}{n+m} $ and $ q= 1-p $ 
+
+
+\[\Var(X_i) = pq = \frac{n}{n+m} \cdot  \frac{m}{n+m} = \frac{nm}{(n+m)^2}\]
+\[\Cov(X_i, X_j) = E[X_i, X_j] - E[X_i]E[X_j]\]
+
+Since we are sampling without replacement
+
+\[P(X_1=1, X_2 =1) = \frac{n}{n+m} \cdot \frac{n-1}{n+m-1}\]
+
+Since if $ X_k =0$, since there are no more white balls, then we only care when there are still white balls. 
+
+\[\Cov(X_1, X_2) = \frac{n(n-1)}{(n+m) (n+m-1)} - \frac{n^2}{(n+m)^2} = \frac{-nm}{(n+m)^2(n+m-1)}\]
+
+
+Thus, 
+
+\[\Var(X) = \sum_{i=1}^{k} \Var(X_i) + \sum \sum_{i<jl}^{} \Cov(X_i, X_j)\]
+\[= k \Var(X_i) + 2 \cdot  \binom{k}{2} \Cov(X_i, X_j) = k \cdot \frac{nm}{(n+m)^2} + 2 \cdot \frac{k(k-1)}{2} \frac{-nm}{(n+m)^2 (n+m-1)} \] 
+
+\[=k \cdot  \frac{nm}{(n+m)^2} \left( 1 - (k-1) \frac{1}{(n+m-1)} \right) \]
+}
 
 \end{document}

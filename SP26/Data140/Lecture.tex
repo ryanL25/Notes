@@ -4,6 +4,8 @@
 \input{../../preamble}
 \input{../../macros}
 \input{../../letterfonts}
+\usepackage{parskip}
+
 
 \title{\Huge{Data 140}\ Lecture Notes}
 \author{\huge{Ryan Lin}}
@@ -250,8 +252,8 @@ When this happens, the natural thing is that $np_n \rightarrow \text{number } \m
 
 In the binomial distribution
 
-\[P(0) = (1-p_n)^n \apporx e^{-\mu}\]
-\[\log(P(0)) = n \log (1-P_n) \s_im -n(p_n) \approx -/mu\]
+\[P(0) = (1-p_n)^n \approx e^{-\mu}\]
+\[\log(P(0)) = n \log (1-P_n) \sim -n(p_n) \approx -/mu\]
 
 \[P(1) \approx e^{-\mu} \cdot \frac{\mu}{1}\]
 
@@ -259,4 +261,147 @@ Basically, you can show that
 \[R(k) \rightarrow \frac{\mu}{k} \text{as } n \rightarrow \infty\]
 
 This is what is known as the Poisson distribution
+
+\chapter{}
+\section{Lecture 05: 3 February 2026}
+
+\subsection{Extension of the binomial to more than two categories} 
+\ex{}{Let Population be: 10\% of A, 30\% of B, 60\% of C. 
+
+Make 10 draws w/ replacement
+
+$N_a$ number of A, $N_b$, $N_c$ 
+
+What is $P(2 A, 3 B, 5 C)$? 
+
+\[P(2 A, 3B, 5C) = P(N_a = 2, N_b =3 , N_c = 5) = \binom{10}{2} \cdot \binom{8}{3} \cdot \binom{5}{5} \cdot 0.1^2 \cdot .3^3 \cdot .6^5 \]
+
+\[\frac{10!}{2!8!} \cdot \frac{8!}{3!5!} 0.1^2 \cdot .3^3 \cdot .6^5 = \frac{10!}{2!3!5!}.1^2 \cdot .3^2 \cdot .6^5 \]	
+
+The first step is fixing the sequence e.g. $ \{AABBBCCCCC\} $ Then, we need to find different ways to get similar sequences. So use 2 slots for As, 3 slots from the 8 remaining, 5 slots from the 5 remaining. The $ 8! $ cancels out. 
+
+This is called the \textbf{multinomial joint distribution}. It is the distribution of multiple variables. It is very close to the binomial distribution, with known number of draws, independence, and same population. 
+}
+
+\subsection{Poisson Distribution}
+One way this arises is a binomial large $n$ small $ p $ $ \approx Poisson$ Parameter $ \mu = np $. For example, in $ \Binom(1000, \frac{2}{1000}) $. We would expect around 2 successes, which means $ \approx Poisson(2) $. The mean of the Poisson distribution is a whole number, and the integer part of $\mu$ is a mode. 
+
+We should expect a lot of the probability in a Poisson to be near that parameter $ \mu $.Which is used as a model for rare events.
+
+When we compare $ \Binom(1000, \frac{2}{1000}) $ and $Poisson(2)$, we can barely tell the difference. This is what it means to be an approximation. 
+
+Regardless, the Poisson is still a distribution in its own right, outside of the binomial distribution. It is not always binomial. 
+\thm{Poisson Distribution}{
+\[X \text{ has } Poisson(\mu) \text{ distribution}\]
+\[P(X=k) = e^{-\mu} \frac{\mu^k}{k!} c \quad k=0,1,2,3,\dots\]
+}
+
+\nt{
+This has infinitely many values. The $ e^{-\mu} $ does not involve $k$, which is only there for one reason only. It is there to ensure that the function is a probability density function.
+
+For example, if we do 
+\[\sum_{0}^{\infty} \frac{\mu^k}{k!} = e^\mu\]
+from the Taylor series expansion, therefore we need the $ e^{-\mu} $, we can show that the resultant product is 1. 
+}
+We use the Poisson distribution because it models real life and has very nice properties. Therefore we can answer interesting questions simply. 
+
+\ex{Sums}{
+$ X \sim Poisson(\mu)  $
+\noindent
+$ Y \sim Poisson(\lambda) $
+
+With $X,Y$ independent. 
+
+\[S = X+Y\]
+
+Find the Distribution of $S$ 
+
+\[S = 0,1,2,3, \dots\]
+
+\[P(S=s) = \sum_{k=0}^{s}P(X=k, Y=s-k) ) = \sum_{k=0}^{s} e^{\mu}\frac{\mu^k}{k!} \cdot e^{-\lambda} \frac{\lambda^{s-k}}{(s-k)!}\]
+\nt{General Note: We can't have something on the RHS that is not on the DHS that remains after the calculations, therefore necessitating the sum. }
+
+We are now done with probability theory, and now onto algebra!
+
+\begin{align*}
+	&= e^{-(\mu + \lambda)} \frac{1}{s!}\sum_{k=0}^{s} \frac{s!}{k!(s-k)!} \mu^k \lambda^{s-k}\\
+	&= e^{-\mu +\lambda} \frac{1}{s!} \sum_{k=0}^{s} \binom{s}{k} \mu^k \lambda^{s-k} \\
+	&= e^{-(\mu + \lambda)} \frac{(\mu + \lambda)^s}{s!} \\
+.\end{align*}
+
+\nt{
+We multiply by $ \frac{s!}{s!} $ to make things easier 
+}
+This gives us a new Poisson dist with a parameter $\mu + \lambda$. $S \sim Poission(\mu+\lambda)$. It makes intuitive sense because x is around $ \mu $ and Y is around $ \lambda $. Therefore S should be around $ \mu +\lambda $
+
+}
+
+For a large $n$ in Poisson(n), e.g. 60, we will get a distribution that is roughly normal. This is because we add something that is very skewed, it becomes roughly normal when it is summed numerous times together. 
+
+\thm{Summation of a Poisson}{
+
+	\[Possion(X_0) + Poission(X_1) + \cdots + Poission(X_n) = Poission(nX)\]
+
+Given that $X_1, X_2, \dots, X_n$ are independent. 
+}
+
+
+\begin{itemize}
+	\item $S$ number of successes 
+	\item $F$: number of failures
+\end{itemize}
+
+If the model is $ \Binom(n, p) $, $ F = n-S $. $S, F$ is perfectly dependent. 
+
+If we randomize the number of trials
+
+\nt{Example process: Sampling from a population where there are a lot of categories. Draw a sample, and we want at least one from every category. What should the sample size should be? 
+
+	If we randomize the sample size, the Poisson helps a lot. 
+
+}
+
+If the model that the number of trials is a Poisson($ \mu $) random variable $ N $, then the behavior changes.
+
+Given $ N=n $  $ S $ has the $ \Binom(n, p) $ distribution. 
+
+Given $ N=0 $: $ S=0 $ with probability 1. 
+
+
+Distribution of $ S $ 
+
+The conditional distribution of $ S$ given $ s $ is binomial. BUT NOT $ S $. 
+
+\[s= 0,1,2,\dots\]
+
+There is no end to the number of trials because $ N $ is a random variable. Therefore, there is no way that $S$ is binomial.  
+
+\[P(S=s) = \sum_{n=s}^{\infty}P(N=n , S=s)\]
+
+Basically, this states that we need $n$ trials starting from $s$ successes, partitioning the event space
+
+\[= \sum_{n=s}^{\infty} P(N=n)P(S=s \mid N=n)\]
+\[= \sum_{n=s}^{\infty} e^{-\mu} \frac{\mu^n}{n!} \cdot \frac{n!}{s!(n-s)!}p^sq^{n-s}, \quad q=1-p\]
+
+Probability theory is over....
+
+We can cancel out the $ n! $
+
+\[e^{\mu} \frac{\mu^s p^s}{s!} \sum_{n=s}^{\infty} \frac{\mu^{n-s}q^{n-s}}{(n-s)!}\]
+
+We split out the $ \mu^s = \mu^{n-s} \cdot \mu^s $
+
+\[e^{\mu} \frac{(\mu p)^s}{s!} \sum_{n=s}^{\infty}\frac{(\mu q)^{n-s}}{(n-s)!}\]
+\[= e^{-\mu} \frac{(\mu p)^s}{s!} e^{\mu q}\]
+\[e^{-\mu (1-s)}{\frac{(\mu p)^s}{s!}} = e^{\mu p} \frac{(\mu p)^s}{s!}\]
+
+therefore have $Poisson(\mu p)$
+
+
+\[
+	P(S=s, F=f) = P(N=s+f, S=s) = e^{-\mu} \frac{\mu^{s+f}}{(s+f)!} \cdot \frac{(s+f)!}{(s!f!}p^sq^f 
+\]
+\[e^{-\mu p} \frac{(\mu p)^s}{s!} \cdot e^{-\mu q} \frac{(\mu q)^f}{f!}\]
+
+Therefore S and F are independent through this property. 
 \end{document}
