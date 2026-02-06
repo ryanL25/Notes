@@ -1,0 +1,152 @@
+
+\documentclass{report}
+
+\input{../../preamble}
+\input{../../macros}
+\input{../../letterfonts}
+
+\title{IEOR 160: Homework 1}
+\author{Ryan Lin}
+\date{}
+
+\begin{document}
+\maketitle
+
+\qs{}{
+	Consider a function $ f: \mathbb{R} \rightarrow \mathbb{R} $ such that $ f'(x) = x^2(x-1)(x-2)  $. Find all stationary points of this function and determine their types. 
+
+\[f'(x) = x^2(x^2 -3x +2) = x^4 -3x^3 + 2x^2\]
+\[f(x) = \frac{1}{5} x^5 - \frac{3}{4} x^4 + \frac{2}{3} x^3\]
+FoC: 
+
+\[x^2(x-1)(x-2) = 0\]
+\[x=0, x=1, x=2\]
+
+We now have the stationary points of this equation, now we need to find SoC. 
+
+\[f''(x) = 4x^3 - 9x^2 +4x\]
+
+\[f''(0) = 0, f'(1) = -1, f'(2) = 4\]
+
+Therefore \boxed{ x* = 1 \text{ is a local max, and }  x*=2  \text{ is a local min.}}\par
+Since $f''(0) =0 $, we need to find another derivative. 
+
+\[f'''(x) = 12x^2 - 18x + 4\]
+\[f'''(0) = 4\]
+
+Since this is the 3rd derivative, then \boxed{  x* = 0  \text{ is a saddle point}}
+}
+
+\qs{}{Find the globally optimal solution to 
+
+\begin{align*}
+\max_{}: \quad & x^3 -x \\
+\text{s.t}: \quad & -1 \le x \le 2 \\
+\end{align*}
+
+\[f(x) = x^3 -x, f'(x) = 3x^2 - 1, f''(x) = 6x\]
+
+FoC: 
+
+\[f'(x) = 3x^2 - 1 = 0 \implies x = \pm \frac{1}{\sqrt3}\]
+
+SoC: 
+
+\[f''(-\frac{1}{\sqrt3}) = -\frac{6}{\sqrt{3}}, f''(\frac{1}{\sqrt 3}) = \frac{6}{\sqrt 3} \]
+
+We can see that $ -\frac{1}{\sqrt 3 } $ is a local max, while $ \frac{1}{\sqrt 3} $ is a local min. Therefore, we only care about the former.
+
+We also need to check the curvature at the endpoints ($ -1 $ and $ 2 $ ).
+
+
+\[f''(-1) = -6, f''(2) = 12\]. 
+
+We only care about the right endpoint because it is a at least a local max. 
+
+
+\[f(-\frac{1}{\sqrt 3} \approx 0.3849, f(2) = 6 \]
+
+Since we know the rate of change of the slope is positive at $ x=2 $, then we know that this is the maximum point on this interval. 
+
+Therefore, $ x^* = 2 $  
+
+}
+
+
+\qs{}{Find all local solutions to :
+\begin{align*}
+\max_{}: \quad & x^3-3x^2+4x-1 \\
+\text{s.t}: \quad & -2\le x\le 4 \\
+\end{align*}
+
+
+FoC: 
+
+\[f(x) = x^3 -3x^2 +4x - 1, f'(x) = 3x^2 -6x +4, f''(x) = 6x -6\]
+
+When we try to solve for $ f'(x) = 0 $, we notice that there are no real solutions. Therefore, there are no inflection points on the graph. 
+
+Looking at endpoints $ x=-2 $  and $ x=4 $ 
+
+\[f''(-2) = -18, f''(4) = 18\]
+
+Therefore, we notice that the left endpoint is a local min, while the right is a local max. 
+
+Thus, $ x^* = 4$ 
+
+}
+
+
+\qs{}{Show that $ \forall x $, we have $ e^x \ge x+1 $. 
+
+\begin{align*}
+	\min_{x \in \mathbb{R}}: \quad &f(x) =  e^x - x -1 \\
+\end{align*}
+
+If we are minimizing $ f(x) = e^x - x- 1 $, this is equivalent to finding the closest vertical point between $ e^x $ and $x+1$
+
+\[f'(x) = e^x -1, f''(x) = e^x\]
+
+
+\[f'(x) = e^x -1 = 0 \quad \implies \quad x = 0  \]
+
+\[f''(x) = 1\]
+
+We know that at $ x=0 $, the function has a local minimum because of a positive second derivative. If we look at the function of $ e^x $, we notice that $ f''(x) > \forall X  $, indicating that $ x^*=0  $ is a strict global min. Therefore, at $ x^* = 0 $, this is the closest vertical distance between $ e^x $ and $x+1$. 
+
+Plugging in $ x=0 $ into both equations, we get $ 1 $. Thus the inequality is proven that $ e^x \ge x+1 \forall x$
+}
+
+
+\qs{}{Find all local minima, local maxima, and saddle points of the univariate function $ f(x) = 49 \cdot  x^{99} -99 \cdot x^{49} +1$ 
+
+FoC: 
+
+\[f'(x) = 99 \cdot 49 \cdot x^{98} - 99 \cdot 49 \cdot x^{48} = 4851(x^{98} - x^{48}) = 4851x^{48}(x^{50} - 1) \]
+
+\[f'(x) = 0 \implies x = 0, x = 1, x=-1\]
+
+Looking for k: 
+
+\[f''(x) = 99\cdot 48(98x^{97} - 48x^{47})\]
+
+\[f''(1) = 99\cdot 48 (98-48) = 242500, f''(-1) = 99 \cdot 48 (48-98) = -242500 f''(0) = 0 \]
+
+For $ x=1 $, we can say that this is a local min because $ f''(1) > 0 $ . Similarly, for $ x=-1 $, we can say this is a local max because $ f''(-1) < 0 $  However, we need to find $ k $ for $ x=0 $. 
+
+
+In general, for $ k>1 $ 
+
+\[f^{(k)} = 99\cdot 48 \left( \frac{98!}{(98 - (k-1))!} x^{98-(k-1)} - \frac{48!}{(48 - (k-1))!} x^{48 - (k-1)}\right) \]
+
+We would need all the $ x $ to be eliminated to get a value $ f^{(k)}(x) = 0 $, which means that $ k=49 $, or the 49th derivative of $ f(x) $. 
+
+This would equate to $ f^{(49)}(x) = 99\cdot 48 (0 - 48!)$, which is a constant. This indicated that $ x=0 $ is a saddle point.  
+
+
+\boxed{$ x=1 \text{ is a local min}, x=-1 \text{ is a local max}, x=0 \text{ is a saddle point} $ 	}
+}
+
+
+\qs{}{Given a natural number $ n \in \{1,2,3, \dots\}$, find all local minima, local maxima, saddle points, global minima, and global maximum of a univariate function $ f(x) $ over the interval $ [-10, 10] $ with the property  $ f'(x) = (x-1)^{3n} + (x-1)^n $  }
+\end{document}
