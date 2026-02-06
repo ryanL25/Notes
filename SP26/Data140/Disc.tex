@@ -138,4 +138,79 @@ It can't be $\binom{6}{2}$ because that would be asking for equal rolls counts, 
 d.) each face appears
 
 e.) three each of two different faces }
+
+\chapter{}
+\section{Discussion 03} 
+\ex{ch 7 ex 2}{gambler places 2 different kinds of bets. All bets i.i.d.
+
+	She has $ \frac{1}{n} $ of winning first kind of bet. bets $ n $ times. 
+She has chance $ \frac{1}{m} $ of winning the second kind of bet bets $ m $ times. 
+
+Suppose $ m \neq n $ and both are large. 
+
+Let $ T $  be  the total number of bets the gambler wins. Find or apporx dist of $ T  $.
+
+
+\[T = X + Y\]
+
+Where $ X \sim \Binom(n, \frac{1}{n})$ is number of bets she wins with 1st type and $ Y \sim \Binom(m, \frac{1}{m}) $ is number of bets she wins with 2nd type. Since $ n$ and $ m $ are large, we can approx each using a Poisson Dist. 
+
+\[X \approx Poisson(1), Y \approx Poisson(1)\]
+
+Since Poisson can add up if both r.v are independent poisson.
+
+\[T = X + Y = Poisson(1) + Poisson(1) = Poisson(2)\]
+
+}
+
+\ex{ch 7 ex7}{
+Each car that I see has chance .2 of being a hybrid and chance .1 of being electric. Independent of other cars.
+
+a.) I see 15 cars. Find chance i see 3 hybrids, 2 electrics, and 10 others. 
+
+Let $ H $ be \# hybrids, $ E $ \# electric cars, $ O $ other types  
+
+\[H,E,C \sim Multinomial(15, [0.2, 0.1, 0.7])\]
+\[P(H=3, E=2, O = 10) = \binom{15}{3} \binom{12}{2} .2^3 .1^2 .7^{10}\]
+
+
+b.) suppose number of cars is $ \Poisson(15) $. Find the chance i see 3 hybrids, 2 electrics, and 10 others. 
+
+Let $ N \sim \Poisson(15) $ be the number of cars seen. 
+
+If we have a binomial or multinomial r.v., they also become Poisson if $ N \sim \Poisson(\mu)$. This is exact, not a approx. 
+
+\[H \sim \Poisson(.2 \cdot 15 = 3), E \sim \Poisson(.1 \cdot 15 = 1.5), O \sim \Poisson(15 \cdot .7 = 10.5)\]
+
+Because of poissonization, it makes $ H,E,C $ independent. 
+\[P(H=3, E=2, O=10) = P(H=3)P(E=2)P(O=10) = e^{-3} \frac{3^3}{3!} \cdot e^{-1.5} \frac{1.5^2}{2!} \cdot e^{-10.5} \frac{10.5^{10}}{10!} \]
+}
+
+\ex{ch 7, ex 8}{
+Suppose you have $ N $  balls where $ N \sim \Poisson(\lambda) $ dist. each ball is thrown into one of $ m $ bins chosen uniformly at random, independent of all other balls. Find $ P(\text{there is an empty bin}) $ 
+
+\[P(\text{there is an empty bin} = )P(\text{at least 1 bin is empty})\]
+
+
+We can either try complement or inclusion-exclusion. In this case, both work. 
+
+Let $ N_i $ be the number of balls in bin $i$. 
+
+
+\begin{align*}
+	P(\text{at least 1 bin is empty}) &= 1- P(\text{all bins have at least 1 ball}) \\
+	&= 1 - \prod_i^m P(N_i \ge 1) \\
+	&= 1 - \prod_i^m 1 - e^{-\frac{\lambda}{m}} \frac{\frac{\lambda}{m}^0}{0!} \\
+	&= 1  - (1-e^{-\frac{\lambda}{m}} \frac{\frac{\lambda}{m}^0}{0!})^m \\
+\end{align*}
+
+We can change it into a product because $N_i \sim \Poisson(\lambda \cdot \frac{1}{m})$, where all $ N_i $ are i.i.d. 
+
+
+
+
+
+
+
+}
 \end{document}

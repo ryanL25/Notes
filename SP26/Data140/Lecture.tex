@@ -404,4 +404,186 @@ therefore have $Poisson(\mu p)$
 \[e^{-\mu p} \frac{(\mu p)^s}{s!} \cdot e^{-\mu q} \frac{(\mu q)^f}{f!}\]
 
 Therefore S and F are independent through this property. 
+
+
+\chapter{}
+\section{Lecture 06: 5 February 2026}
+
+\subsection{Expectation}
+
+One of the most important parts of probability. When we develop these concepts, we should be thinking about why this concept has a name. Why is expected value defined? Because we refer to it constantly. 
+
+A distribution contains complete information about the behavior of our random variables.
+We can find the $ P(X=x) $. Sometimes this is too much information. We only want to understand roughly how big something is occasionally, which often is finding the center of the distribution. 
+In probability, this is the expectation or average. \par
+
+
+\dfn{}{
+Random Variable: $ X $ has expected $ E[X] $ $ X:  \Omega \rightarrow \mathbb{R} $ . Two equivalent definitions. 
+
+
+On the Domain space: 
+\[E[X] = \sum_{\forall \omega \in \Omega}^{}X(\omega) \cdot P(\omega))\]
+
+On the range space: 
+
+	\[E[X] = \sum_{\forall x}^{}x \cdot P(X = x)\]
+
+Important: The average is not necessarily a valid value of random variable, but it is in the same units as the random variable. The expectation is a long run average value.  
+}
+
+\ex{toss 2 coins}{
+\[\omega = \{hh, ht, th, tt\}\]
+
+let $ x $  be the number of heads. 
+model: fair coin. 
+
+
+\[x(\omega) = \{2,1,1,0\}\]
+
+\[p(\omega) = \frac{1}{4} \cdot  \frac{1}{4} \cdot \frac{1}{4} \cdot \frac{1}{4}\]
+
+\[x = \{2, 1, 0\}\]
+
+on the domain space: \par
+
+\[e[x] = 2 \cdot \frac{1}{4} + 1 \cdot \frac{1}{4} + 1 \cdot  \frac{1}{4} + 0 \cdot \frac{1}{4} = 1\]
+On the range space: 
+
+\[E[X] = 2 \cdot \frac{1}{4} + 1 \cdot \frac{2}{4} + 0 \cdot \frac{1}{4} = 1\]	
+
+Typically the domain space definition helps us establish facts, and the range space helps us calculate.
+}
+
+\subsection{Expected Value of Common Distributions}
+
+\begin{enumerate}
+	\item Constant: $ P(X=c) = 1, E[X] = c $ 
+	\item $ \Bern(p)  $. $ E[X] = p $.  
+\item $ X $ Uniform $ \{1,2,3,\dots, n\}$. $ E[X] = \frac{n+1}{2} $ 
+\item $ X: \Poisson(\mu) $ $ E[X] = \mu$ 
+\item X: Geom(p) $ E[X] = \frac{1}{p} $ 
+\end{enumerate}
+
+\nt{
+Bernoulli is very interesting, because we can define $ I$ to be an indicator of $ A $ . 
+
+\[I_A = \begin{cases} 0 \text{if A doesn't occur} \\ 1 \text{if A does occur} \end{cases}\]
+
+Then $ I_A \sim \Bern(P(A)) $
+
+Thus $ E[I_A] = P(A) $ 
+
+We have thus shown that any probability is a distribution as well. The expectation of an indicator is the probability of that event.  
+}
+
+\ex{Finding expected value of Poisson}{
+
+	Let $ X \sim \Poisson(\mu) $ 
+	\begin{align*}
+		E[X] &= \sum_{k=0}^{\infty }	k\cdot P(X=k) \\
+		     &= \sum_{k=0}^{\infty } k \cdot e^{-\mu} \frac{\mu^k}{k!} \\
+		     &= 0 + \sum_{k=1}^{\infty } k \cdot e^{-\mu} \frac{\mu^k}{k!}\\	
+		     &= \sum_{k=1}^{\infty }e^\mu \frac{\mu^k}{(k-1)!} \\
+		     &= e^{-\mu} \mu \sum_{k=1}^{\infty }\frac{\mu^{k-1} }{(k-1)!} \\
+		     &= e^{-\mu} \cdot \mu \cdot \sum_{k=2}^{\infty } \frac{\mu^k}{k!} \\
+		     &= e^{-\mu} e^{\mu} \cdot \mu \\
+		     &= \mu \\
+	\end{align*}
+
+}
+
+\dfn{Geometric Distribution}{
+Often, this is number of times until event $ X $ happens. 
+
+i.i.d. $ \Bern(p)  $ sequence means independently and identically distributed sequence of 0 and 1s. AKA a sequence of coin tosses that lands heads with probability $ p $. 
+
+Let $ X $ be the number of trials til the first success. In this class "til" means up to and \textbf{until} the success (inclusive). 
+
+\[P(X=k) = q^{k-1}p  \quad k = 1,2,3,\dots\]
+
+This is called 
+
+\[X \sim geometric(p)\]
+
+\[P(X>k) = q^k\]
+We can understand this by knowing the definition of Geometric distribution, because any success after $ k $  means that everything else were failures. 
+
+We can use the tail sum formula to derive the expected value here. 
+
+
+\[E[X] = 1 + q + q^2 + q^3 + \dots = \frac{1}{1-(1-p)} = \frac{1}{p}\]
+
+Alternatively, we can use conditioning! (173 knowledge) 
+
+\[E[X] = 1 + p\cdot P(X-1|x=0) + q \cdot P(X-1 | x>1) = 1 + 0 + qE[X] = \frac{1}{p}\]
+}
+
+\dfn{Tail sum formula for E(Y) with non neg integer valued Y}
+{
+
+Let $ Y $  with values $0,1,2,\dots$ $ p_i = P(Y=i)$ 
+
+\begin{align*}
+	E[Y] &= p_1 \\
+	&+ p_2 + p_2  \\
+	&+ p_3 + p_3 + p_3
+	&= P(Y>0) + P(Y>1) + P(Y>2) + \dots \\
+.\end{align*}
+
+\[E[Y] = \sum_{k=0}^{\infty}P(Y>k)\]
+}
+
+
+\subsection{Proprieties of Expectation} 
+
+Function of X\par 
+
+Case 1.) Linear 
+
+Let $ Y = aX + b $ Then $ E[Y] = a E[X] + b $. 
+
+\ex{}{
+$ H $  is the number of heads in 20 tosses (biased coin). $ T $ number of tails. Know $ E[H] = 6 $ . What is $ E[T] $?. 
+
+\[T = 20-H, E[T] = 20 - E[H]\]
+}
+Case 2.) Nonlinear. 
+
+Expectation of $ Y = g(X) $. $ E[Y] = \sum_{\forall x \in X}^{}g(x) \cdot P(X=x) $  
+
+\ex{}{
+$ X = \{1,0,1\} $ with chances $ P(X = k) = \frac{1}{3} $ 
+\[E[X] = 0\]
+
+$ Y = X^2 $ 
+
+The range of $ Y $ changes with the squared term. Therefore it has $ P(Y = 1) = \frac{2}{3} $  and $ P(X=0) = \frac{1}{3} $. 
+
+\[E[Y] = 1 \cdot \frac{1}{3} + 0 \cdot \frac{1}{3} + 1 \cdot \frac{1}{3} = \frac{2}{3}\]
+
+This is the domain space definition. 
+}
+
+
+
+\ex{}{
+
+	\[X \sim \Poisson(\mu), E[X] = \mu\]
+
+	Find $ E[X(X-1)]$ 
+\begin{align*}
+	E[X(X-1)] &=  \sum_{k=0}^{\infty } k(k-1) \cdot e^{-mu} \frac{\mu^k}{k!} \\
+		  &=  \sum_{k=2}^{\infty }e^{-\mu} \frac{\mu^k}{(k-2)!} \\
+		  &=  e^{-\mu} \cdot \mu^2 \sum_{k=2}^{\infty } \frac{\mu^{k-2}}{(k-2)!} \\
+		  &= e^{-\mu} \mu^2 e^{\mu} \\
+		  &= \mu^2 \\
+.\end{align*}
+
+}
+
+
+
+
+
 \end{document}
