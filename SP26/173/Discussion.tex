@@ -103,4 +103,129 @@ then there is k choose 2 Covariances.
 
 
 }
+
+\chapter{}
+\section{Discussion 03: Conditional Exp} 
+
+\qs{D3 Q1}{
+
+\begin{itemize}
+	\item you get lost in a Shein ad for 12 mins before returning to your feed with $ p=.5 $ 
+	\item You get lost in a Disney+ ad for 7 minutes before returning to your feed with $ p=0.3 $ 
+	\item you see the banner and put down your phone with $ p=0.2 $ 
+\end{itemize}
+
+After spending time on an ad, you return to your feed. Each time you return to your feed, you will independently of all pref events, choose one of the three events with the same probabilities as listed above. Let $ T $ be the total amount of time spent on the ads before putting down the phone. 
+
+
+1.) Compute $ E[T] $
+
+Let $ S $ be shein ad, $ D $ be Disney ad, $ B $ you put down your phone
+
+Condition on the first event that happens.
+\begin{align*}
+	E[T] &= E[T | S]P(S) + E[T | D]P(D) + E[T | B]P(B)  \\
+	&= (12+E[T])\cdot .5 + (7 + E[T]) \cdot .3 + 0 \cdot .2 \\
+	&=  8.1 + .8 E[T] \\
+	.2E[T] &= 8.1  \\
+	E[T] &= 40.5
+\end{align*}
+
+2.) Compute $ \Var(X) $  by first computing $ E[T^{2}] $ 
+
+\[
+\Var(T) = E[T^{2}] - (E[T])^{2}
+\]
+
+\begin{align*}
+	E[T^{2}] &= E[T^{2} | S]P(S) + E[T^{2} | D]P(D) + E[T^{2} | B] P(B) \\
+	&=  E[(12+T)^{2} | S] P(S) + E[(7+T)^{2} |D] P(D) + 0 \\
+	&=  E[144+24T + T^{2} ]\cdot .5 + E[49 +14T + T^{2}]\cdot .3 \\
+	&=  86.7 + 16.2 E[T] + .8 E[T^{2}] \\
+	.2E[T^{2}] &=  86.7 +16.2 E[T] \\
+	E[T^{2}] &= \dots \\
+\end{align*}
+
+Then you can get $ E[T^{2}]  $ and get the variance. 
+
+\vspace{5mm}
+3.) compute $ \Var(T)$ by using conditional variance. \par
+$ X = S,D,B $: 1st event
+
+Interested in $	T|X$. 
+
+\[
+\Var(T) = E[\Var(T|X)] + \Var(E[T|X])
+\]
+
+Both of these are random variables. 
+
+\[
+T|X = S= T+12, T|X = D = T+7, T|X = B = 0
+\]
+\[
+E[T|X] = \begin{cases}
+	E[T] + 12, &\text{w.p } 0.5 \\
+	E[T] + 7, &\text{w.p }   .3 \\
+	0 , &\text{w.p } 0.2
+\end{cases} 
+ = \begin{cases}
+	 52.5 &\text{w.p} 0.5\\
+	 47.5 & \text{wp} 0.3\\
+	 0 &\text{w.p} 0
+ \end{cases}\]
+This is a PMF
+
+\[
+\Var(T|X =S ) = \Var(T+12) = \Var(T)
+\]
+
+\[
+\Var(T|X = D) = \Var(T+7) = \Var(T)
+\]
+
+\[
+\Var(T|X = B) = 0
+\]
+
+Now, we have all the terms, and we will get a equation that will get the variance of T. 
+
+
+
+
+
+
+}
+
+\qs{}{Suppose that an experiment has n diff outcomes, with probs $ p_m  = 1\dots n$. assume that each trial is i.i.d.. What the expected number of runs needed to get $ k $ consecutive outcomes of the same time? 
+
+For example, if $ k=3 $ and a 6 sided die. 
+
+One possible outcome is $ 1656333 $  or $ 65444 $. 
+
+Let $ N_k $ be the number of trials needed to get $ k $ consecutive outcomes of the same type. 
+
+$ M_l^{k} $  - additional number of trials needed to $ k $ consecutive outcomes of the same type given already accumulating $ l $ consecutive outcomes of the same type.  e.g. if you have 165433, then $ l=2 $ 
+
+$ Y $  the type of consecutive outcome. 
+
+\[
+E[N_k] = 1+ \sum_{i=1}^{n}E[M^k_1 | Y=i]p_i
+\]
+
+you have done the experiment once, and then you need to sum up the additional trials. 
+
+
+We write a recursion on $ M $. 
+
+\[
+	E[M_l^{k} | Y= i] = 1 + p_iE[M_{l+1}^{k} | Y = i] + \sum_{j\neq i}^{n}p_jE[M_k_1 |Y = j]
+\]
+We are looking at consecutive outcomes given $ i $.  We make a next move (+1). This recursion only applies when $ l = 1, \dots, k-1 $. 
+
+\[
+E[M_k^{k} | Y=i] = 0
+\]
+
+}
 \end{document}

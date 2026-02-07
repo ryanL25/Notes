@@ -37,6 +37,8 @@ Since $f''(0) =0 $, we need to find another derivative.
 Since this is the 3rd derivative, then \boxed{  x* = 0  \text{ is a saddle point}}
 }
 
+\newpage
+
 \qs{}{Find the globally optimal solution to 
 
 \begin{align*}
@@ -68,11 +70,11 @@ We only care about the right endpoint because it is a at least a local max.
 
 Since we know the rate of change of the slope is positive at $ x=2 $, then we know that this is the maximum point on this interval. 
 
-Therefore, $ x^* = 2 $  
+Therefore, $\boxed{ x^* = 2 }$  
 
 }
 
-
+\newpage
 \qs{}{Find all local solutions to :
 \begin{align*}
 \max_{}: \quad & x^3-3x^2+4x-1 \\
@@ -88,14 +90,14 @@ When we try to solve for $ f'(x) = 0 $, we notice that there are no real solutio
 
 Looking at endpoints $ x=-2 $  and $ x=4 $ 
 
-\[f''(-2) = -18, f''(4) = 18\]
+\[f'(-2) = 28, f'(4) = 28\]
 
 Therefore, we notice that the left endpoint is a local min, while the right is a local max. 
 
-Thus, $ x^* = 4$ 
+Thus,$ \boxed{ x^* = 4} $
 
 }
-
+\newpage
 
 \qs{}{Show that $ \forall x $, we have $ e^x \ge x+1 $. 
 
@@ -116,7 +118,7 @@ We know that at $ x=0 $, the function has a local minimum because of a positive 
 
 Plugging in $ x=0 $ into both equations, we get $ 1 $. Thus the inequality is proven that $ e^x \ge x+1 \forall x$
 }
-
+\newpage
 
 \qs{}{Find all local minima, local maxima, and saddle points of the univariate function $ f(x) = 49 \cdot  x^{99} -99 \cdot x^{49} +1$ 
 
@@ -147,6 +149,49 @@ This would equate to $ f^{(49)}(x) = 99\cdot 48 (0 - 48!)$, which is a constant.
 \boxed{$ x=1 \text{ is a local min}, x=-1 \text{ is a local max}, x=0 \text{ is a saddle point} $ 	}
 }
 
+\newpage
+\qs{}{Given a natural number $ n \in \{1,2,3, \dots\}$, find all local minima, local maxima, saddle points, global minima, and global maximum of a univariate function $ f(x) $ over the interval $ [-10, 10] $ with the property  $ f'(x) = (x-1)^{3n} + (x-1)^n $  
 
-\qs{}{Given a natural number $ n \in \{1,2,3, \dots\}$, find all local minima, local maxima, saddle points, global minima, and global maximum of a univariate function $ f(x) $ over the interval $ [-10, 10] $ with the property  $ f'(x) = (x-1)^{3n} + (x-1)^n $  }
+
+FoC :
+
+\[
+	f'(x) = (x-1)^{3n} + (x-1)^{n} = (x-1)^{n}((x-1)^{2n} + 1)
+\]
+
+\[
+f'(x) = 0 \rightarrow (x-1)^{n} = 0, ((x-1)^{2n} + 1) = 0
+\]
+
+\[
+	(x-1)^{n} = 0 \implies x = 1, ((x-1)^{2n}+1) = 0 \text{ has no solution}
+\]
+
+
+\[
+f''(x) = 3n(x-1)^{3n-1} + n(x-1)^{n-1}
+\]
+We see that we need to keep taking derivatives until $ k + 1=n $ such that $ f''(x) \neq 0 $. 
+
+That means that when $ n $ is odd, the point will be a local min, since the $ n $th derivative of $ f(x) =n!$ and $ f''(x) \ge 0 \forall x$. However, when $ n $ is even, then it will be a saddle. 
+
+
+We also need to check the endpoints $ x=10 $ and $ x=-10 $ 
+
+\[
+	f'(10) = 9^{3n} + 9^{n} = 9^{n}(9^{2n}+1), f'(-10) = (-11)^{n}((-11)^{2n}+1) = (-11)^{n}((-11)^{2^{n}}+1) = (-11)^{n}(121^{n} + 1)
+\]
+When $ x=10 $, $ f'(10) $ is always positive, therefore signifying it is a local max. When $ x=-10 $, $f'(-10) $, it alternates between positive if n is even and negative if n is odd.  
+\vspace{5mm}
+
+
+Thus if n is even: 
+
+$ x = 1 $ is a saddle, $ x=-10 $ is a global min, and $ x=10 $ is a global max. 
+
+\vspace{5mm}
+If $ n $ is odd: 
+
+$ x=1 $ is a global min, $ x=-10 $ and $ x=10 $ are global max. 
+}
 \end{document}
