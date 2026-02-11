@@ -1,0 +1,334 @@
+
+\documentclass{report}
+
+\input{../../preamble}
+\input{../../macros}
+\input{../../letterfonts}
+
+\title{IEOR 173: Problem Set 3}
+\author{Ryan Lin}
+\date{}
+
+\begin{document}
+\maketitle
+\section{Textbook Questions}
+
+\qs{5}{An urn contains 3 white, 6 red, 5 black balls. Six of these balls are randomly selected from the urn. Let $ X $ and $ Y $ denote respectively the number of white and black balls selected. compute the conditional pmf of $ X $ given that $ Y=3 $  Also compute $ E[X \mid Y=1] $
+\begin{align*}
+	p_{X|Y}(x\mid y=3) &= P(X=x | Y=3) \\
+			   &= \frac{P(X=x, Y=3)}{P(Y=3)} \\
+			   &= \frac{\binom{3}{k}\binom{6}{3-k}}{\binom{9}{3}} \\
+\end{align*}
+
+
+\begin{align*}
+	E[X|Y=1] &= \sum_{k=0}^{5} k \cdot P(X=k \mid Y=1) \\
+	 &= \sum_{k=0}^{3} k \cdot \frac{\binom{3}{k} \binom{6}{6-k}}{\binom{9}{5}} \\
+	 &= 1 \cdot \frac{3 \cdot 15}{126}+ 2 \cdot \frac{3 \cdot 20}{126} + 3 \cdot \frac{1 \cdot 15}{126}\\
+	 &= \frac{210}{126}
+\end{align*}
+}
+
+\qs{8}{
+An unbiased die is successively rolled. Let $ X $ and $ Y $ denote the number of rolls necessary to obtain a six and a five respectively. 
+\vspace{5mm}
+
+a.) Find $ E[X] $ 
+
+$ X $ and $ Y $ are random variables with distribution $ geometric(\frac{1}{6}) $ 
+
+\[
+E[X] = 6
+\]
+
+
+\vspace{5mm}
+b.) Find $ E[X \mid Y=1] $ 
+
+\[
+E[X \mid Y=1] = 1 + E[X] = 7
+\]
+\vspace{5mm}
+c.) Find $ E[X \mid Y=5] $ 
+\begin{align*}
+	E[X \mid Y=5] &= 1 + P(X < y \mid Y=y)E[X \mid X<y, Y=y] + P(X > y \mid Y=y)E[X] \\
+	&= 1 + \sum_{k=1}^{4} k \cdot  P(X = k \mid Y=y) + (\frac{4}{5})^{y-1}(5 + E[X]) \\
+	&= 1 + \sum_{k=1}^{4} k \cdot  \left( \frac{4}{5} \right)^{k-1} \cdot  \frac{1}{5}+ 11\left( \frac{4}{5} \right) ^{4}  \\
+	&\approx 5.8192 \\
+\end{align*}
+}
+
+\qs{11}{
+The joint density of $ X $ and $ Y $  is given by 
+\[
+	f(x,y)  = \frac{(y^{2}-x^{2})}{8}e^{-y}, \quad -y<x<y, 0<y<\infty  
+\]
+
+Show that $ E[X \mid Y=y] = 0 $ 
+
+\begin{align*}
+	f_Y(y) &= \int_{-y}^{y} \frac{(y^{2}-x^{2})}{8}e^{-y} dx \\
+	&= \frac{e^{-y}}{8} \int_{-y}^{y} y^{2} - x^{2} dx  \\
+	&= \frac{e^{-y}}{8} \left[ xy^{2} - \frac{1}{3}x^{3} \right]_{-y}^{y} \\
+	&= \frac{e^{-y}}{8}\cdot \left( \frac{4}{3}y^{3} \right)  \\
+	&= \frac{1}{6}y^{3}e^{-y} \\
+\end{align*}
+
+\begin{align*}
+	f_{X\mid Y}(x,y) &= \frac{f(x,y)}{f_Y(y)} \\
+	&= \frac{\frac{1}{8}(y^{2} -x^{2})e^{-y}}{\frac{1}{6}y^{3}e^{-y}} \\
+	&= \frac{6}{8} \cdot \frac{y^{2} -x^{2}}{y^{3}} \\
+	&= \frac{3}{4} \cdot \frac{y^{2}- x^{2}}{y^{3}} \\
+\end{align*}
+
+Since $ f_{X\mid Y}(x,y) $ is an even function when $ y $ is fixed, and the bounds of $ x $ are symmetrical, we know that the expected value has to be 0.  However, this still does not mean that $ X $ and $ Y $ are independent. 
+
+}
+\newpage
+\qs{21}{Consider the example of a miner trapped in a mine. Let $ N $ denote the total number of doors selected before the miner reaches safety. Also let $ T_i $ denote the travel time corresponding to the $ i $th choice, $ i\ge 1 $. Again, let $ X $ denote the time the miner reaches safety. 
+
+a.) Give an identity that relate $ X $ to $ N $ and the $ T_i $ 
+
+\[
+X  = \sum_{i=1}^{N} T_i
+\]
+
+b.) What is $ E[N] $ 
+
+Let $ Y $ indicate what door the miner initially chose. 
+\[
+	E[N] = E[N \mid Y=1]P(Y=1) + E[N \mid Y=2]P(Y=2) + E[N \mid Y=3]P(Y=3)
+\]
+\begin{align*}
+	E[N \mid Y=1] &= 1 \\
+	E[N \mid Y=2] &= 1 + E[N] \\
+	E[N \mid Y=3] &= 1 + E[N] \\
+\end{align*}
+
+\begin{align*}
+	E[N] &= \frac{1}{3} (1 + 1 + E[N] + 1 + E[N] \\
+	&= \frac{1}{3} (3 + 2E[N]) \\
+	&= 1 + \frac{2}{3} E[N] \\
+	\frac{1}{3} E[N] &= 1 \\
+	E[N] &= 3 \\
+\end{align*}
+
+c.) What is $ E[T_i] $ 
+
+\[
+E[T_i] = 2P(Y=1) + 3P(Y=2) + 5P(Y=3) = \frac{1}{3} (2+3+5) = \frac{10}{3} \\
+\]
+
+d.) What is $ E[\sum_{i=1}^{N} T_i \mid N=n] $ 
+
+\begin{align*}
+	E[\sum_{i=1}^{N}T_i \mid N=n] &= \sum_{i=1}^{N} E[T_i \mid N = n] \\
+	&= \sum_{i=1}^{N-1} E[T_i \mid N=n] + E[T_n \mid N=n] \\
+	&= \sum_{i=1}^{N-1} E[T_i \mid \text{Door 2 or Door 3}] + E[T_i \mid \text{Door 1}] \\
+	&= (N-1) \cdot \frac{1}{2} (3+5) + 2 \\
+	&= 4N - 4 + 2 \\
+	&= 4N - 2 \\
+\end{align*}
+
+
+e.) Using the preceding, what $ E[X] $ 
+
+\[
+E[X] = E[E[X \mid N]] = E[E[\sum_{i=1}^{N}T_i \mid N=n]] = E[4N-2] = 4E[N] -2 = 10
+\]
+}
+
+\qs{26}{
+You have 2 opponents with whom you alternate play. Whenever you play $ A $, you with with probability $ p_a $. When you play $ B $ you win with probability $ p_b $, where $ p_b > p_a $. Your objective is to min expected number of games to win 2 in a row. Should you start with A or B?
+
+Let $ N_i $  be the number of games until you get 2 in a row if you start with player $ i $ .
+
+\[
+E[N_a] = 1 + p_a(p_b(1) + (1-p_b)(1+E[N_a]) + (1-p_a)E[N_b] = 1 + p_ap_b + p_a(1-p_b)(1+ E[N_a]) + (1-p_a)E[N_b]
+\]
+\[
+	E[N_b] = 1 + p_b(p_a(1) + (1-p_a)(1+E[N_b]) + (1-p_b)E[N_a] = 1 + p_a p_b + p_b(1-p_a)(1+E[N_b]) + (1-p_b)E[N_a]
+\]
+After subtracting both of these equations and simplifying: 
+
+\[
+E[N_a] -E[N_b]  = \frac{p_a - p_b}{(2-p_a -p_b +p_ap_b)}
+\]
+
+Therefore, since $ p_a >p_b $, then the RHS is negative. Therefore, that implies that $ E[N_b] > E[N_a]$, which means you should start with $ A $  
+}
+
+\qs{40}{
+A prisoner is trapped in a cell containing three doors. The first door leads to a
+tunnel that returns him to his cell after two days of travel. The second leads to a
+tunnel that returns him to his cell after three days of travel. The third door leads
+immediately to freedom.
+
+\vspace{5mm}
+(a) Assuming that the prisoner will always select doors 1, 2, and 3 with prob
+abilities 0.5, 0.3, 0.2, what is the expected number of days until he reaches
+freedom?
+
+Let $ X $ be the number of days to reach freedom. 
+
+\begin{align*}
+	E[X] &= 0.5(2 + E[X]) + 0.3(3 + E[X]) + 0.2(0) \\
+	&= 1 + 0.5E[X] + .9 + .3E[X] \\
+	&= 1.9 + 0.8E[X] \\
+	0.2E[X] &= 1.9 \\
+	E[X] &= 9.5
+\end{align*}
+
+
+\vspace{5mm}
+(b) Assuming that the prisoner is always equally likely to choose among those
+doors that he has not used, what is the expected number of days until he
+reaches freedom? (In this version, for instance, if the prisoner initially tries
+door 1, then when he returns to the cell, he will now select only from doors
+2 and 3.)
+
+\[
+E[X] = E[X \mid \text{door 1 chosen first}] + E[X \mid \text{door 2 chosen first}] + E[X \mid \text{door 3 chosen first}]
+\]
+\[
+E[X \mid \text{door 1 chosen first}] = 2 + \frac{1}{2} \cdot 3 = 3.5
+\]
+\[
+E[X \mid \text{door 2 chosen first}]= 3+ \frac{1}{2} \cdot 2 = 4
+\]
+
+\[
+E[X \mid \text{door 3 chosen first}] = 0
+\]
+
+\[
+E[X] = \frac{1}{3} (3.5 + 4) = 2.5 
+\]
+\vspace{5mm}
+(c) For parts (a) and (b) find the variance of the number of days until the prisoner
+reaches freedom.
+\[
+	\Var(X) = E[X^2] - E[X]^{2}
+\]
+\begin{align*}
+	E[X^{2}] &= .5(E[(2+X)^{2}] + 0.3(E[(3+X)^{2}]) \\ 
+	&= \frac{1}{2}(4 +4E[X] + E[X^{2}] + .3(9+6E[X] + E[X^{2}] \\
+	&= 2 + 2E[X] + .5E[X^{2}] + 2.7 + 1.8E[X] + 0.3E[X^{2}] \\
+	&= 4.7 + 3.8E[X] + .8E[X^{2}] \\
+	&= 204 \\
+\end{align*}
+
+\[
+\Var(X) = 204 - 9.5^{2} = 113.75
+\]
+
+\begin{align*}
+	\Var(X) &= \sum_{k=0}^{5} k^{2}P(X=x) \\
+	&= 2 \cdot \frac{1}{6} + 3 \cdot \frac{1}{6} + 5 \cdot \frac{1}{6} + 5 \cdot \frac{1}{6} \\
+	&= 4.25 \\
+\end{align*} 
+}
+
+\newpage
+
+\section{Fun Questions}
+\qs{Financial Engineering}{
+Suppose that Joe invests equal amoutns in $ n $ different independently performing stocks. Let $ Z = \sum_{i=1}^{n}\frac{X}{n} $ be his avg return, where $ X_i $ is the return for stock i. Let $ Y_i  = X_i - Z$ be the deviation in return for stock i from the average, and assume all stock have the same standard deviation. 
+
+a.) Show that $\Cov(Y, Z) = 0 $ 
+
+
+\[
+\Cov(Z, Y_i) = \Cov(Z, X_i - Z) = \Cov(Z, X_i) - \Cov(Z, Z) = \Cov(Z, X_i) - \Var(Z)
+\]
+\[
+\Cov(Z,X_i) = \frac{1}{n} \sum_{n=1}^{n}\Cov(X_j, X_i)
+\]
+Because Stocks are independent, then  this covariance is 0 for $ i\neq j $ and $ \Var(X) $ for $ i=j $   
+
+\[
+\Cov(Z, Y_i) = \frac{1}{n}\Var(X) - \Var(Z) = \frac{1}{n}\Var(X) - \frac{1}{n^{2}}\sum_{}^{}\Var(X) = \frac{1}{n}\Var(x) - \frac{n\Var(X)}{n^{2}} = 0
+\]
+
+\vspace{5mm}
+b.) 
+
+\[
+\Var(Y_i) = \Var(X_i - Z) = \Var(X_i) + \Var(Z) - 2\Cov(X_i, Z) = \Var(X_i) + \frac{\Var(X_i)}{n} - 2 \frac{\Var(X_i)}{n} = \Var(X) (\frac{n-1}{n})
+\]
+\[
+\Var(X) = \Var(Y) \frac{n}{n-1}
+\]
+
+\[
+\Var(Z) = \frac{\Var(x)}{n} = \Var(Y) \cdot \frac{1}{n-1}
+\]
+}
+
+
+\qs{Operations Management}{
+If the defect rate of a machine is 10\%, where defective widgets are
+produced independently, which do you think will be larger: the probability of at least 2 defective
+widgets in a box of 10 widgets or the probability of at least 20 defective widgets in a box of 100
+widgets? Now check your intuition by doing the math. (You can use Excel or an on-line binomial
+calculator.)
+
+I think the probability of at least 2 widgets in a box of 10 widgets, because when the number of trials is lower, the variance is higher. 
+
+
+For the box of 10: 
+
+\[
+P(X=0) = \binom{10}{0}0.1^{0}0.9^{10} = 0.3487, P(X=1) = \binom{10}{1}0.1^{1}0.9^{9} = 0.3874
+\]
+\[
+P(X\ge_2) = 1-P(X=0) - P(X=1) = 0.2639
+\]
+
+Using a calculator for 100: 
+
+\[
+P(X\ge 20) = 0.00198
+\]
+}
+
+\qs{Telecommunications}{
+Consider a telecommunications channel that can transmit 1 packet in
+each time slot. The numbers of packet arrivals during each slot are i.i.d., where the number of
+arrivals is 0 with probability .5, 1 with probability .4 and more than 1 with probability .1. Think of
+arrivals as occurring just at the end of a slot, so if a slot starts with 1 packet, and there is 1 arrival,
+the first packet will be transmitted and the next slot will start with 1 packet. The buffer can only
+hold 2 packets, so if a slot starts with 2 packets and 2 packets arrive, one packet will be transmitted,
+one of the arriving packets will be lost, and the next slot will start with 2 packets. Find the mean
+length of a busy period (the time from when the channel goes from idle to busy until it goes back to
+idle again).
+
+
+Let $ N $  be the length of the busy period and $ N_i $ where $ i $ be the number of packets in storage during the busy period. Let $ A $ be the number of packets arriving
+
+\begin{align*}
+	E[N_1] &= E[N_1 \mid A = 0]P(A=0) + E[N_1\mid A=1]P(A=1) + E[N_1 \mid A>1]P(A>1)\\
+	&= 1(0.5) + (1+E[N_1])0.4 + (1+ E[N_2])0.1 \\
+	&= 0.5 + 0.4 + 0.4E[N_1] + 0.3 + 0.1E[N_1] \\
+	&= 1.2 +0.5E[N_1] \\
+	&= 1.2  \\
+	&= 2.4 \\
+\end{align*}
+
+
+\[
+E[N_2] = E[N_2 \mid A=0]0.5 + E[N_2 \mid A=1]0.4 +E[N_2 \mid A>1]0.1
+\]
+\[
+E[X_2] = (1+E[N_1]).5 + (1+E[N_2]).4 + (1+E[N_2]).1 
+\]
+\[
+= .5 + .5E[N_1] + .5 + .5E[N_2] \rightarrow E[X_2] =2 + E[N_1] = 4.4
+\]
+
+\[
+E[N]= \frac{P(A=1)}{P(A>0)}E[N_1] + \frac{P(A>1)}{P(A>0)}E[N_2] = 0.8(2.4) + 0.2(4.4)
+\]
+}
+
+\end{document}

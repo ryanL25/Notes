@@ -1,0 +1,62 @@
+
+\documentclass{report}
+
+\input{../../preamble}
+\input{../../macros}
+\input{../../letterfonts}
+
+\title{IEOR 164: Homework 2}
+\author{Ryan Lin}
+\date{}
+
+\begin{document}
+\maketitle
+\section{Question 1}
+
+\subsection*{a.) Formulate a model for maximising his profit}  
+Let $ X_{ij}$ be selling produce $ i $ through channel $ j $. Where $ i\in \{1,2,3\} $, signifying Watermelon, Basil, and Cucumbers in that order. where $ j \in \{1,2,3\} $ signifying Restaurant Price, CSA Price, Farmer's Market Price. 
+
+
+ Let $ R $ be the revenue matrix. 
+
+ \[
+R = \begin{bmatrix}
+	21 &21 &22\\
+	26 &27 &28\\
+	24 &25 &26
+\end{bmatrix} 
+ \]
+
+ Let $ A_i $ be the number of available Cases 
+
+ \[
+ A = \begin{bmatrix}
+ 	800\\400\\500
+ \end{bmatrix}
+ \]
+
+
+
+ \begin{align*}
+	 \max_{}: \quad & \sum_{i=1}^{3} \sum_{j=1}^{3} R_{ij} X_{ij}	\\
+ \text{s.t}: \quad & \sum_{j=1}^{3} X_{ij} \le A_i \quad \forall i \\
+		   &X_{ij} \ge 0 \forall i,j
+ \end{align*}
+
+
+ \subsection*{b.) Maximize total profit} 
+
+
+ \begin{align*}
+	 \max_{}: \quad & \sum_{i=1}^{3} \sum_{j=1}^{3} R_{ij} X_{ij} - 2\sum_{i=1}^{3}X_{i1} - 0.1\sum_{i=1}^{3} R_{i2}X_{i2}  	\\
+ \text{s.t}: \quad & \sum_{j=1}^{3} X_{ij} \le A_i \quad \forall i \\
+		   & \sum_{i=0}^{3}X_{i3} \le 80 \\ 
+		   &	X_{ij} \ge 0 \forall i,j
+ \end{align*}
+
+ The optimal solution is \$36466, with 800 cases of watermelon going to restaurants, 320 cases of basil going to CSA and 80 cases of basil going to Farmer's markets. Finally 500 cases of cucumbers going to CSA.  
+
+ \subsection*{c.) Pyomo)}
+
+He should plant Basil in the additional acres, because it produces \$24.3 for each addition case produced compared to \$19 for watermelons and \$22.5 for cucumbers.
+\end{document}

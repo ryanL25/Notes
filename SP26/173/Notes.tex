@@ -337,4 +337,167 @@ This one is like the catering example, where everyone orders the same thing. The
 
 }
 
+\chapter{}
+\section{Lecture 06} 
+
+\subsection{Recall:}
+
+\[
+I\{A\} \sim \Bern(P(A)) \implies E[I\{A\}] = P(A) 
+\]
+
+\[
+EX = E[E[X \mid y]]
+\]
+Therefore,
+
+\begin{align*}
+	P(A) &= E[I\{A\}] \\
+	&= E[E[I\{A \mid Y\}]] \\
+	&=  E[P(A \mid y)] \\
+	&=  \sum_{y}^{}P(A \mid Y=y)p_y(y) 
+	\quad \text{or} \int_{-\infty}^{\infty }P(A \mid Y=y) f_y(y) dy\\
+	&= \text{Total probability rule} \\
+\end{align*}
+
+These concepts are important for Markov chains! 
+
+
+\ex{}{i.i.d. rolls of 2 fair dice. What the chance of sum =5 before sum =7
+
+
+We could enumerate all the possibilities. 
+
+\[
+P(5 \text{on a single trial}) = \frac{4}{36}
+\]
+
+\[
+P(7 \text{on a single trial} = \frac{6}{36}
+\]
+
+We can do the computation 2 ways. 
+
+\[
+	P(5 \text{ before } 7) = P(E)
+\]
+
+Conditioning!! 
+
+Let $ X $  = sum on 1st roll. 
+\begin{align*}
+	P(E) &= E[P(E | X)] = P(E \mid X=5) P(X=5) + P(E \mid X=7)P(X=7) + P(E \mid X = \text{other} P(\text{other})) \\	
+&= 1 \cdot \frac{4}{36} + 0 \frac{6}{36} + P(E)\frac{26}{36} \\
+&= \frac{4}{10} = \frac{2}{5} \\
+\end{align*}
+
+
+Another way to do it: 
+
+\[
+P(E) = E[P(E \mid N)]
+\]
+Where $ N $ is the number of rolls until 5 or 7. $ N \sim geom(\frac{10}{36}) $ 
+
+\begin{align*}
+	P(E) &= \sum_{n=1}^{\infty }P(\text{sum to 5 on nth roll for 1st time} \mid N = \text{first 5 or 7}) P(N=n)\\
+&= \sum_{n=1}^{\infty }P(\text{sum to 5 on roll n} \mid \text{sum to 5 or 7 on roll n })P(N=n)	 \\
+&= \sum_{n=1}^{\infty } \frac{\frac{4}{36}}{\frac{4}{36} + \frac{6}{36}}P(N=n)  \\
+&=  \sum_{n=1}^{\infty } \frac{4}{10}P(N=n) \\
+&= \frac{2}{5} \sum_{n}^{}P(N=n) \\
+&= \frac{2}{5} \cdot 1
+\end{align*}
+
+because of i.i.d., it doesn't matter whether if its the first time or not 
+
+
+We show here that $ E \perp N $. 
+}
+
+\subsection{Markov chains}
+A stochastic process is a sequence of random variables. 
+
+\[
+\{X_n\} = \text{ stochastic process } = \text{ sequence of R.Vs}
+\]
+
+Simplest sequence: $ X_n $ i.i.d. This has no memory and is stateless. 
+
+A Markov chain only considers the most recent thing that happened
+
+MC = markov chain, DTMC = discrete time markov chain. 
+
+\dfn{Discrete Time Markov Chain}{
+A markov chain is defined as 
+
+\[
+	X_{n+1} \mid X_n, X_{n-1}, \dots X_0  \perp X_{n-1}, \dots, X_n
+\]
+\[
+	P(X_{n+1} \mid X_n =, X_{n-1} =, \dots) = P(X_{n+1} | X_n) = P_{ij}
+\]
+In other words, only the previous state matters. 
+
+For us, time homogeneous, N doesn't matter
+}
+
+
+\[
+	P = ||P_{ij}||
+\]
+
+This is a transition matrix, where all elements are nonnegative, and the row sum = 1. From state $ i $ to state $ j $.  
+
+
+\ex{Gilbert Model of transmission}{
+
+
+	G is good State, B is Bad State
+
+	We could either stay in each node, or to move between good and bad. 
+
+Transition Matrix: 
+\[	P = \begin{bmatrix}
+		&1-p &p \\
+		&q &1-q
+	\end{bmatrix} \]
+
+}
+\ex{
+4 state markov chain: 
+}{
+\[
+X \in \{GG, GB, BG, BB\}
+\]
+
+\[
+P(G \mid X) = p_1, p_2, p_3, p_4
+\]
+
+Going from $ GG $ to $ GG $, the probability is $ p_1 $. going from $ GG $ to $ GB $, that would be $ 1-p_1 $. 
+
+From $ GB $ to $ BG $, the probability is $ p_2 $. Going from $ GB $ to $ BB $, the probability $ 1-p_2 $ 
+
+etc. 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%% ADD MARKOV DIAGRAM %%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+}
+
+\ex{Birth Death Markov Chain}{
+Infinite number of states, but only 2 transmissions. You can either go up and down, or stay in the same state. see textbook for more.
+}
+
+\ex{Inventory Model}{
+
+$ D_i $ i.i.d. daily demand. If inventory $ \le s$ at day end, order up to $ S $ to start next day. $ (s, S) $ policy. 
+
+State = start of day inventory level
+
+\vspace{5mm} 
+States are from $ \{s+1, s+2, i, S-1, S\} $
+
+To stay at state $ i $ , $ P(D_i = 0) $. to up to $ S $, $ P(D_i \ge i-s) $. To go down to $ i-1 $, $ P(D_i = 1) $, etc.  
+}
+
 \end{document}

@@ -584,6 +584,169 @@ This is the domain space definition.
 
 
 
+\chapter{}
+\section{Lecture 07: 10 February 2026}
+\subsection{Properties of Expectation}
 
+The expectation is a feature of the probability distribution. It is the point of the histogram where it balances. Two R.V equals in distributions, will be equal in expectation. 
+
+The expectation isn't always a mode or a place where there are a lot of probability. Balances at the middle point, which means that we need to look at variability as well. 
+
+\dfn{Linearity of Expectation}{
+\[
+	X: \Omega \rightarrow \mathbb{R} 
+\]
+\[
+	Y: \Omega \rightarrow \mathbb{R} 
+\]
+\[
+S = X+Y
+\]
+If you need to talk about the sum of two functions, both functions have to have the same domain. 
+
+\[
+S(\omega) = X(\omega) + Y(\omega) 
+\]
+Apply the domain space definition of expectation. 
+
+\[
+\sum_{\text{all }\omega}^{}S(\omega)P(\omega) = \sum_{\forall \omega}^{} X(\omega)P(\omega) + \sum_{\forall \omega}^{}Y(\omega)P(\omega) 
+\]
+
+By definition, this is: 
+
+\[
+E(S) = E(X) + E(Y)
+\]
+}
+
+\ex{Expectation of the Binomial}{
+\[
+X \sim \Binom(n, p)
+\]
+
+X is the number of successes in n i.i.d. Trials with probability p of success on each single trial.
+
+We are going to say $ X = I_1 + I_2 + I_3 + \dots $ Where $ I_j $ is 1 if one trial was a success, and 0 otherwise. 
+
+\nt{MAKE SURE TO DEFINE THE INDICATOR}
+
+\[
+E(X) = \sum_{\forall j}^{}E[I_j] = p + p + p + \dots + p = np
+\]
+We do not use independence anywhere in here. 
+}
+\ex{Expectation of hypergeometric}{
+$ X: hypergeometric(N, G, n) $
+
+X is the number of good elements in a SRS of size $ n $ elements, drawn of a population of $ N $ elements, of which $ G $ is good.
+
+\[
+X = I_1 + I_2 + I_3 +\dots + I_n
+\]
+ Where $ J_j $ is the indicator of good at Trial j
+
+\[
+E[X] = E[I_1] + E[I_2] + \dots + E[I_n]
+\]
+This DOES NOT require independence, which is good because indicator variables are not i.i.d.
+
+\[
+	E[X] = \frac{G}{N} + \frac{G}{N} + \frac{G}{N} + \dots = n \frac{G}{N} 
+\]
+
+This is the same thing as the binomial, because $ \frac{G}{N} $ is the probability of success on a single trial. Its just that the nature of the dependence is different. 
+
+We only really see the difference when looking at the variance. Hyper geometric is less variable, because with/without replacements.
+
+}
+The method of indicators in these two examples are very important. We can split up the random variables into indicators, then we find the expectation of one indicator. The number of indicators to use is the amount of possible successes we can have. We have to make sure to define the indicator to make sure our expectation is correct. 
+
+\subsection{Estimating a parameter}
+In data science, we try to estimate unknowns. 
+
+Notation: numerical parameter $ \theta $. Estimate is a statistic $ T $, where statistic is a function of the sample.  
+
+It is the number we calculate using the elements of the sample. We think $ \theta $ is around this number. Then we have to ask if $ T $ is any good. 
+
+Sample: $ X_1, X_2, \dots, X_n $ identically distributed. 
+
+Each element in this same have the same mean $ \mu $. 
+
+$ S_n = \sum_{}^{}X_i$, $ E[S_n] = n\mu $. 
+
+This is a special case of the binomial expectation. They are a sum of Bernoulli R.Vs. the Key is that 
+
+\[
+	\bar{X}_n = \frac{1}{n}S_n, E[\bar{X}_n = \frac{1}{n} E[S_n] = \mu]
+\]
+The expectation of the sample mean is the population mean. On average, the sample gets the population right. This motivates the definition of unbiased estimates. 
+
+\dfn{Biased and Unbiased Estimates}{
+Bias of $ T $: $E[T] - \theta $.
+
+On average, how different is $ T $ from our actual. If $ E[T] > \theta $, we know that on average, we are overestimating the population parameter. 
+
+$ T $ is an unbiased estimator of $ \theta $ if the bias of $ T $ is 0. 
+
+That is, if the $ E[T] = \theta  $ 
+}
+
+The example is that the $ \bar{X}_n $ is an unbiased estimator of $ \mu $. 
+
+\ex{German Tank Numbers}{
+
+Imagine we have 3 tank numbers $ 413,27,518 $
+
+Assumptions: 
+\begin{itemize}
+	\item $ n $ draws at random without replacement from $ \{1,2,3,4, \dots, N\} $ 
+\end{itemize}
+
+Ideas:
+\begin{itemize}
+	\item Take the sample max. Must be biased, bc always underestimates.  
+	\item $ 2 \cdot  $ sample average. This is biased, because overestimates
+\end{itemize}
+we are trying to estimate $ N $. 
+
+Sample: $ X_1, X_2, X_3, \dots, X_n $ draws w/o replacements from $ \{1,2,3,\dots, N\} $ 
+
+\[
+E[X_1] = \frac{N+1}{2} \text{(uniform dist fact)}
+\]
+
+And then all the other expectations are the same! 
+
+\[
+	E(\bar{x}_n = \frac{N+1}{2} 
+\]
+
+\[
+	\boxed{2\bar{X}_n -1 = \mu}
+\]
+this is an unbiased estimator of $ N $ 
+
+
+Alternatively, 
+
+We take $ M $ as the sample max. We imagine like seeing some tanks is like a deck of cards. We see 3 speicifc tanks, or 3 specific cards. We can take the runs between each seen tanks. 
+
+Or Number of visible gaps = $ n $. The total length of the gaps = $ M-n $. Where $ n $ is the sample tanks. The average length of a gap = $ \frac{M-n}{n} $. 
+
+Proposed estimator: $ T_2 = M + \frac{M-n}{2} = M(1+\frac{1}{n}) -1 = M(\frac{n+1}{n}-1) $ 
+
+We start at the sample max, and see the average length of gap. 
+
+Is this unbiased? 
+
+\[
+E(\text{gap length)} = \frac{N-n}{n+1}
+\]
+
+\[
+M=N-\text{gap}
+\]
+}
 
 \end{document}

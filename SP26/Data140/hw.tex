@@ -1,0 +1,51 @@
+
+\documentclass{report}
+
+\input{../../preamble}
+\input{../../macros}
+\input{../../letterfonts}
+
+\title{asdf}
+\author{Ryan Lin}
+\date{}
+
+\begin{document}
+\maketitle
+\section{asdf}
+
+\begin{align*}
+E(X^{3}) &= \sum_{k=0}^{\infty }k^{3}e^{-\mu} \frac{\mu^{k}}{k!} \\
+&= e^{-\mu}(0 + \sum_{k=1}^{\infty }k^{2} \frac{\mu^{k}}{(k-1)!}) \\
+&= e^{-\mu} \mu \sum_{k=1}^{\infty }k^{2} \frac{\mu^{k-1}}{(k-1)!} \\
+&= e^{-\mu} \mu \sum_{k=0}^{\infty} (k+1)^{2} \frac{\mu^{k}}{k!} \\
+&= e^{-\mu} \mu \sum_{k=0}^{\infty} (k^{2} + 2k +1) \frac{\mu^{k}}{k!} \\
+&= e^{-\mu} \mu \sum_{k=0}^{\infty} (k^{2} \frac{\mu^{k}}{k!} +  2k (\frac{\mu^{k}}{k!})    +1 (\frac{\mu^{k}}{k!}) ) \\
+\end{align*}
+
+\begin{align*}
+\sum_{k=1}^{\infty }k^{2} \frac{\mu^{k}}{k!} &= 0 + \sum_{k=1}^{\infty }k \frac{\mu^{k}}{(k-1)!} \\
+&= \sum_{k=0}^{\infty }(k+1) \frac{\mu^{k+1}}{k!}  \\
+&= \sum_{k=0}^{\infty }k \frac{\mu^{k+1}}{k!} + 1 \frac{\mu^{k+1}}{k!} \\ 
+&= 0 + \sum_{k=1}^{\infty} \frac{\mu^{k+1}}{(k-1)!} + \mu e^{\mu} \\
+&= \sum_{k=0}^{\infty } \frac{\mu^{k+2}}{k!} + \mu e^{\mu}\\
+&= e^{\mu}(\mu^{2} + \mu) \\
+\end{align*}
+
+\begin{align*}
+	\sum_{k=0}^{\infty } 2k \frac{\mu^{k}}{k!} &= 0 + \sum_{k=1}^{\infty} 2 \frac{\mu^{k}}{(k-1)!} \\
+	&= 2 \sum_{k=0}^{\infty }\frac{\mu^{k+1}}{k} \\
+	&= 2\mu e^{\mu} \\
+\end{align*}
+
+\begin{align*}
+	\sum_{k=0}^{\infty } \frac{\mu^{k}}{k!} = e^{\mu}
+\end{align*}
+
+\begin{align*}
+	
+E[X^{3}] &= e^{-\mu} \mu \sum_{k=0}^{\infty} (k^{2} \frac{\mu^{k}}{k!} +  2k (\frac{\mu^{k}}{k!})    +1 (\frac{\mu^{k}}{k!}) ) \\
+&= e^{\mu}\mu e^{\mu} (\mu^{2} + 3\mu + 1) \\
+&= \mu^{3} + 3\mu^{2} + \mu \\
+\end{align*}
+
+\end{document}
