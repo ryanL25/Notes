@@ -297,20 +297,20 @@ How do we get the method 2 formula?
 
 
 \thm{$ X\perp Y \implies \Var(XY) = \Var(X)$}{
-\[X\perp Y \implies \Var(XY) = E[Y^2]\Var(x)+ E[X]^2 \Var(Y) = E[X^2]\Var(Y) + E[Y]^2 \Var(x) \]
+\[X\perp Y \implies \Var(XY) = E[Y^2]\Var(X)+ E[X]^2 \Var(Y) = E[X^2]\Var(Y) + E[Y]^2 \Var(X) \]
 
 \begin{align*}
-	\Var(XY) &= E[\Var(XY | y)] + \Var(E[XY | y]) \\ 
+	\Var(XY) &= E[\Var(XY | Y)] + \Var(E[XY | Y]) \\ 
 .\end{align*}
 
 For the first term: 
-\[\Var(XY | Y = y) = \Var(X_y | Y = y) = y^2\Var(X) \implies \Var(XY | y) = y^2 \Var(X)\]	
+\[\Var(XY | Y = y) = \Var(Xy | Y = y) = y^2\Var(X) \implies \Var(XY | Y) = Y^2 \Var(X)\]	
 We can do this because $ X $  is independent of Y. 
 
 \vspace{5mm}
 For the second term:
 
-\[E[XY | Y=y] = yE[X] \implies E[XY | y] = YE[X] \]
+\[E[XY | Y=y] = yE[X] \implies E[XY | Y] = YE[X] \]
 
 Therefore, 
 \[\Var(XY) = E[Y^2 \Var(X)] + \Var(YE[X]) = \Var(X)E[Y^2] + E[X]^2 \Var(Y)\]
@@ -500,4 +500,186 @@ States are from $ \{s+1, s+2, i, S-1, S\} $
 To stay at state $ i $ , $ P(D_i = 0) $. to up to $ S $, $ P(D_i \ge i-s) $. To go down to $ i-1 $, $ P(D_i = 1) $, etc.  
 }
 
+\chapter{}
+\section{Lecture X: 25 February 2025}
+
+$ \{X\} $ irreducible $ \iff $ there is only one class for all states ($ i \leftrightarrow j \forall i,j \in S $ 
+
+\dfn{Period}{
+\[
+d(i) = \text{gcd}\{N \ge 1 : P_{ii}^{n} > 0\}
+\]
+$ i $ has period $ d = d(i): $
+
+\[
+P_{ii}^{n} > 0 \implies \text{d divides n}
+\]
+And all states have the same period. 
+
+
+\vspace{5mm}
+n is not a multiple of $ d \implies P_{ii}^{n} = 0 $, thus aperiodic : $ d(i) = 1 $ 
+}
+\ex{Period of 2}{
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}[->,>=stealth',shorten >=2pt , line width =0.5pt, node distance =2cm]
+	\node [circle, draw] (i-1)  {i-1};
+	\node [circle, draw] (i) [right=of i-1] {i};
+	\node [circle, draw] (i+1) [right=of i] {i+1};
+	\path (i-1) edge [bend left] node [above] {$p$} (i);
+	\path (i) edge [bend left] node [below] {$q$} (i-1);
+	\path (i+1) edge [bend left] node [below] {$p$} (i);
+\path (i) edge [bend left]  node [above] {$p$} (i+1);
+	\end{tikzpicture}
+	\caption{period of 2}
+	\label{fig:period of 2 ex}
+\end{figure}
+
+there are more nodes past $ i+1 $ with same structure in a birth death cycle. Therefore, you can only get to even nodes or odd nodes depending on $ i $.  
+}
+
+\subsection{Stationary Distribution}
+$ X $: $ X_{n} \sim \pi $, where $ \pi $ is a row vector for all the probabilities. $ \pi $ is the stationary distribution (equilibrium/invariant) $ n $, if $ X_{n} \sim \pi \implies X_{n+1} \sim \pi  $  
+
+
+\ex{Gilbert Model}{
+
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}[->,>=stealth',shorten >=2pt , line width =0.5pt, node distance =2cm]
+	\node [circle, draw] (G)  {G};
+	\node [circle, draw] (B) [right=of G] {B};
+	\path (G) edge [bend left] node [above] {$.1$} (B);
+	\path (B) edge [bend left] node [below] {$.2$} (G);
+	\path (G) edge [loop left] node [left] {$.9$} (G);
+	\path (B) edge [loop right] node [right] {$.8$} (B);
+	\end{tikzpicture}
+	\caption{Gilbert model}
+	\label{fig:}
+\end{figure}
+
+Our intuition states that the stationary dist $ n $ should be $ \pi = (\frac{2}{3}, \frac{1}{3}) $, because we are staying i$ .\frac{.2}{.3} $ of the time into G. 
+
+\vspace{5mm}
+\[
+	\pi_{G} = P(\text{end up in G)}) = P(\text{start in G and stay or start in B and move})
+\]
+
+\begin{align*}
+	&= \pi_{g}(1-p) + \pi_{B}(q) \\
+	&= p\pi_{g} = q\pi_{B} \\
+\end{align*}
+
+If we solve this for B as well, and use the fact that $ \pi = 1 $. We get $ \pi = (\pi_{g}, \pi_{b}) = (\frac{q}{p+q}, \frac{p}{p+q} $)
+
+Plugging in $ p=.1, q=.2 $, we get our original answer. 
+
+\[
+\pi_{G} = \text{rate of transitions into or out of G}
+\]
+In other words, detailed balance of $ \pi_{G}(1-p) = \pi_{B}q $ 
+}
+
+
+\ex{Packet Transmissions}{
+Packet example: (G/D/1/2) (Incoming, Outgoing (Deterministic), server \#, memory) 
+
+\[
+A_{i} \sim (p_{0}, p_{1}, p_{2})
+\]
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}[->,>=stealth',shorten >=2pt , line width =0.5pt, node distance =2cm]
+	\node [circle, draw] (0) {0};
+	\node [circle, draw] (1) [right=of 0] {1};
+	\node [circle, draw] (2) [right=of 1] {2};
+	\path (0) edge [loop left] node [left] {$p_{0}$} (0);
+	\path (0) edge [bend left] node [above] {$p_{1}$} (1);
+	\path (0) edge [bend left=60] node [above] {$p_{2}$} (2);
+	\path (1) edge [bend left] node [below] {$p_{0}$} (0);
+	\path (1) edge [loop below] node [below] {$p_{1}$} (1);
+	\path (1) edge [bend left] node [above] {$p_{2}$} (2);
+	\path (2) edge [bend left] node [below] {$p_{0}$} (1);
+	\path (2) edge [loop right] node [right] {$p_{1} + p_{2}$} (2);
+	\end{tikzpicture}
+	\caption{packet transmission}
+	\label{fig:Packet Transmission}
+\end{figure}
+
+What is the stationary dist $ n $?
+
+\[
+\pi_{0} = \pi_{0}p_{0} + \pi_{1}p_{0} + \pi_{2}\cdot 0
+\]
+\[
+\pi_{1} = \pi_{0}p_{1} + \pi_{1}p_{1} + \pi_{2}p_{0}
+\]
+\[
+\pi_{2} = \pi_{0}p_{2} + p_{1}p_{2} + \pi_{2}(p_{1} + p_{2})
+\]
+\[
+\pi_{1} + \pi_{2} + \pi_{3} = 1
+\]
+
+This results in $ \pi = (\frac{p_{0}}{1-p_{1}} + \frac{p_{0}(1-p_{0})}{1-p_{0}}, \frac{p_{2}}{1-p_{1}} )$ 
+
+
+}
+
+\thm{Stationary Distribution Computation}{
+
+	If $ \pi $ satisfies 
+	\begin{enumerate}
+	\item $ \pi_{j} = \sum_{i\in S}^{} \pi_{i}P_{ij} \forall j \iff \pi =\pi P$ 
+		\item $ \sum_{i\in S}^{} \pi_{1} = 1 $ 
+	\end{enumerate}
+
+	Then $ \pi $ is a stationary distribution
+
+
+
+}
+\proof{
+Suppose $ X_{0} \sim \pi $, We need to show that $ X_{1} \sim \pi $
+
+For $ P\{X_{1} = j \} = \pi_{j} $ 
+
+	\[
+		P\{X_{1} = j \} = E[P(X_{1 = j \mid X_{0}})] = \sum_{i \in S}^{} P(X_{1} = j \mid X_0 = i)P(X_{0} = i) = \sum_{i \in S}^{P_{ij} \cdot \pi_{i}}
+	\]
+}
+
+
+
+	\dfn{Steady State}{
+
+		The steady state distribuion of $ \{X\} $, when it exists, is defined for all j by 
+
+		\[
+		\lim_{n\rightarrow \infty } P(X_{n} = j \mid X_{0} = i) = \lim_{n \rightarrow \infty }P_{ij}^{n} = \text{steady state prob of j}
+		\]
+	}
+
+
+\dfn{Long run time average distribution}
+{
+	the long run time distribution of $ \{X\} $, if it exists, is defined for all j by 
+	\[
+	\lim_{n\rightarrow \infty }\frac{1}{n} \sum_{m=0}^{n}I\{X_{m} = j \mid X_{0} = i\} = \text{l.r. prop time in j}
+	\]
+
+This is weaker than the steady state, basically like an average. counting the number of times we are in state $ n $, resulting in the indicators. 
+}
+
+\thm{}{For irreducible periodic, positive recurrent MC, 
+
+\[
+P_{ij}^{n} \rightarrow \pi_{j}, \quad \text{where $ \pi $ is the stationary distribution}
+\]
+}
+
+\thm{}{For irreducible positive recurrent MC, long run proportion time in j = $ \pi_{j} $, where $ \pi $ is the stationary distribution. 
+
+}
 \end{document}

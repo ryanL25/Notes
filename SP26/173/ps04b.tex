@@ -1,0 +1,77 @@
+
+\documentclass{report}
+
+\input{../../preamble}
+\input{../../macros}
+\input{../../letterfonts}
+
+\title{IEOR 173: Problem Set 4b}
+\author{Ryan Lin}
+\date{}
+
+\begin{document}
+\maketitle
+\section*{Question 1: Short Answer, T/F, or MCQ}
+
+\begin{enumerate}
+	\item (T/F) $ E[X \mid Y] $ is a random variable. 
+	\item (T/F) If $ X \perp Y $, then $ \Cov(X,Y) = 0 $ always
+	\item (T/F) If $ X \perp Y $,  $ P(X,Y) = P(X)P(Y)$
+	\item (T/F) $ X \perp Y \implies \Var(XY) = \Var(X)\Var(Y) $  
+\end{enumerate}
+
+\section*{Answer}
+
+\begin{enumerate}
+	\item True
+	\item True
+	\item True
+	\item False. $ \Var(XY) = \Var(X)\Var(Y) + \Var(X)(E[Y])^{2} + \Var(Y)(E[X])^{2} $ 
+\end{enumerate}
+
+\section{Question 2: Computational}
+A certain probability student lost their water bottle in Dwinelle Hall after  a long day of lectures and discussion. Since they were in Dwinelle for hours, they know they lost their bottle somewhere on floors 0,1,2, or 3. In reality, they lost their bottle on floor one in Dwinelle 155. If the student searches floor 1, they will find their bottle. The student spends 10 minutes conducting a search, independent of other searches. They will conduct another search on the same floor or change floors with probability 0.5. If they decide to change floors, they will go up a floor with probability 0.2 or go down a floor with probability 0.3 if possible. Otherwise, the will just go up/down with probability .5.
+
+a.) Draw a Markov chain representing the student's decisions and provide the transition matrix. 
+
+\begin{tikzpicture}[shorten >=1pt, node distance=2.5cm, on grid, auto]
+   \node[circle, draw] (0) {0};
+   \node[circle, draw] (1) [right=of 0] {1};
+   \node[circle, draw] (2) [right=of 1] {2};
+   \node[circle, draw] (3) [right=of 2] {3};
+   \path[->]
+    (0) edge [loop above] node {0.5} (0)
+        edge [bend left] node {0.5} (1)
+    (1) edge [loop above] node {1} (1)
+    (2) edge [loop above] node {0.5} (2)
+        edge [bend left] node {0.2} (3)
+        edge [bend left] node {0.3} (1)
+    (3) edge [loop above] node {0.5} (3)
+        edge [bend left] node {0.5} (2);
+\end{tikzpicture}
+
+
+\[
+P = \begin{pmatrix} 
+0.5 & 0.5 & 0 & 0 \\ 
+0 & 1 & 0 & 0 \\ 
+0 & 0.3 & 0.5 & 0.2 \\ 
+0 & 0 & 0.5 & 0.5 
+\end{pmatrix}
+\]
+b.) Is this Markov Chain irreducible? Explain why or why not. 
+
+No. An irreducible Markov Chain is when it is possible to get to any state from any other state. Each state is communicative to every other state. However, if the student reaches floor 1, they find the bottle, making floor 1 an absorbing state. 
+
+
+c.) What is the probability that the student finds their water bottle in 1 hour given they start on floor $ i $? Write your answer in terms of $ P_{(i,j)} $, where $ P $ is a transition matrix and $ (i,j) $ represents the $ i $th row and $ j $ th column. 
+
+Start on:
+\begin{itemize}
+	\item Floor 0: $ P^{6}_{(0,1)} $ 
+	\item Floor 1: $ P^{6}_{(1,1)} = 1 $ 
+	\item Floor 2: $ P^{6}_{(2,1)} $ 
+	\item Floor 3: $ P^{6}_{(3,1)} $ 
+\end{itemize}
+
+\end{document}
