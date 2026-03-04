@@ -1,0 +1,28 @@
+
+\documentclass{report}
+
+\input{../../preamble}
+\input{../../macros}
+\input{../../letterfonts}
+
+\title{}
+\author{Ryan Lin}
+\date{}
+
+\begin{document}
+\maketitle
+\section{}
+
+
+\begin{align*}
+	E[D] &=  E[D \mid X \le 12] + E[D \mid X > 12] \\
+	&=  \sum_{k=0}^{12}k\cdot P(X=k) + 122 \sum_{13}^{\infty }P(X=k) \\
+	&= e^{-\mu }\mu \sum_{k=0}^{11} \frac{\mu^k }{k!} + 12 e^{-\mu }\sum_{13}^{\infty } \frac{\mu ^{k}}{k!} \\
+	&= (e^{-\mu }\mu  + 12e^{-\mu }) (\sum_{k=0}^{\infty }\frac{\mu ^{k}}{k!} - \frac{\mu ^{12}}{12!} \\
+\end{align*}
+
+
+\[
+E[5^{X}]
+\]
+\end{document}

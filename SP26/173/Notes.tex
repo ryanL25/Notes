@@ -681,5 +681,189 @@ P_{ij}^{n} \rightarrow \pi_{j}, \quad \text{where $ \pi $ is the stationary dist
 
 \thm{}{For irreducible positive recurrent MC, long run proportion time in j = $ \pi_{j} $, where $ \pi $ is the stationary distribution. 
 
+}a
+
+\chapter{}
+\section{Lecture 09} 
+
+\subsection{Stationary Distribution} 
+\ex{Gilbert Model}{
+For the gilbert Model: 
+\begin{tikzpicture}[->, >=stealth, node distance=3cm, every state/.style={thick, fill=gray!10}]
+
+  % States
+  \node[circle] (G) {(G)};
+  \node[circle, right of=G] (B) {(B)};
+
+  % Transitions
+  \path (G) edge[loop left] node[left] {$1-p$} (G)
+        (G) edge[bend left] node[above] {$p$} (B)
+        (B) edge[bend left] node[below] {$q$} (G)
+        (B) edge[loop right] node[right] {$1-q$} (B);
+
+\end{tikzpicture}
+If $ p=.1 $ and $ q=.2 $ 
+\[
+\pi_{G} = \pi_{B}(q) + \pi_{G}(1-p)
+\]
+\[
+\pi_{B} = \pi_{B}(1-q) + \pi_{G}p
+\]
+
+AND 
+
+\[
+\pi_{G} + \pi_{B} = 1
+\]
+
+\[
+\pi = (\pi_{G}, \pi_{B}) = (\frac{q}{p+q}, \frac{p}{p+q})
+\]
+
+\begin{align*}
+	P_{11}^{1} &=  .9 \\
+	P_{11}^{2} &=  .9^{2} + (.1)(.2) = .82 \\
+P_{11}^{3} &= .781 \\
+\vdots\\
+P_{11}^{n} &=  \frac{2}{3}
+\end{align*}
+
+This converges because the chain is aperiodic, irreducible, finite state. 
 }
+\ex{Packet Transmission Revisited}{
+For the Packet Transmission \ref{fig:Packet Transmission}: G/D/1/2
+
+\[
+A_{i} \sim (p_0, p_1, p_2) 
+\]
+if $ p_{0} = p_{1} = \frac{1}{4} $ 
+We will get $ \pi = \left( \frac{1}{12}, \frac{1}{4}, \frac{2}{3} \right) $ 
+
+The $ P(\text{busy}) $ in the long run, it will be $ \frac{11}{12} $.
+
+\vspace{5mm}
+What is the loss rate? $ E[\text{\# of packets lost/slot}] $ 
+
+\begin{align*}
+	E[\text{\# of packets lost}] &= \pi_{2}p_2(1)	\\
+	&= \frac{2}{3} \cdot \frac{1}{2} \\
+	&= \frac{1}{3} \\
+\end{align*}
+
+On average, once every 3 time slots, we lose a packet. 
+
+\vspace{5mm}
+What proportion of packets are lost? We need the arrival rate = \# packets coming per slot. 
+
+\begin{align*}
+	E[A_{i}] &= 0p_0 + 1p_1 + 2p_2 \\ 
+	&= \frac{1}{4} + 2 \cdot \frac{1}{2}  = \frac{5}{4}  \\
+\end{align*}
+
+Thus $ \frac{1}{3} \div \frac{5}{4} = \frac{4}{15} $. This is the number that are lost per slot divided by number of packets arriving per slot. Thus, about $ .272 $ of the packets are lost. 
+
+\vspace{5mm}
+What is the effective service rate? What is the through put of the system? 
+
+\begin{align*}
+\text{throughput}	&= \text{proportion served $ \times $ arrival rate} \\
+&= (1-\text{prop lost)} \cdot \text{arrival rate}  \\
+&= (1-\frac{4}{15}) \cdot \frac{5}{4} \\
+&= \frac{11}{12} \\
+&= P(\text{busy}) \cdot 1 \text{served per slot} \\
+\end{align*}
+}
+\ex{Google Search Rankings}{
+What order to put pages in? Develop a giant markov chain, with the websites being a state and the probability to visit that state. 
+
+
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}[->,>=stealth',shorten >=2pt , line width =0.5pt, node distance =2cm]
+	\node [circle, draw] (page i)  {page i};
+	\path (-2, -1) edge node {} (page i); 
+	\path (-2, 1) edge node {} (page i); 
+	\path (-2, 0) edge node {} (page i); 
+\path (page i) edge  node  {} (2,0);
+
+	\end{tikzpicture}
+	\caption{Google Page Ranking}
+	\label{fig:Google Page Ranking}
+\end{figure}
+
+So multiple sites pointing into page i, and then also they have a weighted arrows going out. 
+}
+
+\subsection{Special Cases} 
+$ p $ is doubly stochastic. 
+
+For a doubly stochastic markov chain, the rows and the columns sum up to 1. 
+
+In this case, all the states are equally likely, or a uniform distribution
+
+\[
+\pi = (\frac{1}{n}, \frac{1}{n}, \dots
+\]
+
+Cut sets: $ \forall  \text{cut} $ 
+If we partition our states, the rate across one way is equal to the rate across the other way . This is especially helpful in birth death processes (ex. Gilbert Model) 
+
+If we cut the Gilbert Model down the middle, 
+\[
+\pi_{G}p = \pi_{B}q
+\]
+
+
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}[->,>=stealth',shorten >=2pt , line width =0.5pt, node distance =2cm]
+	\node [circle, draw] (i)  {i};
+	\node [circle, draw] (i-1) [left=of i] {i-1};
+	\node [circle, draw] (i+1) [right=of i] {i+1};
+
+	\path (i-1) edge [bend left] node [above] {$p_{i-1}$} (i);
+	\path (i) edge [bend left] node [below] {$1-p_{i}$} (i-1);
+	\path (i) edge [bend left] node [above] {$p_{1}$} (i+1);
+	\path (i+1) edge [bend left] node [below] {$1-p_{i+1}$} (i);
+	\end{tikzpicture}
+	\caption{Birth Death}
+	\label{fig:Birth Death}
+\end{figure}
+
+
+If we cut this between i and i+1, 
+\begin{align*}
+	\pi &= \pi P \\
+	\pi_{i}& = \pi_{i-1}p_{i-1} + pi_{i+1}p_{i+1}\\
+	\pi_{i+1} &= \pi_{i}(\frac{p_{1}}{p_{i+1}})\\
+\end{align*}
+
+\vspace{5mm}
+\[
+m_{jj} = E[\text{\# of transitions, back to j}] = E[T_{j}]
+\]
+Thm: For an irreducible positive recurrent MC, $ \pi_{j} = \frac{1}{E[T_{j}]} = \frac{1}{m_{jj}} \forall j $ 
+
+For the gilbert Model, $ p=.1, q=.2 $. If we want the $ E[T_{g}] $ or the time to get from good to good. 
+
+\begin{align*}
+E[T_{g}] &=  \frac{1}{\pi_{g}} \\
+&= \frac{1}{\frac{2}{3}} \\ 
+&= \frac{3}{2} \\ 
+\end{align*}
+
+The long way: 
+\begin{align*}
+	E[T_{g}] &= .9(1 + 0) + .1(1+ E[T_{BG}]) \\
+	&= 1 + .1E[T_{BG}] \\
+	&= 1 + .1(5) \\
+	&= \frac{3}{2} \\
+\end{align*}
+
+$ T_{BG} $ has a geometric distribution, $ \sim geometric(.2) $. Therefore $ E[T_{BG}] = 5 $ 
+
+\chapter{}
+\section{Lecture 11: 4 March 2026}
+
+
 \end{document}

@@ -749,4 +749,895 @@ M=N-\text{gap}
 \]
 }
 
+\chapter{}
+\section{Lecture 08: 12 February 2026}
+\subsection{Probability, Expectation, Conditioning} 
+\ex{}{
+Players $ A $ and $ B $ take turns rolling a die. The first person that gets a 6 wins. 
+Let Person A go first. 
+\vspace{5mm}
+Find $ P(A \text{wins}) $. 
+\vspace{5mm}
+This answer should be bigger than a half, because the first person has an advantage. 
+
+Lets use a tree diagram: 
+
+If A gets a 6 right away, the game ends. Otherwise, B gets to go. This only continues if B also loses, and you go back to the start.
+
+
+This is a recursive tree, therefore we can solve it quite easily. Thus we can condition on the first few moves. 
+
+Let $ P(A \text{wins}) = x $ 
+
+Then $ x = \frac{1}{6} + \frac{5}{6} \cdot \frac{5}{6} \cdot x $ 
+
+This is a linear equation in $ x $ 
+
+In general terms: 
+
+\begin{align*}
+	P(A \text{wins}) &= p + q\cdot q \cdot P(A \text{wins}) \\
+	&= p + q^{2}P(A \text{wins}) \\
+	&= \frac{6}{11}  \\
+\end{align*}
+}
+
+The intuition behind conditioning is natural. We have been doing it since high school. 
+
+\ex{}{
+You have a class with 3 sections: 
+
+Section 1,2,3; with quiz averages of 80,70,90. What is the Class average? As stated, this question isn't answerable. You need the size (weight) of the sections. 
+
+If section 1 has 20, 2 has 40, 3 has 40. Then you can fully find the class average. 
+
+\[
+\text{avg} = 80 \cdot .2 + .4 \cdot 70 + 90 \cdot .4
+\]
+
+This is an expectation. Value times probability. Each section's quiz probability is the conditional expectation of a student's score GIVEN that they are in section 1. 
+
+\vspace{5mm}
+Conditional Expectation: 
+
+Pick a student at random, Let $ T $ be their score and $ S $ their section. 
+
+then: 
+\begin{align*}
+	E[T \mid S =  1] = 80 \\
+	E[T \mid S=2] = 70 \\
+	E[T \mid S=3] = 90
+\end{align*}
+
+The abstraction here is that a student is a $ \omega $ from $ \Omega $. For any $ \omega $, their group is either 1,2,3. That group has an average. We have defined a new random variable, $ E[T \mid S] $. 
+
+\vspace{5mm}
+The values of $ E[T \mid S] $ are 70, 80, and 90. The probability of 70 is 0.4, 80 is 0.2, 90 is .4. This comes from the population size in each of the sections. 
+
+\vspace{5mm}
+Therefore:
+\[
+	E[T] = E[E[T \mid S]]
+\]
+
+This method of finding expectations are iterated expectations. 
+}
+
+\dfn{Method of Iterated Expectations}{
+\begin{align*}
+	E[T] &= \sum_{\forall T}^{}t\cdot P(T=t)\\
+	     &= \sum_{\forall t}^{}t \sum_{\forall s}^{} P(S=s, T=t) \\
+	     &= \sum_{\forall  t}^{} \sum_{\forall s}^{} t \cdot P(S=s)P(T=t \mid S=s) \\
+	     &= \sum_{\forall s}^{} \left[\sum_{\forall t}^{} tP(t=t \mid S=s)\right] P(S=s) \\
+	     &=  \sum_{\forall  s}^{} E[T \mid S=s] P(S=s)\\
+	     &= E[E[T \mid S]] \\
+\end{align*}
+}
+
+\subsection{Examples} 
+
+\ex{}{
+Random Sum. $ X_1, X_2, \dots $ i.i.d. with mean $ \mu _x $ $ N $ nonnegative integer valued, wiht a mean of $ \mu _m $. 
+
+$ S_N = X_1 + X_2 + \cdots + X_n $ if $ N=n $, Let 0 if $ N=0 $
+
+\vspace{5mm}
+Find $ E[S_n] $, or the expected total. 
+
+\vspace{5mm}
+If we knew the value of N, we know that the total is just $ n\mu _x $ 
+
+\[
+E[S_n \mid N=n] = n\mu _x \quad \text{(equality of numbers)}
+\]
+
+\[
+	E[S_n \mid N] = N\mu _x \quad \text{(equality of random variables) }
+\]
+
+\begin{align*}
+	E[S_n] &= E[E[S_n \mid N]] \\
+	&= E[N\mu _x] \\
+	&= \mu _x E[N] \\
+	&= \mu _x \cdot \mu _N \\
+\end{align*}
+
+
+This is natural because we expect there to be $ \mu _n $ terms, with each term being about $ \mu _x $ big. 
+}
+
+\ex{Proving Geometric Expectation}{
+
+	\[
+	X \sim geometric(p) \text{ on } \{1,2,3,\dots\}
+	\]
+
+We can find the expectation of $ X $ with conditional expectations. 
+
+R is the remainder. 
+\[
+X = 1 + R
+\]
+
+\[
+E[X] = 1 + E[R]
+\]
+
+\[
+E[R] = p(0) + qE[X]
+\]
+
+\begin{align*}
+	E[X] &= 1 + E[R] \\
+	&= 1 + E[X]q \\ 
+	(1-q)E[X] &= 1 \\
+	E[X] &= \frac{1}{1-q} \\
+	&= \frac{1}{p} \\
+\end{align*}
+}
+
+\ex{}{
+	Let $ X = W_h $ be the waiting time for 1 head. $ W_{HH} $ be the waiting times till $ HH $. 
+
+	To get to $ W_{hh} = W_H + S$
+
+\[
+	E[W_{HH}] = E[W_H] + E[S] = \frac{1}{p} + E[S]
+\]
+
+\begin{align*}
+	E[W_{HH}] &= \frac{1}{p} + E[S] \\
+		  &= \frac{1}{p} + \left( 1\cdot p + q\cdot (1+E[W_{HH}])\right)  \\
+		  &= \frac{\frac{1}{p} + 1}{1-q} \\
+		  &= \frac{\frac{1}{p} + 1}{p} \\
+		  &= \frac{1}{p}^{2} + \frac{1}{p} \\
+\end{align*}
+}
+
+\chapter{}
+\section{Lecture 09: On Ipad}
+
+
+\chapter{}
+\section{Lecture 10: 17 February 2026}
+
+Avoidable problems on Exams: 
+
+\begin{itemize}
+	\item Any probability exam: READ THE DANG QUESTION
+	\item Just start writing outcomes. HHHHT. THTHT. 
+	\item do not do algebraic simplification unless problem explicitly tells you. If it explicitly says to find an answer, the calculation is straightforward, or easy to simplify. 
+		\begin{itemize}
+			\item finite sums are okay to keep as is. 
+			\item infinite sums do need to simplify. Or some other finite sums. 
+		\end{itemize}
+	\item LOOK AT GRAPHS. Do you know how clustering of CR problem. Graph of birthday/matching problem. 
+	\item DO NOT LEAVE THINGS BLANK
+	\item Can circle answers and draw arrows for multiple parts 
+\end{itemize}
+
+
+Purpose of the upcoming 3 lectures is to show how crude models can give you a good answer. We are going to explore somewhat artificial settings. The point is to develop theory for finite numbers and calculations to see how you would break a mono alphabetic substitution code. 
+
+\subsection{Describing the Model}
+Second example of a Stochastic process. The first example was the Chinese Restaurant problem. 
+
+Random walk example: foundation of all financial mathematics, physics, chemistry,etc. 
+
+Start at a point 0, move one step to the right with $ p $ and to the left with $ 1-p $. 
+
+
+\[
+X_0, X_1, X_2, \dots \text{stochastic process}
+\]
+
+where $ X_0 $ is the random starting point. 
+
+The State Space $ S $: the set of possible values of the $ X_{i} $s. If you start at 0, and move either left or right, then all the integers are the states.  
+
+Because there is a sense of time, 
+\[
+X_0, X_1, \dots, X_{n-1}, X_{n}, X_{n+1}, X_{n+2}, \dots
+\]
+
+time $ X_{n} $ is called the present. Therefore, anything before is the past, and anything after is the future.  
+
+\dfn{Markov Property}{
+Given the state today, the distribution of where you are tomorrow, depends only on your current state, irrespective of how you got there. 
+
+\vspace{5mm}
+More formally, Given the state today, the state tomorrow doesn't depend on the past. The future and the past are conditionally independent given the present. 
+
+\[
+	P(X_{n+1} = i_{n+1} \mid X_{0} = i_{0}, X_{1} = i_{1}, \dots, X_{n-1} = i_{n-1}, X_{n} = i_{n}) = P(X_{n+1} = i_{n+1} \mid X_{n} = i_{n})
+\]
+This is known as a \textit{one step transition probability}. 
+}
+
+\dfn{Stationary Transition Probability}{
+	\[
+	P(X_{n+1} = j \mid X_{n} = i) = P(X_{1} = j \mid X_{0} = i) \forall n
+	\]
+
+If you know you are at state $ i $ at time $ n $, is the same thing as if you were at state $ i $ at time $ 0 $, because the past does not matter.
+}
+
+\ex{Markov Chain}{
+
+5 State Chain, Look in textbook for the chain represented in this lecture. this is a transition diagram. 
+
+There is a .5 probability to stay at the same state, or 0.25 to go up and .25 to go down. 
+
+This is a \textit{sticky}, because you can stay at the same node, \textit{reflecting}, because you can't stay in one state, random walk
+
+\vspace{5mm}
+You can also describe this as a matrix: 
+
+\[
+p = \begin{bmatrix}
+	.5 &.5 &0 &0 &0 \\
+	.25 &.5 &.25 &0 &0 \\
+	0 &.25 &.5 &.25 &0 \\
+	0 &0 &.25 &.5 &.25 \\
+	0 &0 &0 &.5 &.5
+\end{bmatrix}
+\]
+
+A row is a probability distribution of $P(X_{n+1} = x \mid X_{n} = i)$
+
+
+The paths of this very simple model is varied. That means we can actually model stochastic processes. 
+
+\vspace{5mm}
+\textit{n-step transition probability} 
+\[
+P(X_{n} = j \mid X_{0} = i) = P_n(i,j)
+\]
+The chance you go from $ i $ to $ j $ in $ n $ steps.
+
+
+One step: $ P(X_{i} = j \mid X_{0} = i) $. This is what is in each row of $ p $. For short this is $ P_{1}(i,j) $ 
+
+
+\vspace{5mm}
+Let $ n=2 $, find $ P_{2}(i,j) = P(X_{2} = j \mid X_{0} = i) $  
+
+We can only partition according to $ X_{1} = k $ 
+
+\begin{align*}
+	P_{2}(i,j) &= \sum_{k=1}^{5}P(X_1=k, X_2=j \mid X_{0} = i) \\
+	&= \sum_{\forall k}^{} P(X_{1} = k \mid X_0=i) \cdot P(X_2=j \mid X_{0} = i, X_1 = k) \\
+	&= \sum_{\forall k}^{} P(X_{1} = k \mid X_0=i) \cdot P(X_2=j \mid X_1 = k) \\
+\end{align*}
+
+This expression is a dot product. A row vector multiplied by a column vector. 
+
+Thus, $ p^{2}(i,j) $, is the probability of getting from $ i \rightarrow j $ in 2 moves. 
+
+
+\vspace{5mm}
+In general: n-step transition matrix is $ p^{n} $ 
+}
+
+\dfn{Steady State}{
+If you run a Markov chain for a long time, then it will forget the initial condition. This makes intuitive sense because of the Markov property. This only works if all nodes are communicative with each other. 
+
+\vspace{5mm}
+Each conditional distribution converges to the same distribution as $ n \rightarrow \infty  $ 
+
+The distribution of where you are at time $ n $ does not matter of where you start, if n is large. 
+
+\vspace{5mm}
+The steady state distribution is useful to tell if the distribution had a unique mode.
+}
+
+The chains we will study are irreducible. This means that we can get from everywhere to everywhere else. 
+
+\chapter{11}
+\section{Lecture 10: 19 February 2026}
+
+\subsection{Midterm Solutions}
+
+\ex{Problem 1}{
+a.) P(At least 3 vacant seats) = $ v_3 + v_4 + v_5 $ 
+
+\vspace{5mm}
+b.) Given that more than 2 people board, find probability that there are at least enough vacant seats for them.
+
+people: 3 or 4. 
+
+3 people: at least 3 seats ($ (a) $)
+4 people: at least 4 seats ($ v_4+v_5 $) 
+
+
+\begin{align*}
+\frac{p_3(a) + p_4(v_4+v_5)}{p_3+p_4}	
+\end{align*}
+
+}
+
+
+\ex{Problem 6}{
+
+$ X \sim \Binom(n, p) $. find $ E[5^{X}] $ 
+
+\[
+	E[X^{X}] = \sum_{0}^{\infty }5^{k} \cdot \binom{n}{k}p^{k}(1-p)^{n-k}
+\]
+b.) elimate what cannot happen. it can only be binomial sum
+
+
+\begin{align*}
+	E[5^{X}] &= \sum_{k=0}^{n} \binom{n}{k} (5p)^{k}(1-p)^{n-k} \\
+	&= (5p + (1-p))^{n} \\
+	&= (4p+1)^{n} \\
+	&= 2^{8} = 256 \\
+\end{align*}
+}
+\ex{Problem 8b}{
+
+$ D $ number of cards dealt till 4th ace. 
+
+\[
+E[D] = 4 + \sum_{n=4}^{51} \sum_{k=0}^{3} \frac{\binom{3}{k} \binom{48}{n-k}}{\binom{52}{n}}
+\]
+We have a lot of sums. There could be 2 ways: tail sum or method of indicators. 
+
+Tail sum:
+\[
+E[D] = \sum_{n=0}^{\infty } P(D>n)
+\]
+Then the sum is somewhat like P(D>n)
+
+}
+
+Tldr: Learn the properties of these concepts. Learn the general, then find the particular solution. Term by Term analysis is what is rewarded in this class. Build the answer. Take one problem and mess with it. 
+
+
+\section{Markov Chains 2: Electric Booglaloo} 
+
+$X_0, X_1, X_2, \dots$ Are a Markov Chain, transition matrix $ \mathbb{P} $ 
+
+Finite state space (chains where there are a limit). 
+
+Irreducible: positive probability of getting from $ j $ to $ i $ for every $ i,j $ via some path. One good way to establish this is to start a particular state, visit every other state, and comes back to A. 
+
+Periodic means no cyclical patterns, i.e. Only be on odd or even state. One way is to  look along the diagonal of the chain, and if any of those are positive, then there will not be cyclical patterns. 
+
+\thm{Big Theorem}{
+For every $ i,j $, 
+\[
+P_{n}(i,j) \rightarrow \pi(j) \text{ as } n \rightarrow \infty 
+\]
+
+Where, 
+$ \pi(j) > 0 $, $ \sum_{j}^{} \pi(j) = 1 $  
+
+This is a probability distribution, called the steady state distribution of the chain. 
+
+This is because it doesn't matter where you start. The chance you end up at $ j $ stays the same. 
+
+\vspace{5mm}
+Consequences: 
+\begin{enumerate}
+	\item $\pi = [\pi(1) \pi(2) \dots \pi(s)]$, Where $ \pi(j) $ is the probability of being in state $ j $. 
+	\item Balance equations: $ \pi $ solves the equations: $ \pi = \pi P $. It is equations because $ \pi $ is a vector, thus having $ s $ equations and $ s $ unknowns.
+	\item $ \pi $ is the unique probability distribution that solves (2)
+\end{enumerate}
+}
+
+\proof{}{
+
+\begin{align*}
+P_{n+1}(i,j) &= \sum_{\forall k}^{} P_{n}(i,k) P_{1}(k,j)\\
+\pi(j)	     &= \sum_{\forall k}^{} \pi(k)P(k,j) \quad n \rightarrow \infty  \\
+\end{align*}
+
+Since $ \pi = [\pi(1) \pi(2) \dots \pi(j) \dots \pi(s)] $, we multiply $ \pi \cdot P $. This gives a $ 1 x s $ matrix, which is equivalent to what we just proved above.  
+}
+
+\dfn{Why "Balance"?}{
+
+Imagine we are all running the chain. At every step, our chain moves from one state to another. Our moves are synced in that we transition at the same time. 
+
+\vspace{5mm}
+LHS: Think of $ \pi(j) $ as the proportion of particles leaving $ j $. 
+
+\vspace{5mm}
+RHS: $\sum_{\forall k}^{} \pi(k)P(k,j) $. The interpretation is the proportion of particles leaving $ k $, and then ending up in $ j $ 
+
+\vspace{5mm}
+The steady state is can be interpreted as the proportion leaving $ j $ is the same as the total proportion of particles entering $ j $ .
+
+\vspace{5mm}
+\textbf{Detailed Balance}: For every pair $ i \neq j $. 
+
+Suppose 
+\[
+\pi(i)P(i,j) = \pi(j)P(j,i) \implies \text{balance}
+\]
+
+
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}[->,>=stealth',shorten >=2pt , line width =0.5pt, node distance =2cm]
+	\node [circle, draw] (1)  {1};
+	\node [circle, draw] (2) [right=of 1] {2};
+	\node [circle, draw] (3) [right=of 2] {3};
+	\node [circle, draw] (4) [right=of 3] {4};
+
+	\path (1) edge [loop left] node [left] {$0.5$} (1);
+	\path (1) edge [bend left] node [above] {$.5$} (2);
+	\path (2) edge [bend left] node [above] {$.75$} (3);
+	\path (2) edge [bend left] node [below] {$.25$} (1);
+	\path (3) edge [bend left] node [below] {$.25$} (2);
+	\path (3) edge [bend left] node [above] {$.75$} (4);
+	\path (4) edge [loop right] node [right] {$.5$} (4);
+	\path (4) edge [bend left] node [below] {$.5$} (3);
+	\end{tikzpicture}
+	\caption{}
+	\label{fig:}
+\end{figure}
+
+\begin{align*}
+	\pi(1).5 = \pi(2).25 &\implies \pi(2) = 2\pi(1) \\
+\pi(2).75 = \pi(3) &\implies \pi(3) = 3\pi(2) = 6\pi(1) \\
+\pi(3).75 = \pi(4).5 &\implies \pi(4) = 1.5\pi(3) = 9\pi(1)
+\end{align*}
+
+\[
+	\pi = [\pi(1)\; 2\pi(1)\; 6\pi(1)\; 9\pi(1)]
+\]
+
+Sum is $ 18\pi(1) = 1 \implies \pi(1) = \frac{1}{18} $ 
+}
+
+
+\chapter{}
+\section{Lecture 11: 24 February 2026} 
+
+Detailed Balance: For all $ i \neq j $, $ \pi(i)P(i,j) = \pi(j) P(j,i) $. 
+
+\noindent
+If a probability distribution $ \pi $ satisfies these, then it is the steady state distribution of the chain. In other words, if you run the distribution a long time, then it will just be $ \pi $. 
+
+\noindent
+Detailed balance: $ \frac{\pi(i)}{\pi(j)} = \frac{P(i,j)}{P(j,i)} $ 
+
+All of our walks have been on a small process. We can build this connection through examples, especially with MKC on text. Markov's first chain was looking at text and coding 1 and 0 for vowel vs constant. Look at nature of trials between trials and constants. 
+
+\vspace{5mm}
+\ex{Small Markov Chain}{Let us start with a small alphabet, of 3 letters. ADT as our letters. 
+
+We have a message of length 4 $ atdt $. We have to decode this thing, where there are 6 different possible decoders because our alphabet has 3 letters. 
+
+\vspace{5mm}
+We can use a really simple and crude model of assuming English is a one step markov chain on the letters. We have transition probabilities of $ a\rightarrow d, a\rightarrow t, \dots $ 
+
+\vspace{5mm}
+Model is not trying to have a complete truth, just model enough randomness. With our trivial example, we enumerated all the decoders, but that wouldn't be possible with a full alphabet. We want a process that finds decoders with high scores. 
+
+
+}
+
+We could do a markov chain on the decoder. If we are at one decoder, the transition to the next decoder only matters on where I am currently. 
+
+\subsection{General alphabet}
+Each decoder has a score. "normalize the scores to create a distribution $ \pi $". We can't actually do this, but this is the general idea in the abstract. 
+
+
+\ex{}{
+
+\vspace{5mm}
+Target: We want the decoder with the highest score, that is, the mode of $ \pi $. 
+
+\vspace{5mm}
+Idea: Construct a MKC on the decoders, s.t. the MKC has steady states $ \pi $ 
+
+If we run the chain for a long time. Then we are likely to see the mode here. Observed value after a long time should be the mode of $ \pi $  
+
+
+\vspace{5mm}
+States: All possible decoders. This is finite and countable. Start with any symmetric ($ Q(i,j) = Q(j,i) $)  irreducible transition matrix $ Q $. (Proposal Matrix)  
+
+
+Create transition behavior for $ X_0, X_1, X_2, \dots $, where each state is a decoder. 
+
+
+Given $ x_{n} = i$
+
+	1.) Go to $ i $ th row of $ Q $. Here we see a conditional distribution. Pick a state $ j $ according to the distribution in this row. $ Q $ proposes a move to $ j $ 
+
+2.) Ratio $ r(i,j) = \frac{\pi(j)}{\pi(i)} $. We look if this ratio is $ r \ge 1 $, then we move to that state $ j $. If $ r(i,j) < 1$, toss a coin that lands heads with chance $ r(i,j) $. If heads, move to $ j $, otherwise stay at $ i $.
+
+
+\vspace{5mm}
+Case 1: $\pi(i) = \pi(j)$
+
+\begin{align*}
+	P(i,j) &= Q(i,j) \cdot 1 \\
+	P(j,i) &= Q(j,i) \cdot 1 \\
+	&= Q(i,j)  \\
+	&= P(i,j) \\
+	\pi(i)P(i,j) &= \pi(j)P(j,i) \\
+\end{align*}
+
+Therefore, this case works. 
+
+
+Case 2: $ \pi(j) < \pi(i) $ 
+
+\begin{align*}
+	P(i, j) &=  Q(i,j)\cdot r(i,j)  \\
+		&= Q(i,j) \frac{\pi(j)}{\pi(i)} = Q(j,i) \frac{\pi(j)}{\pi(i)}\\
+	P(j,i)  &= Q(j,i) \cdot 1  \\
+	\pi(i)P(i,j)  &= \pi(j)P(j,i)  \\
+\end{align*}
+Which also satisfies the detailed balanced equations. 
+}
+
+\chapter{}
+\section{Lecture 11: 26 February 2026}
+If we have 
+$ X $ expectation $ \mu _{X} $. Deviation $ D = X - \mu _{X} $ 
+
+What is the expectation of the deviation? $ E[D] = E[X-\mu_{X}] = E[X] - \mu _{X} = 0 $ This means that on average, the deviations cancel each other out. 
+
+Therefore, we are not interested in the average deviation, we are instead interested in the average distance of the deviation. We can use absolute values here, however they are hard to work with because its not differentiable at 0. Instead, we will use $ x^{2} $ instead. 
+
+
+\begin{align*}
+E[D^{2}] &=  E[(X-\mu _{X})^{2}] = \Var(X) \\
+\end{align*}
+
+The definition of variance is the mean squared deviation from $ X $. Variance is usually positive, unless $ X = 0 $. The unfortunate part about variance is that we have messed up our units; it will always be in squared units. Therefore we take the square root to get standard deviation. 
+
+\[
+	SD(X) = \sqrt{\Var(X)}
+\]
+
+How do we calculate variance? 
+
+\begin{align*}
+	\Var(X) &= E[(X-\mu _{X})^{2}] \\
+	&= \sum_{\forall x}^{}(x-\mu _{x})^{2}\cdot P(X=x) \\
+\end{align*}
+
+If you give prof A. A negative stave, don't ask for partial credit.....
+
+
+Properties: 
+\begin{enumerate}
+	\item Linear Function: $ Y=aX+b, \mu _{y} = a\mu _{x} + b $, $ \sigma_{y} = |a|\sigma_{x} $  
+		\[
+		D_{y} = (aX+b_) - (a\mu _{x} +b) = aD_{x}
+		\]
+		\[
+		\Var(Y) = a^{2}\Var(X)
+		\]
+	\item The variance is the expectation of the square - the square of the expectation.  
+		\begin{align*}
+			\Var(X) &= E[(X-\mu _{x})^{2}]  \\
+			&= E[X^{2 - 2\mu _{x}X + \mu _{x}^{2}}] \\
+			&= E[X^{2}] -2\mu _{x}E[X] + \mu_{X}^{2} \\
+			&= E[X^{2}] - 2\mu _{X} \\
+			&= E[X^{2}] - \mu _{X}^{2} \\\\
+		\end{align*}
+
+
+\end{enumerate}
+
+
+\dfn{Standard Units}{
+	\[
+	Z = \frac{X-\mu _{x}}{\sigma_{x}}
+	\]
+
+	\[
+	E[Z] = 0
+	\]
+	\[
+	SD(Z) = 1
+	\]
+
+
+}
+
+
+\ex{Indicators}{
+
+	If we have indicator $ I = \begin{cases}
+		1, p\\
+		0, \text{otherwise}
+	\end{cases}$
+
+
+	$ \mu _{I} = p $ 
+
+	Therefore $ E[I^{2}] = E[I] $, since the values of $ I^{2} $ and $ I $ are the same. 
+
+	\[
+	\Var(I) = p - p^{2} = p(1-p)
+	\]
+
+}
+
+\ex{Uniform}{
+
+$ X $ uniform on $ 1,2,3, \dots, n $ 
+
+\[
+E[X] = \frac{n+1}{2}
+\]
+
+\[
+E[X^{2}] = \sum_{k=1}^{n}k^{2} \frac{1}{n} = \frac{1}{n} \sum_{k=1}^{n}k^{2}
+\]
+
+\[
+= \frac{1}{n} \cdot \frac{n(n+1)(2n+1)}{6}
+\]
+
+\[
+\Var(X) = \frac{(n+1)(2n+1)}{6} - \left( \frac{n+1}{2} \right) ^{2} = \frac{n^{2}-1}{12}
+\]
+}
+
+
+\ex{Poisson}{
+
+	$ X \sim \Poisson(\mu ) $ 
+
+	\[
+	E[X] = \mu 
+	\]
+	\[
+	E[X(X-1)] = \mu ^{2} = E[X^{2} - X] = E[X^{2}] - E^{X}
+	\]
+
+	\[
+	E[X^{2}] = \mu ^{2} + \mu 
+	\]
+
+	\[
+	\Var(X) = \mu ^{2} + \mu -\mu ^{2} = \mu 
+	\]
+}
+
+\subsection{Interpretations} 
+
+Bounds: 
+\begin{enumerate}
+	\item Let $ X \ge 0 $. Suppose we know $ \mu _{x} $. $ P(X \ge c) $? 
+
+		Suppose $ g $ and $ h $ are two functions on the real line, with $ g\ge h $. So $ E[g(X)] \ge E[h(X)] $. 
+
+		\[
+			P(X \ge c) = E[I(X\ge C)]
+		\]
+
+		We can bound $ I $ by $ g(x) = \frac{1}{c}X $ 
+
+		Since $ g\ge h $, then $ E[g(x)] \ge E[h(x)] $, which means that $ E[\frac{1}{c} X ] \ge E[I(X\ge c)] \implies  E[X]/c \ge P(X\ge c)$ 
+
+		Thus this is Markov's inequality. 
+
+		\[
+		P(X \ge c) \le \frac{E[X]}{c}
+		\]
+
+	\item $ P(|X-\mu _{x}| \ge c) = P((X-\mu _{x})^{2} \ge c^{2}) \le E[(X-\mu _{x})^{2}]/c^{2} = \frac{\Var(X)}{c^{2}}$ 
+
+		This is the Kuibyshev's Inequality. 
+
+		In another way: 
+
+		\[
+		P(|X-\mu _{x}| \ge k\sigma_{x}) \le \frac{1}{k^{2}}
+		\]
+
+\end{enumerate}
+
+\chapter{}
+\section{Lecture 12: 3 March 2026} 
+
+\begin{align*}
+	X: \mu _{X}, \sigma^{2}_{x} \\
+	Y: \mu _{Y}, \sigma^{2}_{Y}\\
+	S = X+Y
+	\mu _{S} = \mu _{X} + \mu _{Y} \\
+\end{align*}
+
+but what is $ \sigma^{2}_{S} = \Var(S) $ 
+
+\begin{align*}
+\Var(S) &= E[D_{s}^{2}] \\
+D_{S} &= S - \mu _{s} = X + Y - (\mu _{x} + \mu _{y}) = D_{x} + D_{y} \\
+E[D_{S}^{2}] &= E[(D_{X}+D_{Y})^{2}] \\
+&= E[D_{X}^{2}] + 2E[D_{X}D_{Y}] + E[Y^{2}] \\
+&= \Var(X) + \Var(Y) + 2\Cov(X,Y) \\
+\end{align*}
+
+In general, the variance of the sum is not the sum of the variances, because of the co variance term. 
+
+\[
+E[D_{x}D_{y}] = E[(X - \mu _{x})(Y-\mu_{Y}] = \Cov(X,Y)
+\]
+Co variance has two principle uses. 
+
+The units is units of $ X \cdot $ units of $ Y $. 
+
+\begin{enumerate}
+	\item Get rid of the units entirely: $ \frac{\Cov(X,Y)}{\sigma_{X}\sigma_{Y}}$. This is the $ E\left[\frac{X-\mu _{x}}{\sigma_{x}} \cdot \frac{Y-\mu _{Y}}{\sigma_{Y}} \right]$, which are the average of the two product of the standard units, or in other terms, the correlation between X and Y.
+	\item Finding the variance of sums.
+\end{enumerate}
+
+\subsection{Properties of Cov}
+\begin{enumerate}
+	\item $ \Cov(X,c) = 0 $ 
+	\item $ \Cov(X,Y) = \Cov(Y,X) $ 
+	\item $ \Cov(X, X) = \Var(X) $ (Special case of 4) 
+	\item $ \Cov(X,Y) = E\left[XY - X\mu _{y} - Y\mu _{X} + \mu _{x}\mu _{y} \right]= E[XY] -2\mu _{x}\mu _{y} +\mu _{x}\mu _{y} = E[XY] - \mu _{x}\mu _{y} $. \\ In general, $ E[XY] \neq \mu _{x}\mu_{y} $ 
+	\item $ X \perp Y \implies \Cov(X,Y) = 0  $. This is really important when finding the sum of variances, especially $ X \perp Y $ 
+	\item $ \Cov(X, Y+Z) = \Cov(X, Y) + \Cov(X,Z) $ 
+	\item $ \Cov(cX, wY) = cw\Cov(X,Y) $
+\end{enumerate}
+
+
+\ex{Application of property 4}{
+$ I_{A} $ indicator of A, $ I_{B} $ indicator of B.
+
+\[
+E[I_{A}] = P(A), \quad \Var(I_{A}) = P(A)(1-P(A))
+\]
+
+\begin{align*}
+	\Cov(I_{A}, I_{B}) &= E[I_{A}I_{B}] - P(A)P(B) \\
+	&= E[I(A \cap B)] - P(A)P(B) \\
+	&= P(AB) - P(A)P(B) \\
+	&= P(A)P(B \mid A) - P(A)P(B) \\
+	&= P(A)(P(B \mid A) - P(B)) \\
+\end{align*}
+
+If the sign of the covariance is positive, then B given A is greater than the probability of B. This is called positive association, as B is more likely to happen if A happens. In other words, if $ \Cov(I_{A}, I_{B}) > 0 $, $ P(B \mid A) > P(B) $.
+
+Similarity, if $ \Cov(I_{A}, I_{B})< 0, P(B \mid A) < P(B) $ , which is negative association. 
+}
+
+\ex{Is cov ever 0?}{
+	\begin{equation*}
+		E[XY] = \sum_{\forall x}^{}\sum_{\forall Y}^{}xyP(X=x, Y=y) \\
+	\end{equation*}
+
+	If x and y are independent, then chance of the intersection becomes a product of the two chances. 
+
+	\begin{align*}
+		&= \sum_{\forall x}^{}\sum_{\forall y}^{}xyP(X=x)P(Y=y) \\
+		&= \sum_{\forall x}^{}xP(X=x)\sum_{\forall Y}^{Y=y} \\
+		&= E[X]E[Y] \\
+		&= \mu _{x}\mu _{y} \\
+	\end{align*}
+
+Thus we see if and only if X and Y are independent, then the covariance of X and Y is 0.
+}
+
+\ex{Applying Covariance Properties}{
+
+	\textbf{Bilinearity of Covariance.} 
+	\begin{align*}
+		\Cov(X-4Y + 1, 2X + 3Y - 15) &=  \Cov(X-4Y, 2X + 3Y)\\
+					     &= 2\Cov(X,X) + \Cov(X, 3Y) - 8\Cov(X,Y) - 12\Cov(Y,Y) \\
+					     &= 2\Var(X) + -5\Cov(X,Y) + 12\Var(Y) \\
+	\end{align*}
+
+}
+
+\subsection{General Formula for variance of sums}
+\begin{align*}
+	\Var(\sum_{i=1}^{n}X_{i}) &= \Cov(\sum_{i=1}^{n}X_{i}, \sum_{i=1}^{n}X_{i}) \\
+	&= \sum_{i=1}^{n}\sum_{j=1}^{n} \Cov(X_{i}, X_{j}) \\
+	&= \sum_{i=1}^{n}\Var(X_{i}) + \sum_{i\le i\neq j \le n}^{}\sum_{}^{}\Cov(X_{i}, X_{j}) \\
+\end{align*}
+
+
+$ X_1, X_2, \dots, X_{n} $ are i.i.d. with mean $ \mu  $, SD $ \sigma $
+
+\[
+S_{n} = \sum_{i=1}^{n}X_{i}, \quad E[S_{n}]=n\mu 
+\]
+\[
+	\Var(S_{n}) = n\sigma^{2}, \quad SD(S_{n)}= \sqrt{n}\sigma
+\]
+
+Take $ \bar{X} $, $ E[\bar X] = \mu  $ and SD($ \bar X $) $ = \frac{\sigma}{\sqrt{n}} $     
+We see that the sample average becomes a spike, which makes it a very good estimator. 
+
+
+\ex{SD of binomial}{
+
+$ X \sim \Binom(n, p) $, where $ X = I_1 + I_2 + I_3 + \dots $, where $ I_{j} $ indicates success on Trial $ j $.
+
+
+$ E[X] = np $ 
+
+\begin{align*}
+	\Var(X) &= \Var(I_{1}) + \Var(I_{2}) + \dots \quad \text{by independence} \\
+	&=  n p(1-p)\\
+\end{align*}
+
+SD = $ \sqrt{npq} $ 
+}
+
+\ex{SD of Poisson}{
+	SD of Poisson is $ \sqrt{\mu } $ 
+
+If we have binomial, large $ n $, small $ p $, s.t $ np \approx \mu  $. 
+
+SD of the binomial is $ \sqrt{npq} $. q is approx 1, and np is approx $ \mu  $. Thats how we get the sd of the poisson. 
+
+
+
+}
+
+\ex{SD of the hypergeometric}{
+$ X_1,X_2,X_3, \dots, X_{n}$ is a SRS from $ N $ numbers that have mean $ \mu  $ and SD $ \sigma $. 
+
+$ S_{n} = X_1 + X_2 + \dots + X_{n} $ 
+
+By symmetry, $ \Var(\sum_{\forall i}^{}X_{i}) = n\sigma^{2} + n(n-1)\Cov(X_{1}, X_{2})$ 
+
+\vspace{5mm}
+For $ 1 \le n \le N $,
+\[
+	\Var(S_{n}) = n\sigma^{2} + n(n-1) \Cov(X_{1}, X_{2})
+\]
+
+If $ n=N $, which is a Census, the variance is 0. 
+\[
+0 = \Var(S_{n}) = N\sigma^{2} + (N)(N-1) \Cov(X_1, X_2) 
+\]
+
+Thus
+\[
+\Cov(X_{1}, X_2) = \frac{\sigma^{2}}{N-1}
+\]
+
+\vspace{5mm}
+In general, for a sample size $ n $,
+\[
+	\Var(S_{n}) = n\sigma^{2} + n(n-1) \left( \frac{-\sigma^{2}}{N-1} \right)
+\]
+\[
+= n\sigma^{2} \left( 1-\frac{n-1}{N-1} \right) 
+\]
+
+This says that if we sample without replacement, the error is lower. This fraction is pretty close to 0. 
+
+Varaince of the hypergeometric:
+\[
+n \cdot \frac{G}{N} \cdot \frac{B}{N} \cdot \left( 1-\frac{n-1}{N-1} \right) 
+\]
+
+
+}
 \end{document}

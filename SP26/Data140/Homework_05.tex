@@ -1,0 +1,778 @@
+\documentclass[11pt]{article}
+
+    \usepackage[breakable]{tcolorbox}
+    \usepackage{parskip} % Stop auto-indenting (to mimic markdown behaviour)
+    \usepackage{tikz}
+    \usetikzlibrary{positioning, shapes, arrows}
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % Keep aspect ratio if custom image width or height is specified
+    \setkeys{Gin}{keepaspectratio}
+    % Maintain compatibility with old templates. Remove in nbconvert 6.0
+    \let\Oldincludegraphics\includegraphics
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionFormat{nocaption}{}
+    \captionsetup{format=nocaption,aboveskip=0pt,belowskip=0pt}
+
+    \usepackage{float}
+    \floatplacement{figure}{H} % forces figures to be placed at the correct location
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+
+    \usepackage{iftex}
+    \ifPDFTeX
+        \usepackage[T1]{fontenc}
+        \IfFileExists{alphabeta.sty}{
+              \usepackage{alphabeta}
+          }{
+              \usepackage[mathletters]{ucs}
+              \usepackage[utf8x]{inputenc}
+          }
+    \else
+        \usepackage{fontspec}
+        \usepackage{unicode-math}
+    \fi
+
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics
+                         % to support a larger range
+    \makeatletter % fix for old versions of grffile with XeLaTeX
+    \@ifpackagelater{grffile}{2019/11/01}
+    {
+      % Do nothing on new versions
+    }
+    {
+      \def\Gread@@xetex#1{%
+        \IfFileExists{"\Gin@base".bb}%
+        {\Gread@eps{\Gin@base.bb}}%
+        {\Gread@@xetex@aux#1}%
+      }
+    }
+    \makeatother
+    \usepackage[Export]{adjustbox} % Used to constrain images to a maximum size
+    \adjustboxset{max size={0.9\linewidth}{0.9\paperheight}}
+
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    % The default LaTeX title has an obnoxious amount of whitespace. By default,
+    % titling removes some of it. It also provides customization options.
+    \usepackage{titling}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage{array}     % table support for pandoc >= 2.11.3
+    \usepackage{calc}      % table minipage width calculation for pandoc >= 2.11.1
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    \usepackage{soul}      % strikethrough (\st) support for pandoc >= 3.0.0
+    \usepackage{mathrsfs}
+    
+
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+    \definecolor{ansi-default-inverse-fg}{HTML}{FFFFFF}
+    \definecolor{ansi-default-inverse-bg}{HTML}{000000}
+
+    % common color for the border for error outputs.
+    \definecolor{outerrorbackground}{HTML}{FFDFDF}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \makeatletter
+    \newsavebox\pandoc@box
+    \newcommand*\pandocbounded[1]{%
+      \sbox\pandoc@box{#1}%
+      % scaling factors for width and height
+      \Gscale@div\@tempa\textheight{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+      \Gscale@div\@tempb\linewidth{\wd\pandoc@box}%
+      % select the smaller of both
+      \ifdim\@tempb\p@<\@tempa\p@
+        \let\@tempa\@tempb
+      \fi
+      % scaling accordingly (\@tempa < 1)
+      \ifdim\@tempa\p@<\p@
+        \scalebox{\@tempa}{\usebox\pandoc@box}%
+      % scaling not needed, use as it is
+      \else
+        \usebox{\pandoc@box}%
+      \fi
+    }
+    \makeatother
+
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatibility definitions
+    \def\gt{>}
+    \def\lt{<}
+    \let\Oldtex\TeX
+    \let\Oldlatex\LaTeX
+    \renewcommand{\TeX}{\textrm{\Oldtex}}
+    \renewcommand{\LaTeX}{\textrm{\Oldlatex}}
+    % Document parameters
+    % Document title
+    \title{Homework\_05}
+    
+    
+    
+    
+    
+    
+    
+% Pygments definitions
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\@namedef{PY@tok@w}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\@namedef{PY@tok@c}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cp}{\def\PY@tc##1{\textcolor[rgb]{0.61,0.40,0.00}{##1}}}
+\@namedef{PY@tok@k}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kt}{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\@namedef{PY@tok@o}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ow}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@nb}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nf}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@ne}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.80,0.25,0.22}{##1}}}
+\@namedef{PY@tok@nv}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@no}{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\@namedef{PY@tok@nl}{\def\PY@tc##1{\textcolor[rgb]{0.46,0.46,0.00}{##1}}}
+\@namedef{PY@tok@ni}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@na}{\def\PY@tc##1{\textcolor[rgb]{0.41,0.47,0.13}{##1}}}
+\@namedef{PY@tok@nt}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nd}{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@s}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sd}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@si}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@se}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.36,0.12}{##1}}}
+\@namedef{PY@tok@sr}{\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@ss}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sx}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@m}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@gh}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gu}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gd}{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\@namedef{PY@tok@gi}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.52,0.00}{##1}}}
+\@namedef{PY@tok@gr}{\def\PY@tc##1{\textcolor[rgb]{0.89,0.00,0.00}{##1}}}
+\@namedef{PY@tok@ge}{\let\PY@it=\textit}
+\@namedef{PY@tok@gs}{\let\PY@bf=\textbf}
+\@namedef{PY@tok@ges}{\let\PY@bf=\textbf\let\PY@it=\textit}
+\@namedef{PY@tok@gp}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@go}{\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@gt}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\@namedef{PY@tok@err}{\def\PY@bc##1{{\setlength{\fboxsep}{\string -\fboxrule}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}}
+\@namedef{PY@tok@kc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kd}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kr}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@bp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@fm}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@vc}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vg}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vi}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vm}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sa}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sb}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sc}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@dl}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s2}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sh}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s1}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@mb}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mf}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mh}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mi}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@il}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mo}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ch}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cm}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cpf}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@c1}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cs}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % For linebreaks inside Verbatim environment from package fancyvrb.
+    \makeatletter
+        \newbox\Wrappedcontinuationbox
+        \newbox\Wrappedvisiblespacebox
+        \newcommand*\Wrappedvisiblespace {\textcolor{red}{\textvisiblespace}}
+        \newcommand*\Wrappedcontinuationsymbol {\textcolor{red}{\llap{\tiny$\m@th\hookrightarrow$}}}
+        \newcommand*\Wrappedcontinuationindent {3ex }
+        \newcommand*\Wrappedafterbreak {\kern\Wrappedcontinuationindent\copy\Wrappedcontinuationbox}
+        % Take advantage of the already applied Pygments mark-up to insert
+        % potential linebreaks for TeX processing.
+        %        {, <, #, %, $, ' and ": go to next line.
+        %        _, }, ^, &, >, - and ~: stay at end of broken line.
+        % Use of \textquotesingle for straight quote.
+        \newcommand*\Wrappedbreaksatspecials {%
+            \def\PYGZus{\discretionary{\char`\_}{\Wrappedafterbreak}{\char`\_}}%
+            \def\PYGZob{\discretionary{}{\Wrappedafterbreak\char`\{}{\char`\{}}%
+            \def\PYGZcb{\discretionary{\char`\}}{\Wrappedafterbreak}{\char`\}}}%
+            \def\PYGZca{\discretionary{\char`\^}{\Wrappedafterbreak}{\char`\^}}%
+            \def\PYGZam{\discretionary{\char`\&}{\Wrappedafterbreak}{\char`\&}}%
+            \def\PYGZlt{\discretionary{}{\Wrappedafterbreak\char`\<}{\char`\<}}%
+            \def\PYGZgt{\discretionary{\char`\>}{\Wrappedafterbreak}{\char`\>}}%
+            \def\PYGZsh{\discretionary{}{\Wrappedafterbreak\char`\#}{\char`\#}}%
+            \def\PYGZpc{\discretionary{}{\Wrappedafterbreak\char`\%}{\char`\%}}%
+            \def\PYGZdl{\discretionary{}{\Wrappedafterbreak\char`\$}{\char`\$}}%
+            \def\PYGZhy{\discretionary{\char`\-}{\Wrappedafterbreak}{\char`\-}}%
+            \def\PYGZsq{\discretionary{}{\Wrappedafterbreak\textquotesingle}{\textquotesingle}}%
+            \def\PYGZdq{\discretionary{}{\Wrappedafterbreak\char`\"}{\char`\"}}%
+            \def\PYGZti{\discretionary{\char`\~}{\Wrappedafterbreak}{\char`\~}}%
+        }
+        % Some characters . , ; ? ! / are not pygmentized.
+        % This macro makes them "active" and they will insert potential linebreaks
+        \newcommand*\Wrappedbreaksatpunct {%
+            \lccode`\~`\.\lowercase{\def~}{\discretionary{\hbox{\char`\.}}{\Wrappedafterbreak}{\hbox{\char`\.}}}%
+            \lccode`\~`\,\lowercase{\def~}{\discretionary{\hbox{\char`\,}}{\Wrappedafterbreak}{\hbox{\char`\,}}}%
+            \lccode`\~`\;\lowercase{\def~}{\discretionary{\hbox{\char`\;}}{\Wrappedafterbreak}{\hbox{\char`\;}}}%
+            \lccode`\~`\:\lowercase{\def~}{\discretionary{\hbox{\char`\:}}{\Wrappedafterbreak}{\hbox{\char`\:}}}%
+            \lccode`\~`\?\lowercase{\def~}{\discretionary{\hbox{\char`\?}}{\Wrappedafterbreak}{\hbox{\char`\?}}}%
+            \lccode`\~`\!\lowercase{\def~}{\discretionary{\hbox{\char`\!}}{\Wrappedafterbreak}{\hbox{\char`\!}}}%
+            \lccode`\~`\/\lowercase{\def~}{\discretionary{\hbox{\char`\/}}{\Wrappedafterbreak}{\hbox{\char`\/}}}%
+            \catcode`\.\active
+            \catcode`\,\active
+            \catcode`\;\active
+            \catcode`\:\active
+            \catcode`\?\active
+            \catcode`\!\active
+            \catcode`\/\active
+            \lccode`\~`\~
+        }
+    \makeatother
+
+    \let\OriginalVerbatim=\Verbatim
+    \makeatletter
+    \renewcommand{\Verbatim}[1][1]{%
+        %\parskip\z@skip
+        \sbox\Wrappedcontinuationbox {\Wrappedcontinuationsymbol}%
+        \sbox\Wrappedvisiblespacebox {\FV@SetupFont\Wrappedvisiblespace}%
+        \def\FancyVerbFormatLine ##1{\hsize\linewidth
+            \vtop{\raggedright\hyphenpenalty\z@\exhyphenpenalty\z@
+                \doublehyphendemerits\z@\finalhyphendemerits\z@
+                \strut ##1\strut}%
+        }%
+        % If the linebreak is at a space, the latter will be displayed as visible
+        % space at end of first line, and a continuation symbol starts next line.
+        % Stretch/shrink are however usually zero for typewriter font.
+        \def\FV@Space {%
+            \nobreak\hskip\z@ plus\fontdimen3\font minus\fontdimen4\font
+            \discretionary{\copy\Wrappedvisiblespacebox}{\Wrappedafterbreak}
+            {\kern\fontdimen2\font}%
+        }%
+
+        % Allow breaks at special characters using \PYG... macros.
+        \Wrappedbreaksatspecials
+        % Breaks at punctuation characters . , ; ? ! and / need catcode=\active
+        \OriginalVerbatim[#1,codes*=\Wrappedbreaksatpunct]%
+    }
+    \makeatother
+
+    % Exact colors from NB
+    \definecolor{incolor}{HTML}{303F9F}
+    \definecolor{outcolor}{HTML}{D84315}
+    \definecolor{cellborder}{HTML}{CFCFCF}
+    \definecolor{cellbackground}{HTML}{F7F7F7}
+
+    % prompt
+    \makeatletter
+    \newcommand{\boxspacing}{\kern\kvtcb@left@rule\kern\kvtcb@boxsep}
+    \makeatother
+    \newcommand{\prompt}[4]{
+        {\ttfamily\llap{{\color{#2}[#3]:\hspace{3pt}#4}}\vspace{-\baselineskip}}
+    }
+    
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+\begin{document}
+    
+    \maketitle
+    
+    
+
+    
+    Probability for Data Science
+
+UC Berkeley, Spring 2026
+
+Ani Adhikari
+
+CC BY-NC-SA 4.0
+
+This content is protected and may not be shared, uploaded, or
+distributed.
+
+    \section{Homework 5 (Due Monday, February 23rd at 5
+PM)}\label{homework-5-due-monday-february-23rd-at-5-pm}
+
+    \subsubsection{Instructions}\label{instructions}
+
+Your homeworks will generally have two components: a written portion and
+a portion that also involves code. Written work should be completed on
+paper, and coding questions should be done in the notebook. Start the
+work for the written portions of each section on a new page. You are
+welcome to \(\LaTeX\) your answers to the written portions, but staff
+will not be able to assist you with \(\LaTeX\) related issues.
+
+It is your responsibility to ensure that both components of the homework
+are submitted completely and properly to Gradescope. \textbf{Make sure
+to assign each page of your pdf to the correct question. Refer to the
+bottom of the notebook for submission instructions.}
+
+    \subsubsection{How to Do Your Homework}\label{how-to-do-your-homework}
+
+The point of homework is for you to try your hand at using what you've
+learned in class. The steps to follow:
+
+\begin{itemize}
+\tightlist
+\item
+  Go to lecture and sections, and also go over the relevant text
+  sections before starting on the homework. This will remind you what
+  was covered in class, and the text will typically contain examples not
+  covered in lecture. The weekly Study Guide will list what you should
+  read.
+\item
+  Work on some of the practice problems before starting on the homework.
+\item
+  Attempt the homework problems by yourself with the text, section work,
+  and practice materials all at hand. Sometimes the week's lab will help
+  as well. The two steps above will help this step go faster and be more
+  fruitful.
+\item
+  At this point, seek help if you need it. Don't ask how to do the
+  problem --- ask how to get started, or for a nudge to get you past
+  where you are stuck. Always say what you have already tried. That
+  helps us help you more effectively.
+\item
+  For a good measure of your understanding, keep track of the fraction
+  of the homework you can do by yourself or with minimal help. It's a
+  better measure than your homework score, and only you can measure it.
+\end{itemize}
+
+    \subsubsection{Rules for Homework}\label{rules-for-homework}
+
+\begin{itemize}
+\tightlist
+\item
+  Every answer should contain a calculation or reasoning. For example, a
+  calculation such as \((1/3)(0.8) + (2/3)(0.7)\) or
+  \texttt{sum({[}(1/3)*0.8,\ (2/3)*0.7{]})}is fine without further
+  explanation or simplification. If we want you to simplify, we'll ask
+  you to. But just \({5 \choose 2}\) by itself is not fine; write ``we
+  want any 2 out of the 5 frogs and they can appear in any order'' or
+  whatever reasoning you used. Reasoning can be brief and abbreviated,
+  e.g.~``product rule'' or ``not mutually exclusive.''
+\item
+  You may consult others (see ``How to Do Your Homework'' above) but you
+  must write up your own answers using your own words, notation, and
+  sequence of steps.
+\item
+  We'll be using Gradescope. You must submit the homework according to
+  the instructions at the end of homework set.
+\end{itemize}
+
+    \subsection{\texorpdfstring{\textbf{We will not grade assignments which
+do not have pages selected for each
+question.}}{We will not grade assignments which do not have pages selected for each question.}}\label{we-will-not-grade-assignments-which-do-not-have-pages-selected-for-each-question.}
+
+    \newpage
+
+    \subsection{1. Winning Color}\label{winning-color}
+
+In a population, the proportion of red elements is \(p_r\), the
+proportion of blue elements is \(p_b\), the proportion of green elements
+is \(p_g\), and \(p_r + p_b + p_g = 1\).
+
+In each part below, set \(x\) equal to the quantity that you are trying
+to find, and develop an equation for \(x\) by conditioning on the first
+couple of draws. Try to write the simplest equation you can. Then solve
+for \(x\).
+
+\textbf{Do not use any other method. The point of this exercise is for
+you to learn how to use the method outlined above. It's almost certainly
+going to be shorter than any other correct method.}
+
+\textbf{a)} Alan draws repeatedly at random with replacement from the
+population, betting that the color red will appear before the color
+blue. Find the chance that he wins his bet. Your final answer should be
+in terms of \(p_r\) and \(p_b\) only, and you should aim for the
+simplest possible form.
+
+
+Let $ X $ be if red appears before blue. Let $ R,G,B $ be that the color red,green, or blue appeared on the last roll. 
+
+\begin{align*}
+	P(X) &= P(X \mid R) + P(X \mid B) + P(X \mid G) \\
+	&= 1 \cdot P(R) + 0 \cdot P(B) + P(X)\cdot P(G) \\
+	&= p_{r} + P(X) \cdot  p_{g}\\
+&=  \frac{p_{r}}{1-p_{g}} \\
+&= \frac{p_{r}}{p_{r} + p_{b}} \\
+\end{align*}
+
+
+\textbf{b)} The answer to \textbf{a} can be applied in any situation
+where there are i.i.d. multinomial trials. For example, suppose a die is
+rolled repeatedly. Use your answer to Part \textbf{a} to find the chance
+that the face with one spot appears before all the faces that have an
+even number of spots.
+
+Let the face with one spot be red, with probability $ \frac{1}{6} $ of appearing. Let getting an even face be blue, with $ \frac{3}{6} $ of appearing
+
+\[
+P(X) = \frac{p_{r}}{p_{r}+p_{b}} = \frac{\frac{1}{6}}{\frac{1}{6} + \frac{3}{6}} = \frac{1}{4}
+\]
+
+
+
+\rule{\textwidth}{0.4pt}
+\textbf{Old Approach}
+Let $ X $ be if the face with 1 spot appears before all the faces with even number of spots. Let $ E$ be the event that a even side appears. Let $ x $ be the event that the face with 1 spot appears. Let $ o $ be any other event.
+
+\begin{align*}
+	P(X) &= P(X \mid x)P(x) + P(X \mid E)P(E) + P(X \mid o)P(o) \\
+	&= 1\cdot \frac{1}{6} + \frac{2}{6}P(X) \\
+	&= \frac{\frac{1}{6}}{\frac{4}{6}} \\
+	&= \frac{1}{4} \\
+\end{align*}
+
+\rule{\textwidth}{0.4pt}
+\vspace{5mm}
+
+\textbf{c)} Now suppose Alan plays the following game with Katherine.
+They draw alternately at random with replacement from the population,
+with Alan drawing first. Alan wins if he draws red before Katherine has
+drawn blue. Katherine wins if she draws blue before Alan has drawn red.
+Find the chance that Alan wins the game. To keep your expressions
+simple, use the notation \(q_r = 1-p_r\) and \(q_b = 1 - p_b\).
+
+
+Some ways that this game could happen is: Alan gets red; Alan gets blue, Katherine gets blue, wins. Alan gets blue, Katherine gets red, Alan gets red, wins.  
+
+Let $ x $ be if Alan wins the game. 
+
+
+
+\begin{align*}
+ P(x)	&= p_{r} + q_{r} P(\text{katherine doesn't get blue})P(x)  \\
+ &= p_{r} + q_{r} \cdot q_{b} \cdot  P(X) \\
+ &= \frac{p_{r}}{1-q_{r}q_{b}} \\
+\end{align*}
+
+
+
+
+
+
+\textbf{d)} Find the expected duration of the game in Part \textbf{c}.
+That is, find the expected number of draws till there is a winner.
+
+Let $ X $ be the number of draws until there is a winner. Let $ A $ be if Alan goes first, $ B $ if Katherine goes first.. 
+
+
+\begin{align*}
+	E[X] &= E[X \mid A]\cdot P(A) + E[X \mid B] \cdot (P(B)) \\
+	&= E[X \mid A] \cdot 1 + E[X \mid B] \cdot (0)\\
+	&= E[X \mid A] \\
+	&= \frac{1+q_{r}}{1-q_{r}q_{b}} \\
+\end{align*}
+
+\begin{align*}
+	E[X \mid A] &= 1 + q_{r}(E[X \mid B])  \\
+	E[X \mid B] &= 1 + q_{b}E[X \mid A] \\
+\end{align*}
+
+\begin{align*}
+	E[X\mid A] &= 1 + q_{r}(1+q_{b}E[X \mid A]) \\
+	&= 1 + q_{r} +q_{r}q_{b}E[X \mid A] \\
+	&= \frac{1+q_{r}}{1-q_{r}q_{b}} \\
+\end{align*} 
+
+    \newpage
+
+    \subsection{2. Sausage Chain}\label{sausage-chain}
+
+Let \(X_0, X_1, X_2, \ldots\) be a Markov Chain that has state space
+\(\{1, 2, 3, 4, 5\}\) and one-step transition probabilities given by
+
+\[
+P(1, 2) ~ = ~ 1 ~ = ~ P(5, 4)
+\] and for \(2 \le i \le 4\), \[
+P(i, j) ~ = ~ 
+\begin{cases}
+\frac{1}{3} ~~ \text{ if } j = i+1 \\
+\frac{1}{3} ~~ \text{ if } j = i \\
+\frac{1}{3} ~~ \text{ if } j = i-1 \\
+\end{cases}
+\]
+
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}[->,>=stealth',shorten >=2pt , line width =0.5pt, node distance =2cm]
+	\node [circle, draw] (1)  {1};
+	\node [circle, draw] (2) [right=of 1] {2};
+	\node [circle, draw] (3) [right=of 2] {3};
+	\node [circle, draw] (4) [right=of 3] {4};
+	\node [circle, draw] (5) [right=of 4] {5};
+
+	\path (1) edge [bend left] node [above] {$1$} (2);
+	\path (5) edge [bend left] node [above] {$1$} (4);
+	\path (2) edge [bend left] node [above] {$\frac{1}{3}$} (3);
+	\path (3) edge [bend left] node [above] {$\frac{1}{3}$} (4);
+	\path (4) edge [bend left] node [above] {$\frac{1}{3}$} (5);
+	\path (2) edge [loop below] node [below] {$\frac{1}{3}$} (2);
+	\path (3) edge [loop below] node [below] {$\frac{1}{3}$} (3);
+	\path (4) edge [loop below] node [below] {$\frac{1}{3}$} (4);
+	\path (4) edge [bend left] node [below] {$\frac{1}{3}$} (3);
+	\path (3) edge [bend left] node [below] {$\frac{1}{3}$} (2);
+	\path (3) edge [bend left] node [below] {$\frac{1}{3}$} (2);
+	\path (2) edge [bend left] node [below] {$\frac{1}{3}$} (1);
+	\end{tikzpicture}
+	\caption{Sausage Chain}
+	\label{fig:}
+\end{figure}
+
+\textbf{a)} Is there a probability distribution that satisfies the
+detailed balance equations for this chain? Why or why not?
+
+Yes, there is a probability distribution that satisfies the detailed balance. The chain is irreducible, as all nodes communicate with each other, and it is aperiodic, meaning that there are no cyclical patterns, because nodes 2-4 are sticky. 
+
+\textbf{b)} Find the stationary distribution of the chain.
+
+\begin{align*}
+	\pi(1) &= \pi(2) \cdot \frac{1}{3} \implies 3\pi(1) = \pi(2)\\ 
+	\pi(2)\frac{1}{3}  &= \pi(3)\frac{1}{3} \implies \pi(3) = \pi(2) = 3\pi(1) \\
+	\pi(3)\frac{1}{3} &= \pi(4)\frac{1}{3} \implies \pi(4) = 3\pi(1) \\
+	\pi(4)\frac{1}{3} &= \pi(5) \implies 3\pi(5) = \pi(4) = 3\pi(1) \implies \pi(5) = \pi(1)  \\ 
+\end{align*}
+
+\[
+\pi = \pi(1)\begin{pmatrix}
+	1 &3 &3 &3 &1
+\end{pmatrix}
+\]
+
+\[
+11\pi(1) = 1 \implies \pi(1) = \frac{1}{11}
+\]
+
+\[
+\pi = \begin{pmatrix}
+	\frac{1}{11} &\frac{3}{11} &\frac{3}{11} &\frac{3}{11} &\frac{1}{11}
+\end{pmatrix}
+\]
+\textbf{c)} Find an approximate numerical value of
+\(P(X_{1000} = 4 \mid X_0 = 3)\).
+
+Since the Big Theorem tells us that the initial condition does not matter when $ n $ is large, and it approaches the stationary distribution, 
+
+\[
+P(X_{1000} = 4 \mid X_{0} = 3) \approx P(X_{1000}=4) \approx \frac{3}{11}
+\]
+    \newpage
+
+    \subsection{Submission Instructions}\label{submission-instructions}
+
+Many assignments throughout the course will have a written portion and a
+code portion. Please follow the directions below to properly submit both
+portions.
+
+\subsubsection{Written Portion}\label{written-portion}
+
+\begin{itemize}
+\tightlist
+\item
+  Scan all the pages into a PDF. You can use any scanner or a phone
+  using applications such as CamScanner. Please \textbf{DO NOT} simply
+  take pictures using your phone.
+\item
+  Please start a new page for each question. If you have already written
+  multiple questions on the same page, you can crop the image in
+  CamScanner or fold your page over (the old-fashioned way). This helps
+  expedite grading.
+\item
+  It is your responsibility to check that all the work on all the
+  scanned pages is legible.
+\item
+  If you used \(\LaTeX\) to do the written portions, you do not need to
+  do any scanning; you can just download the whole notebook as a PDF via
+  LaTeX.
+\end{itemize}
+
+\subsubsection{Code Portion}\label{code-portion}
+
+\begin{itemize}
+\tightlist
+\item
+  Save your notebook using
+  \texttt{File\ \textgreater{}\ Save\ Notebook}.
+\item
+  Generate a PDF file using
+  \texttt{File\ \textgreater{}\ Save\ and\ Export\ Notebook\ As\ \textgreater{}\ PDF}.
+  This might take a few seconds and will automatically download a PDF
+  version of this notebook.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    If you have issues, please post a follow-up on the general Homework
+    5 Ed thread.
+  \end{itemize}
+\end{itemize}
+
+\subsubsection{Submitting}\label{submitting}
+
+\begin{itemize}
+\tightlist
+\item
+  Combine the PDFs from the written and code portions into one PDF.
+  \href{https://smallpdf.com/merge-pdf}{Here} is a useful tool for doing
+  so.
+\item
+  Submit the assignment to Homework 5 on Gradescope.
+\item
+  \textbf{Make sure to assign each page of your pdf to the correct
+  question.}
+\item
+  \textbf{It is your responsibility to verify that all of your work
+  shows up in your final PDF submission.}
+\end{itemize}
+
+If you are having difficulties scanning, uploading, or submitting your
+work, please read the
+\href{https://edstem.org/us/courses/94054/discussion/7533569}{Ed Thread}
+on this topic and post a follow-up on the general Homework 5 Ed thread.
+
+\subsection{\texorpdfstring{\textbf{We will not grade assignments which
+do not have pages selected for each
+question.}}{We will not grade assignments which do not have pages selected for each question.}}\label{we-will-not-grade-assignments-which-do-not-have-pages-selected-for-each-question.}
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+\end{document}
