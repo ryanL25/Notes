@@ -1,0 +1,123 @@
+
+\documentclass{report}
+
+\input{../../preamble}
+\input{../../macros}
+\input{../../letterfonts}
+
+\title{IEOR 164: Assignment 05}
+\author{Ryan Lin}
+\date{}
+
+\begin{document}
+\maketitle
+\section{Question 1}
+On a treasure map, you are given $ n $ clue locations $ (a_{i}, b_{i}) \in \mathbb{R}^{2} $. Draw a circular search region that contains all clues and has min possible radius. Let $ (x,y) \in \mathbb{R}^{2} $ denote center of circle and let $ r \ge 0 $ denote radius. Formulate as optimization problem  and explain why it is convex. 
+
+
+\qs{}{
+Let $ (x,y) $ be the center of the circle, and $ r $ is the radius. $ (a_{i}, b_{i})$ are the clue locations. 
+
+\begin{align*}
+\min_{x,y,r \in \mathbb{R}}: \quad & r \\
+\text{s.t}: \quad & (x-a_{i})^{2} + (y-b_{i})^{2} \leq r^{2} \forall i  \\
+		  & r \ge 0
+\end{align*}
+
+A disk $\{x,y | x^{2} + y^{2} < r^{2}\} $ is a convex set, because it is a norm and a linear function, which are both convex. Moreover, changes to x ($ x-a_{i}) $  and y $ y-b_{i}) $  are also convex sets. Therefore, our constraint $ (x-a_{i})^{2} + (y-b_{i})^{2} \le^{2}) $ are perturbations to x and y and are therefore convex. 
+
+Since the intersection of convex sets are also convex, then this problem is also a convex optimization problem.  
+}
+
+
+\newpage
+\section{Question 2} 
+Show that the maximum likelihood estimate of $ \mu $ by maximizing the log of the likelihood function is a convex optimization problem. 
+
+\qs{}{
+
+The log likelihood function is 
+
+\[
+\log(f(\mu )) = \log{p_{x_1}(\mu )} + \log{p_{x_{2}}(\mu )} + \dots + \log{p_{x_{n}}(\mu)} 
+\]
+
+
+
+
+
+\[
+	\log(f(\mu )) = \sum_{i=1}^{n}\log( p_{x_{i}}(\mu))  \\
+\]
+
+\begin{align*}
+\log(p_{x_{i}}(\mu ) &= \log(\frac{1}{\sqrt{2\pi}} e^{-\frac{(x_{i}-\mu)^{2}}{2}}) \\
+		     &= - \frac{(x_{i}-\mu )^{2}}{2} + \log(\frac{1}{\sqrt{2\pi}}) \\
+\end{align*}
+
+
+\begin{align*}
+	\log(f(\mu )) &= \log(\frac{1}{\sqrt{2\pi}}) + \left( \sum_{i=1}^{n} - \frac{(x_i - \mu )^{2}}{2} \right)  \\
+\end{align*}
+
+
+We are maximizing the value of $ \log(f(\mu )) $, or minimizing the value of $ -\log(f(\mu )) $
+
+
+\[
+	-\log(f(\mu )) = -n\log\left( \frac{1}{\sqrt{2\pi}} \right) + \sum_{i=1}^{n} \frac{(x_i - \mu )^{2}}{2} 
+\]
+
+We can see that we have a constant multiplied by the sum of positive quadratic functions. Since we know the sum of convex functions is also convex, the summation term is known to be convex. Then we add a constant, which is also known to be convex, which means that $ -\log(f(\mu )) $ is also convex. 
+}
+
+\newpage
+\section{Question 3}
+Show that the minimum variance portfolios that allow short positions is convex. 
+
+\begin{align}
+\min_{x}: \quad & x^{T}\Sigma x \\
+\text{s.t}: \quad & \bar p ^{T}x \ge r_{min} \\
+& \sum_{i=1}^{n}x_{i} = 1 \\
+& \sum_{i=1}^{n} x_{short, i} \leq 0.5 \\
+& x = x_{\text{long}} - x_{\text{short}}\\
+& x_{\text{long}} \ge 0, \quad x_{\text{short}} \ge 0 
+\end{align}
+\qs{}{
+A covariance matrix is always positive semidefinite, which means that $ x^{T}\Sigma x \ge 0$ and that all eigenvalues are positive. Since all eigenvalues are $ \ge 0$ , that means that the function is nondecreasing in all principal directions. That means that $ \forall a,b: \quad f(a) + f(b) \le f(a+b) $  Thus, $ x^{T} \Sigma x $ is convex. 
+
+
+\[
+\bar p ^{T}x \ge r_{min}
+\]
+
+$ r_{min} $ is a scalar (constant), and $ \bar p^{T}x $ is a linear function ($ p_{1}x_{1} + p_{2} x_{2} + \dots $. Thus, this constraint is a linear inequality in x, which is convex. 
+\[
+\sum_{i=1}^{n} x_{\text{short}, i} \leq 0.5
+\]
+
+Is also convex because it is also a linear inequality.
+
+\[
+\sum_{i=1}^{n}x_{1} = 1 
+\]
+Is convex because it is affine.
+
+\[
+x = x_{long} - x_{short}
+\]
+This is convex because it is a linear transformation.
+
+Finally, the nonnegativity constraints are also linear. 
+
+Since the intersection of all of these convex sets are also convex, then the entire optimization problem is a convex one. 
+
+
+
+
+}
+
+
+
+
+\end{document}

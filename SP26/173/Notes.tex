@@ -865,5 +865,233 @@ $ T_{BG} $ has a geometric distribution, $ \sim geometric(.2) $. Therefore $ E[T
 \chapter{}
 \section{Lecture 11: 4 March 2026}
 
+Suppose $ \{X_{n}\} $ has stationary distribuion $ \pi $. 
+
+\begin{itemize}
+	\item Let $ X $ bc r.v $ X \sim \pi $ 
+	\item Let $ r $ be a function $ S \to \mathbb{R} $ s.t. $ r(x) $ be the cost when state is $ x $. 
+\end{itemize}
+
+\dfn{LRAC}{The long run average cost (LRAC) is:
+	\[
+	LRAC = \lim_{n\to \infty } \sum_{n=0}^{N}\frac{r(x_{n}}{N}
+	\]
+
+
+}
+
+\thm{When LRAC, exists, LRAC = $ E[r(x)] $}{
+\begin{align*}
+	LRAC &=  E[r(x)] \\
+	&= \sum_{i \in S}^{}r(i) \pi_{i} \\
+\end{align*}
+
+A sufficient condition for LRAC existence: 
+
+\begin{itemize}
+	\item $ \{X\} $ irreducible, positive recurrent and $ r $ bounded or linear.
+\end{itemize}
+}
+
+\cor{When $ r(x) $ is linear, $ r(x) = a +bx  $ then LRAC = $ a+bE[X], X \sim\pi $  }
+
+\cor{If you pay \$1 per unit time in state $ j $, 0 otherwise. Then $ r(x) = I\{X=j\} $ and LRAC = $ \pi_{j} $ } 
+
+\ex{}{
+Inventory: $ s=0, S=3 $ , 0 lead time, no back orders. $ X_{n} $ = inventory at start of day. Daily demand $ D_{i} $ i.i.d. and $ D_{i} \sim (.2, .4, .1, .3) $
+
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}[->,>=stealth',shorten >=2pt , line width =0.5pt, node distance =2cm]
+	\node [circle, draw] (1)  {1};
+	\node [circle, draw] (2) [right=of 1] {2};
+	\node [circle, draw] (3) [right=of 2] {3};
+
+	\path (1) edge [loop left] node [left] {$.2$} (1);
+	\path (1) edge [bend left=60] node [above] {$.8$} (3);
+	\path (2) edge [loop below] node [below] {$.2$} (2);
+	\path (2) edge [bend left] node [below] {$.4$} (1);
+	\path (2) edge [bend left] node [above] {$.4$} (3);
+	\path (3) edge [loop right] node [right] {$.5$} (3);
+	\path (3) edge [bend left] node [below] {$.4$} (2);
+	\path (3) edge [bend left=60] node [below] {$.1$} (1);
+	\end{tikzpicture}
+	\caption{Inventory Model}
+	\label{fig:Inventory Model}
+\end{figure}
+
+\nt{Because we only order when we get to 0 and only order at the end of the day, we can only go from $ 1 \to 1 $ and $ 1 \to 3 $. Similarity for 3. We can get to 3 with $ D_{i}=0  $ or $ D_{i}=3 $ because we can order at the end of the day.} 
+
+
+\[
+	\mathbb{P} = \begin{bmatrix}
+		.2 & 0 &.3 \\
+		.4 &.2 &.4 \\
+		.1 &.4 &.5
+	\end{bmatrix}
+\]
+
+
+We can solve the balance equations $ \pi = \pi P $. 
+
+\begin{align*}
+	\pi_{1} &= .2\pi_{1} + .4\pi_{2} + .1 \pi_{3}\\
+		&\vdots \\
+\pi &=  1 \\
+\end{align*}
+
+\[
+\pi = \left (\frac{1}{5}, \frac{4}{15}, \frac{8}{15}\right)
+\]
+\begin{align*}
+E[X] &= 1 \cdot \frac{1}{5} + 2 \cdot \frac{4}{15} + 3 \cdot \frac{8}{15} \\
+&= \frac{7}{3} \\
+&= 2.33 \\
+\end{align*}
+
+So the long run average holding cost if costs is $ \$2 $ unit/day: 
+
+\begin{align*}
+	E[r(x)] &= 2\cdot 1 \pi_{1} + 2 \cdot 2 \pi_{2} + 2 \cdot 3 \pi_{3} \\
+	&= 2E[X] \\
+	&= 4.67 \\
+\end{align*}
+
+So on average, we are paying $ \$4.67 $ per day in holding costs.
+
+}
+
+\ex{Extension of 7.1.1 with \href{fig:Inventory Model}{Inventory Model}}{
+What is LRAC w/ holding cost (h.c.) $ \$2 $ per unit per day, ordering cost $ \$3 $ per order + stockout cost = \$4 unit stocked out.
+
+\vspace{5mm}
+For ordering cost, need reorder rate (RR) = long run rate of transitions triggering an order.  Or in other words, long run proportion of days where demand is $ \ge $ supply .
+
+\begin{align*}
+	RR &=\pi_{1}(P(D_{i} \ge 1) + \pi_{2}(P(D_{i}\ge 2)) + \pi_{3}(P(D_{i} \ge 3)) \\
+	&= .8 \cdot \frac{1}{5} + .4 \cdot \frac{4}{15} + .3 \cdot \frac{8}{15} \\
+	&\approx .43  \\
+\end{align*}
+
+So the l.r average reorder cost is \$3 per order(.43 orders per day) = \$1.29 per day. 
+
+\vspace{5mm}
+Stock out cost: 
+
+We need long run average number of units stocked out. (SR) j
+
+\begin{align*}
+	SR &= \pi_{1}(1 P(D_{i}=2) + 2 P(D_{i} = 3)) + \pi_{2}\left( 2 P(D_{i}=3) \right) \\
+	&= \pi_{1}(.1 + 2 \cdot .3) + \pi_{2}(.3) \\
+	&= .22 \\
+\end{align*}
+
+We have on average 1 stock out every 4 days. Therefore LR average stock out cost is (\$4 per unit)(.22 units/day) = \$ .88 per day.
+
+\vspace{5mm}
+Now we have the total costs, we can start the analyze the policy and optimize for min costs.
+
+}
+
+\ex{$ S_{ij}  = P(\text{ever get to j} \mid X_{0} = i)$
+}{
+$ S_{ij}  = P(\text{ever get to j} \mid X_{0} = i)$
+
+\vspace{5mm}
+If $ j $ is recurrent and $ j \in R $. $ i $ is also recurrent. 
+
+\begin{item}
+\item 	If $ i, j $ is in the same recurrent class, then $ f_{ij} = 1 $ 
+\item If $ i \in R' \neq R $, then $ f_{ij} = 0 $, because recurrent classes are closed.
+\end{item}
+
+\vspace{5mm}
+If $ i $ transient and $ j$ recurrent , or $ j $ transient then we change to make absorbing so then it makes it recurrent. 
+
+\[
+T = \text{set of transient states}
+\]
+
+Let $ j\in R \forall i \in T$:
+
+Then 
+
+\begin{align*}
+	f_{ij} = \sum_{k \in T}P_{ik} f_{kj} + \sum_{k\in R}^{P_{ik}}  0
+\end{align*}
+Basically, if we go to a node in T, or go to the rccurent state, or go into another reccurent class. 
+}
+
+
+\chapter{}
+
+\subsection{Lecture 12: 9 March 2026}
+
+
+\chapter{}
+\section{Lecture 13: 11 March 2026} 
+
+\subsubsection{Exponential Distribution}
+
+\[
+f(x) = \lambda e^{-\lambda x }, x \ge 0 
+\]
+
+$ \lambda $ is the rate, and $ SD(X) = \frac{1}{\lambda} $ and $ \Var(X) = \frac{1}{\lambda^{2}} $ 
+Property: 
+\begin{enumerate}
+	\item $ X \sim exp(\lambda) \implies X $ memoryless (see Data 140 notes) k
+	\item $ P(X_1 < X_2) = P(\min(X_1, X_2)) = \frac{\lambda_{1}}{\lambda_{1} + \lambda _{2}}$ 
+	\proof{
+			\begin{align*}
+				P(X_1 < X_2) &= E[P(X_1 < X_2 \mid X_1)] \\
+				&= \int_{0}^{\infty } P(X_1 < X_2 \mid X=x)\lambda e^{-\lambda x} dx \\
+				&=  \int_{0}^{\infty} P(X_2 > X_1) \lambda_{1}e^{-\lambda_{1}x}dx   \\
+				&= \int_{0}^{\infty } e^{-\lambda_{2}x} \lambda_{1}e^{-\lambda_{1}x} dx \\
+				&= \frac{\lambda_{1}}{\lambda_{1} + \lambda_{2}} \\
+			\end{align*}
+		}
+
+	\item $ \min(X_{i}) = exp(\sum_{}^{}\lambda_{i} $ 
+
+		\proof{ Show that $ P(\min(X_{1}) > x)  \le e^{-\sum_{}^{}\lambda x}$. This is a tail distribution.
+
+			\begin{align*}
+				P(\min(X_{i} \ge x ) &= \prod P(X_{i} \ge x) \\
+				&= \prod e^{-\lambda_{i} x} \\
+				&= e^{-\sum_{}^{}\lambda_{i}x} \\
+			\end{align*}
+
+		}
+	\end{enumerate}
+
+
+Thus, $ EX_{t} = EX = \frac{1}{\lambda} $, while $ E[X \mid X > t] = t + \frac{1}{\lambda} $ 
+
+\ex{Post Office}{
+
+
+Post office serves based on $ exp(\lambda) $. Brown, Smith and Jones walk in, and they are served i.i.d.. What is the probability that Smith is the last to leave? 
+
+Jones and Brown are initally being served. 
+
+Suppose that Jones finishes first, and Smith comes in.
+They are actually equally likely to leave. $ \frac{1}{2} $ 
+
+
+\vspace{5mm}
+What is the probability that Jones is the last to leave? 
+
+Then it would be $ \frac{1}{4} $ by the memoryless property. 
+
+
+}
+
+\ex{Failure rates}{
+
+if $ X_{1} \sim ex(1), X_2 \sim ex(2)$
+
+then $ P(X_{1} < X_{2}) = \frac{1}{3} $ and the $ \min(X_1, X_2) \sim exp(3) $ 
+}
 
 \end{document}

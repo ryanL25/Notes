@@ -1,0 +1,140 @@
+
+\documentclass{report}
+
+\input{../../preamble}
+\input{../../macros}
+\input{../../letterfonts}
+
+\title{Assignment 06}
+\author{Ryan Lin}
+\date{}
+
+\begin{document}
+\maketitle
+\section{Question 1:}
+
+Let $ x = A_{1}u + b_1 $, $ y = A_{2}v +b_{2} $. 
+
+Original Optimization: 
+\begin{align*}
+\min_{u,v}: \quad & \lVert (A_1u + b_1) - (A_2v + b_2)\rVert_{2} \\
+\text{s.t}: \quad & \lVert u \rVert_{2}  \le 1 \\
+		  & \lVert v \rVert_{2} \le 1
+\end{align*}
+
+
+But this is not conic, which has the form $ \lVert Az + b\rVert_{2} \le c^{T}z +d $. 
+
+
+Use a variable $ t $ 
+\begin{align*}
+\min_{u,v,t}: \quad & t \\
+\text{s.t}: \quad & \lVert (A_1u + b_1) - (A_2v +b_2) \rVert_{2} \le t \\
+		  & \lVert u \rVert_{2} \le 1 \\
+		  & \lVert v \rVert_{2} \le 1
+\end{align*}
+
+
+We can show that this is a SOCP by defining $ z = \begin{bmatrix}
+	u \\
+	v\\
+	t
+\end{bmatrix} $ 
+\[
+\lVert (A_1u + b_1) - (A_2v +b_2) \rVert_{2} = \lVert \begin{bmatrix}
+	A_1 &-A_2 & 0
+\end{bmatrix} \cdot  z + \underbrace{b_1 - b_2}_{d}\rVert_{2} \le \begin{bmatrix}
+	0 &0 &1
+\end{bmatrix} \cdot z
+\]
+
+Constraint 2: 
+\[
+	\lVert \begin{bmatrix}
+		I_{2} &0 &0
+	\end{bmatrix} \cdot z \le 1
+\]
+Constraint 3: 
+\[
+	\lVert \begin{bmatrix}
+		0 &I_2 &0
+	\end{bmatrix} \cdot z \le 1
+\]
+
+
+\newpage
+
+\subsection{a}
+Let $ 1 = w^{T}w $, $ x=t, y= a^{T}x + b$
+
+Thus, 
+\begin{align*}
+	t(a^{T}x + b) \ge 1 &= xy \ge w^{T}w \\
+\end{align*}
+
+\begin{align*}
+	xy \ge w^{T}w \\
+	\left\lVert \begin{bmatrix}
+		2w\\
+		x-y
+	\end{bmatrix} \right \rVert_{2} \le x + y\\
+	\left\lVert \begin{bmatrix}
+		2\\ 
+		t - a^{T}x - b
+	\end{bmatrix} \right\rVert \ge t + (a^{T}x + b)
+\end{align*}
+
+From this, we can see that 
+
+\begin{align*}
+		x &=  \begin{bmatrix}
+		x\\
+		t
+	\end{bmatrix}\\
+A &= \begin{bmatrix}
+		0 & 0\\
+		-a^{T} & 1
+	\end{bmatrix}\\
+b&= \begin{bmatrix}
+	2\\
+	-b
+\end{bmatrix} \\
+c &= \begin{bmatrix}
+	a^{T} \\1
+\end{bmatrix} \\
+	d &= b
+\end{align*}
+
+\subsection{b}
+
+We can use the auxiliary variable $ t $ to help put this in standard form. 
+
+We add the constraints: 
+\begin{align*}
+	t_{i} &\ge \frac{1}{a_{i}^{T}x + b_{i}}\\
+	t_{i}(a_{i}^{T}x + b_{i}) \ge 1	
+\end{align*}
+
+This is the same form as part a. 
+
+\begin{align*}
+\min_{x, t}: \quad & \sum_{i=1}^{p} t_{i} \\
+\text{s.t}: \quad & t_{i}(a_{i}^{T}x + b_{i}) \ge 1, i=1,\dots,p\\
+		  &a_{i}^{T} + b_{i} > 0, i=1, \dots, p\\
+		  &c_{j}^{T}x + d_{j} \ge 0, j=1,\dots, q\\
+		  &t_{i} \ge 0, i=1, \dots,p
+\end{align*}
+
+Which can be rewritten as: 
+\begin{align*}
+\min_{x, t}: \quad & \sum_{i=1}^{p} t_{i} \\
+\text{s.t}: &\lVert Ax + b \rVert_{2} \le c^{T}x + b \\
+		  &a_{i}^{T} + b_{i} > 0, i=1, \dots, p\\
+		  &c_{j}^{T}x + d_{j} \ge 0, j=1,\dots, q\\
+		  &t_{i} \ge 0, i=1, \dots,p
+\end{align*}
+
+
+
+
+\end{document}

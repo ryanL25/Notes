@@ -206,11 +206,126 @@ Let $ N_i $ be the number of balls in bin $i$.
 
 We can change it into a product because $N_i \sim \Poisson(\lambda \cdot \frac{1}{m})$, where all $ N_i $ are i.i.d. 
 
+}
 
 
+\chapter{}
+\section{Week 7}
+
+\ex{ch 13, ex 1}{
+
+$ E[X] = 5, \Var(X) = 2$, $ E[Y] = -3, \Var(Y) = 7$ 
+
+Let $ W = 8X - 9Y + 10 $ 
 
 
+a.) Find $ E[W] $ and $ \Var(W) $  if X, Y independent
+
+\begin{align*}
+	E[W] &= E[8X - 9Y + 10] \\
+	&= 8E[X] - 9E[Y] + 10 \\
+	&= 40 + 28 + 10 \\
+	&= 78 \\
+\end{align*}
+
+\begin{align*}
+	\Var(W) &= \Var(8X - 9Y + 10) \\
+	&= \Var(8X - 9Y) \\
+	&= \Var(8X) + \Var(-9Y) + 2\Cov(8X, -9Y) \\
+	&=  \Var(8X) + \Var(-9Y) + 2 \Cov(8X, -9Y)\\
+	&= 64\Var(X) + 81\Var(Y) + 2\cdot 8 \cdot -9 \Cov(8X, -9Y) \\
+	&= 64(2) + 81(7) \\
+\end{align*}
+
+b.) Find them if $ \Cov(X,Y) = -1.5 $ 
+
+\[
+	E[W] = 78
+\]
+\begin{align*}
+	\Var(W) = 64(2) + 81(7) + 2\cdot 8 \cdot -9 \cdot -1.5
+\end{align*}
+
+\vspace{5mm}
+c.) If $ \Cov(X,Y) = -1.5 $, find $ \Cov(X,W) $ 	
+
+\begin{align*}
+	\Cov(X,W) &= \Cov(X, 8X - 9Y + 10)\\
+	&= \Cov(X, 8X) + \Cov(X, -9Y) + \Cov(X, 10) \\
+	&= 8\Var(X) -9 \Cov(X, Y) \\
+	&= 8(2) - 9(-1.5) \\
+\end{align*}
+
+}
+
+\ex{chp 13, ex 11}{
+	Fair coin tossed 300 times. $ H_{100} $ be number of heads in first 100 tosses, and $ H_{300} $ similarity. Find $ \Cov(H_{100}, H_{300}) $ 
 
 
+These are both binomial distributions.
+
+We can find covariance through
+\begin{enumerate}
+	\item definition
+	\item computational
+	\item bi linearity
+	\item indicators
+	\item independence
+\end{enumerate}
+
+
+\[
+H_{300} = H_{100} + H_{101-300}
+\]
+
+\begin{align*}
+	\Cov(H_{100}, H_{300}) &= \Cov(H_{100}, H_{100} + H_{101-300}) \\
+	&= \Cov(H_{100}, H_{100}) + \Cov(H_{100}, H_{101-300}) \\
+	&= \Var(H_{100}) + 0 \\
+	&= 100(\frac{1}{2})(\frac{1}{2}) \\
+\end{align*}
+
+We use independence here, because 100 and 101-300 do not overlap. 
+
+
+}
+
+\ex{chp 13, ex 15}{
+
+	Birthday question. Suppose $ n $ student in the class, and let $ X  $ be the number of days on which at least one student has a birthday. Find $ E[X] $ and $ \Var(X) $ 
+
+
+Use Indicators!!
+
+$ Y $ be the number of days with no birthdays
+
+\[
+I_{n} = \begin{cases}
+	1, \quad \text{if day n does not have a birthday}\\
+	0, \quad \text{otherwise}
+\end{cases}
+\]
+\[
+	X = 365- Y = 365 - \sum_{n=1}^{365}I_{n}
+\]
+
+
+\begin{align*}
+	E[X] &=365 -  \sum_{n=1}^{365}E[I_{n}] \\
+	&= 365 -\sum_{1}^{365} p  \\
+	&= 365 - 365 \cdot \left(\frac{364}{365}\right)^{n} \\
+\end{align*}
+
+\begin{align*}
+	\Var(X) &= \Var(365-Y) \\ 
+	&= \Var(-Y) \\
+	&= \Var(Y) \\
+	&= \Var(\sum_{n=1}^{365}I_{n}) \\
+	&= \Cov(\sum_{n=1}^{365}I_{n}, \sum_{n=1}^{365}I_{n}) \\
+	&= \sum_{i=1}^{365}\sum_{j=1}^{365}\Cov(I_{i}, I_j) \\
+	&= 365\Var(I_{1}) + 365 \cdot 364 \cdot \Cov(I_{1}, I_{2})\\
+	&= 365p(1-p) + 365 \cdot 364 \cdot E[I_1I_2] - E[I_1]E[I_2] \\
+	&= 365p(1-p) + 365 \cdot 364 \cdot \frac{363}{365} ^{n} -p^{2} \\
+\end{align*}
 }
 \end{document}

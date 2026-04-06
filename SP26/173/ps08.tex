@@ -1,0 +1,70 @@
+
+\documentclass{report}
+
+\input{../../preamble}
+\input{../../macros}
+\input{../../letterfonts}
+
+\title{}
+\author{Ryan Lin}
+\date{}
+
+\begin{document}
+\maketitle
+\section*{T/F}
+
+\begin{enumerate}
+	\item For the Gilbert Model of Transmission, the steady state distribution can be calculated by $ \pi = (\frac{q}{p+q}, \frac{p}{p+q})  $
+	\item The steady state distribution of the doubly stochastic Markov Chain is uniform. 
+	\item If $ \{X_1, X_2, \dots, X_{n}\} $ is an irreducible, positive recurrent chain, and $ r $ is bounded or linear, then this is a necessary condition for the existence of a LRAC
+	\item An Exponential distribution is memoryless. 
+	\item It is possible to exit a recurrent class.
+\end{enumerate}
+
+\subsection*{Key}
+\begin{enumerate}
+	\item True
+	\item True
+	\item False, it is a sufficient condition
+	\item True, use the survival function 
+	\item False, you stay in a recurrent class by definition
+\end{enumerate}
+
+\section*{Computational}
+
+The Department is considering a proposal to sell IEOR merch and would like to determine the optimal inventory model for backpacks to minimize Long Run Average Costs. They have a storage limit of 3 parcels of backpacks, and would want to know when they should order new backpacks. They are considering either adopting a (0, 3) or (1,3) policy. They project that daily demand $ D_{i} \sim (.2, .5, .3)$ is i.i.d., and that their holding costs is \$4 per parcel per day. They also have a \$10 stockout cost if a customer orders a backpack but they do not have any in stock.  
+
+\begin{enumerate}
+	\item What is the expected number of parcels in stock? 
+	\item What is the expected demand? 
+	\item Which policy would minimize LRAC? 
+\end{enumerate}
+
+\subsection*{Key}
+
+\begin{enumerate}
+    \item \textbf{Expected Demand:} 
+    \[ E[D] = 0(0.2) + 1(0.5) + 2(0.3) = 1.1 \text{ parcels.} \]
+
+    \item \textbf{Expected Parcels in Stock (Start of Day):}
+    \begin{itemize}
+        \item For $(0,3)$, $\pi = [\frac{25}{77}, \frac{24}{77}, \frac{28}{77}]$, $E[X] \approx 2.04$.
+        \item For $(1,3)$, $\pi = [0, \frac{5}{13}, \frac{8}{13}]$, $E[X] \approx 2.62$.
+    \end{itemize}
+
+    The LRAC is defined as $E[\text{Holding Costs}] + E[\text{Stockout Costs}]$.
+    \begin{itemize}
+        \item \textbf{LRAC for (0,3):} 
+        Expected Stockout $E[SC] = \pi_1 \cdot 10 \cdot P(D=2) = \frac{25}{77} \cdot 10 \cdot 0.3 \approx 0.97$.
+        Total $LRAC = 3.76 + 0.97 = \$4.73$.
+        
+        \item \textbf{LRAC for (1,3):} 
+        Expected Stockout $E[SC] = 0$ (since $X_{start} \ge 2$ and $D_{max} = 2$).
+        Total $LRAC = 6.03 + 0 = \$6.03$.
+    \end{itemize}
+The (0, 3) policy minimizes the Long Run Average Cost.
+\end{enumerate}
+\begin{align*}
+	E[T] = \frac{1}{\lambda} + \frac{\lambda}{\lambda + \mu } \cdot \frac{1}{\lambda} + \frac{\lambda}{\lambda +\mu }E[T]
+\end{align*}
+\end{document}

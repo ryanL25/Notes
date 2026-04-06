@@ -1600,7 +1600,7 @@ SD of the binomial is $ \sqrt{npq} $. q is approx 1, and np is approx $ \mu  $. 
 }
 
 \ex{SD of the hypergeometric}{
-$ X_1,X_2,X_3, \dots, X_{n}$ is a SRS from $ N $ numbers that have mean $ \mu  $ and SD $ \sigma $. 
+$ X_1,X_2,X_3, \dots, X_{n}$ is a SR'S from $ N $ numbers that have mean $ \mu  $ and SD $ \sigma $. 
 
 $ S_{n} = X_1 + X_2 + \dots + X_{n} $ 
 
@@ -1633,11 +1633,1066 @@ In general, for a sample size $ n $,
 
 This says that if we sample without replacement, the error is lower. This fraction is pretty close to 0. 
 
-Varaince of the hypergeometric:
+Variance of the hyper geometric:
 \[
 n \cdot \frac{G}{N} \cdot \frac{B}{N} \cdot \left( 1-\frac{n-1}{N-1} \right) 
 \]
 
 
 }
-\end{document}
+
+
+\chapter{}
+\section{Lecture 13: 05 March 2026}
+What are the shapes of distributions? 
+
+\subsection{The General Argument for sums}
+
+$ X,Y  $ and $ S = X+Y $ 
+
+What is the $ P(S=k) $
+
+\[
+P(S=k) = \sum_{\forall x}^{}P(X=x, Y=k-x)
+\]
+
+If the two r.v $ X,Y $ are independent, then $ \sum_{\forall x}^{}P(X=x)P(Y=k-x) $ 
+
+\noindent
+Take $ k=4 $, where $ X,Y $ are non neg integer valued. 
+
+$ S=4 $, then $ X,Y = \{(0,4), (1,3), (2,2), (3,1), (4,0)\} $  
+
+\subsubsection{Using Polynomials and linking them to probability}
+
+Let $ X $ have values $ 0,1,2,\dots, N $ (finite). 
+
+\noindent
+Define the probability generating function of $ X $:
+\begin{align*}
+	G(s) &= p_{0} + p_{1}s + p_{2}s^{2} + \dots + p_{n}s^{n} \quad \text{where } p_{k} = P(X=k) \\ 
+	&= E[s^{X}] \\
+\end{align*}
+\noindent
+Suppose $ G(s) = 0.2s + 0.3s^{4} + 0.5s^{5} $ 
+
+The power denote the values, and then the coefficients are the probability. Its basically a way of writing the distribution table; an abstraction. 
+
+\ex{Sums of PGFS}{
+
+$ X: G_{x}, Y: G_{y}$, where $ X \perp Y $. Let $ S = X+Y $ 
+
+\vspace{5mm}
+What is the pgf of S? 
+\begin{align*}
+	G_{S}(s) &= E[s^{S}] \\
+	&= E[s^{X+Y}] \\
+	&= E[s^{X}s^{Y}] \\
+	&= E[s^{X}]E[s^{Y}] \quad \text{by independence} \\
+	&= G_{x}(s)G_{y}(s) \\
+\end{align*}
+
+
+Now take $ X_1, X_2, \dots X_{n} $ i.i.d.
+
+\[
+G_{X_1 + X_2}(s) = \left(G_{X_1}(s)\right)^{2}
+\]
+
+Therefore, 
+
+\[
+G_{S_{n}}(s) = (G_{X_1}(s))^{n}
+\]
+}
+
+
+This eventually gives us the central limit theorem. The sum of i.i.d. random variables tries to become normal, through pgfs.
+
+\dfn{Normal Curve}{
+
+Standard normal curve:
+\[
+\phi(z) = \frac{1}{\sqrt(2\pi)}e^{-\frac{1}{2}z^{2}}, \quad -\infty < z < \infty 
+\]
+The point of inflexion for the standard normal curve are at -1 and 1. For a generic normal curve, the center is $ \mu  $ and the inflexion points are $ \mu  \pm \sigma $. 
+
+This is because $ z = \frac{X - \mu }{\sigma} $, or $ X = \sigma Z + \mu  $ (Your original number is Z stdevs above average.) 
+
+Standard normal cdf: 
+
+\[
+	\Phi(z) = \text{all the area to the left of } z = \int_{-\infty}^{z} \frac{1}{\sqrt{2\pi}} e^{-\frac{1}{2}s^{2}}ds
+\]
+
+\nt{Don't use the same variable for bounds and variable lol} 
+}
+\thm{Central Limit Theorem}{
+
+	Sums of i.i.d. random variables converge to the normal distribution when in standard units. 
+
+
+CLT: $ X_1, X_2, \dots, X_{n} $ i.i.d. mean $ \mu  $, SD $ \sigma $ 
+
+\[
+S_{n} = X_1 + X_2 + X_3 + \dots +X_{n}
+\]
+
+For large n, the distribution of $ S_{n} $ is roughly normal.
+
+\[
+	\mu_{s_{n}} = n \mu, SD(S_{n}) = \sqrt{n}\sigma
+\]
+
+}
+\dfn{weak law of large numbers}{
+
+
+Looking at $ \overline{X}_{N} $: 
+
+This will be centered at $ \mu  $ and have a standard deviation of $ \frac{\sigma}{\sqrt{n}} $ 
+
+If you increase $ n $, then this becomes the "law of averages" or the weak law of large numbers. 
+
+\[
+	P(|\bar{X}_{n} - \mu | > \epsilon) \to 0 \quad n\to \infty 
+\]
+
+The probability of the distance from the sample mean from the true mean goes to 0 as the number of samples go up.
+
+
+\proof{
+
+Using Chebyshev's inequality.
+\begin{align*}
+	P(|\bar X _{n} - \mu  | > \epsilon) &\le   \frac{\sigma^{2} }{n\epsilon^{2}} \to 0
+\end{align*}
+
+
+
+}
+
+
+\begin{align*}
+	P(\mu  - 2 \frac{\sigma}{\sqrt{n}} &< \bar{X}+n < \mu  + 2 \frac{\sigma}{\sqrt{n}})\approx 0.95 \\
+					   &= P(|\bar X _{n} - \mu | < \frac{2\sigma}{\sqrt{n}} \\
+\end{align*}
+
+so $ .95 \approx P(\mu  \in (\bar X _{n} \pm 2 \frac{\sigma}{\sqrt{n}}) $ 
+
+This is a 95\% confidence interval for the population mean. 
+}
+\chapter{}
+\section{Continuous Probability Functions}
+
+
+Started Late in lecture... 
+
+
+Interpretation for $ f(x) $ is the density at x. It is the probability that we are very close to x. 
+
+\[
+f(x) \sim \frac{P(X \in dx)}{dx}
+\]
+
+It is a probability per unit length. $ f(x) $ in general, is the length of where things of distributed. No matter how narrow, we have data. 
+
+
+\[
+P(a \le X \le b) = \int_{a}^{b} f(x)dx 
+\]
+
+This is exactly the same as $ \sum_{k=a}^{b} P(X=k) $ 
+
+
+\subsection{Expectation}
+
+\begin{align*}
+	E[g(x)] &= \int_{-\infty }^{\infty } g(x) \cdot f(x) dx \\
+\end{align*}
+
+Value $ g(x) $ times probability ($ f(x)dx $) 
+
+We started out saying that the density integrates to 1. Now here, we don't know what $ g(x) $ integrates to. It might not need to exist.
+
+However, provided that the integral is finite:
+
+Conditions for a well defined, finite integral
+\begin{enumerate}
+	\item if $ \int_{-\infty}^{\infty} |g(x)f(x)| dx < \infty $, then $ \int_{-\infty}^{\infty} |g(x)| f(x)dx < \infty  $. 
+\end{enumerate}
+
+
+This is the expectation of $ E[|g(x)|] $, which is still $ < \infty  $. Thus before finding expectations, we should find the expectation of the absolute value of the function, to see if the integral exists. 
+
+
+\subsection{Exponential Model}
+$ T $ is an expoential distribution with rate $ \lambda $ if the density of $ T $ is 
+
+\[
+f(t) = \lambda e^{\lambda t}, t \ge 0 
+\]
+
+CDF: 
+\[
+F(t) = \int_{0}^{t} \lambda e^{\lambda s}ds = 1- e^{-\lambda t}
+\]
+
+\subsubsection{ Survival Function:} 
+
+\[
+S(t) = P(T  t) = 1 - F(t) = e^{-\lambda t}, t> 0
+\]
+
+\paragraph{Why Survival?} It is a morbid way of saying that it is the chance that it survives past time $ t $. It is an exponential decay function, where the intersect at $ \frac{1}{n} $. The time $ t $ where it intersects is the median of the distribution.
+
+
+\ex{}{
+$ t,s >0 $ 
+
+Find $ P(T > t + s \mid T> t) $ 
+
+\begin{align*}
+	P(T> t + s \mid T > t) &= \frac{P(T > t + s, T > t)}{P(T>t)} \\
+	&= \frac{P(T> t+s)}{P(T>t)} \\
+	&= \frac{e^{-\lambda (t+s)}}{e^{-\lambda t}} \\
+	&= e^{\lambda s} \\
+	&= P(T > s) \\
+\end{align*}
+
+This is called the memoryless property. Geometric distribution also has this property. 
+
+This model should only be used for things that die instantaneously or something very very very old. 
+}
+
+\ex{Expectation}{
+\begin{align*}
+	E[T] &= \int_{0}^{\infty } t \lambda e^{- \lambda t} dt  \\
+	&= \frac{1}{\lambda} \\
+	E[T^{2}] &= \int_{0}^{\infty }t^{2}\lambda e^{-\lambda t}dt \\
+	&= \frac{2}{\lambda ^{2}} \\
+	\Var(T) = \frac{2}{\lambda^{2}} - \frac{1}{\lambda ^{2}}
+	&= \frac{1}{\lambda^{2}} \\
+\end{align*}
+
+}
+
+
+
+\chapter{}
+\section{Lecture 15: 12 March 2026} 
+
+We looked at a uniform $ (0,1) $ distribution last time, which a flat density between 0 and 1. 
+
+We also looked at exp$ \lambda $, which was a exponential decreasing distribution like the geometric one. It was found with $ f(t) \ \lambda e^{-\lambda t} $ 
+
+\ex{Transformations of the uniform distribution}{
+For the uniform distribution ($ u $ ): 
+
+Take $ x_1 = (b-a)u $. When we do this, we chance the scale of the function, and it is still a uniform distribution.  The hie hgt is $ \frac{1}{b-a} $ 
+
+Let $ X_2 = a + X_{1}$. Then it is a similar concept. Our domain thus becomes $ [a,b] $  . The high still is $ \frac{1}{b-a} $. Thus $ X_2 \sim uniform(a,b)$
+
+There is thus only 1 uniform distrubtion. All others are linear transformations of that distribution. 
+}
+
+
+\ex{Transformations of exp distribution}{
+
+Let $ T \sim exp(\lambda) $ 
+
+Then $ E[T] = \frac{1}{\lambda} $. Thus $ \lambda $ is known as the death rate. If it is large, then the thing dies fast. 
+
+
+\[
+X_{c} = cT
+\]
+\[
+E[X_{c}] = cE[T] = \frac{c}{\lambda}
+\]
+cdf of $ X_{c} $ 
+\[
+F(x) = P(X_{c \le x}) = P(T \le \frac{x}{c})
+\]
+
+Write the probability in terms of things we know. 
+
+\[
+	P(T \le \frac{x}{c}) = 1 - e^{-\lambda (\frac{x}{c})} = 1-e^{-\frac{\lambda}{c}x}
+\]
+
+This is an exponential distribution. $ X_{c} \sim exp(\frac{\lambda}{c}) $ 
+
+Take $ c = \lambda$, then $ X_{\lambda} \sim exp(1) $ 
+
+Just like the uniform distribution, there is only a base distribution, where $ \lambda $ gives us a base unit or time. This is called the fundamental distribution.
+}
+
+Given a linear function with $ X:  $ density $ f_{x} $ and $ Y = aX + b $. What is $ f_{y} $?
+
+\dfn{Linear Change of Variables for Density}{
+Take $ Y = 2X $, $ a=2, b=0 $ 
+
+When $ x=0, y=0$, $ x=1, y=2 $, $ x=2, y=4 $ 
+
+\nt{X and Y are not integer valued, they have densities}
+
+We have stretched out the scale of x by 2.
+
+\begin{align*}
+	f_{y}(y) &= \underbrace{\frac{1}{|2|}}_{\text{density}} \cdot f_{x}(\frac{y}{2}) \\
+\end{align*}
+
+this happens because $ y=ax + b, x = \frac{y-b}{a} $ 
+
+In general, 
+
+\[
+f_{y}(y) = \frac{1}{|a|} f_{x} (\frac{y-b}{a}
+\]
+$a  $ is the stretch/shrink factor. 
+
+This is the linear change of variables for densities. 
+}
+\ex{applying to exp}{
+
+	$ T: exp(\lambda) $, $ X = cT $, $ c>0 $ 
+
+
+\begin{align*}
+	f_{X}(x) &= \frac{1}{\vert c \vert} f_{T} (\frac{x}{c}) \\
+	&= \frac{1}{c} \lambda e^{\lambda (\frac{x}{c)}} \\
+	&= \frac{\lambda}{c} \cdot e^{\frac{\lambda}{c} x} \\
+	\sim exp(\frac{\lambda}{c})
+\end{align*}
+
+
+
+}
+
+\ex{applying to normal}{
+	$ Z $ : normal (0,1), $ \phi(z) = \frac{1}{\sqrt{2\pi}} e^{-\frac{1}{2} z^{2}} $ 
+
+
+	\[
+		X = \sigma Z + \mu
+	\]
+
+$ Z = \frac{x-\mu }{\sigma} $ 
+\begin{align*}
+	f_{X}(x) &= \frac{1}{\sigma} \phi(\frac{x-\mu }{\sigma})  \\
+		 &= \frac{1}{\sqrt{2\pi} \sigma} e^{-\frac{1}{2} \cdot \left( \frac{x-\mu }{\sigma} \right) ^{2}}  \\
+		 &\sim normal(\mu , \sigma^{2}) 
+\end{align*}
+
+
+}
+
+
+\dfn{}{
+$ Y = g(x) $ where $ g $ is smooth increasing function. 
+
+Goal: Find the density of $ Y $. 
+
+\begin{align*}
+	F_{y}(y) &= P(Y \le y) \\
+	&= P(g(x) \le y) \\
+	&= P(X \le g^{-1}(y)) \\
+	&= F_{x}(g^{-1}(y)) \\
+\end{align*}
+
+because $ g(x) $ is strictly increasing, $ g^{-1} (x) $ also is increasing. $ g(x) $ has an inverse because it is one to one due to strictly increasing. 
+
+\begin{align*}
+	f_{Y}(y) &= \frac{d}{dy} F_{y}(y) \\ 
+&= \frac{d}{dy} F_{x}(g^{-1}(y) \\
+&= f_{x}(g^{-1}(y)) \cdot \frac{d}{dy} g^{-1}(y)\\
+\end{align*}
+
+This is a perfectly fine formula, however we can put it in a more usable form. 
+\begin{align*}
+&= \frac{f_{X}(x)}{\frac{d}{dx} g(x)}dx = g^{-1}(y)  \quad \text{at} \quad  x= g^{-1} (y) \\
+\end{align*}
+
+}
+
+\ex{Increasing Function}{
+	$ X : exp(\frac{1}{2}) $, $ Y = \sqrt{x} $ 
+
+	Find $ f_{Y} $ 
+
+\begin{align*}
+	&g(x) = \sqrt{x} \\
+	&g^{-1}(y) = y^{2} \\
+	&f_{x} (x) = \frac{1}{2} e^{-\frac{1}{2} x}, x > 0 \\
+	&\frac{d}{dx} g(x) = \frac{1}{2\sqrt{x}}
+\end{align*}
+
+\begin{align*}
+	f_{Y}(y) &= \frac{\frac{1}{2}e^{-\frac{1}{2} x}}{\frac{1}{2\sqrt{x}}}, \text{at $ x=y^{2} $ } \\
+		 &= \sqrt{x} e^{-\frac{1}{2}x}, \text{at $ x=y^{2} $ }\\
+		 &= ye^{-\frac{1}{2}y^{2}} \\
+\end{align*} 
+
+This is Rayleigh.
+}
+
+\ex{Decreasing function}{
+g is smooth decreasing. 
+
+
+\begin{align*}
+	f_{Y}(y) &= \frac{f_{X}(x)}{\vert \frac{d}{dx}g(x) \vert} , \text{at $ x = g^{-1}(y) $ } \\
+\end{align*}
+
+}
+
+\subsection{Quick and Dirty method to calculate this} 
+
+\[
+P(X \in dx) \sim f_{x}(x) dx
+\]
+\[
+P(y \in dy) \sim f_{Y}(y) dy
+\]
+
+\[
+P(Y \in dy) \sim P(X \in dx), \quad \text{for $ x = g^{-1}(y) $ }
+\]
+
+Then, 
+\[
+f_{Y}(y)dy \sim f_{x}(x)dx, \quad \text{for $ x = g^{-1}(y)  $ }
+\]
+\[
+f_{Y}(y) = \frac{f_{X}(x)}{\frac{dy}{dx}}, \text{at $ x=g^{-1}(y) $ }
+\]
+
+\ex{2 to 1 Function}{
+$ Y = X^{2} $ poses a problem because it is not 1 to 1. Taking a value y has two $ x $ values. 
+
+\begin{align*}
+	f_{Y}(y) &= \frac{f_{x}(\sqrt{y})}{2\sqrt{y}} + \frac{f_{X}(-\sqrt{y})}{|2(-\sqrt{y})|} \\
+\end{align*}
+
+$ x=\sqrt{y} $ 
+
+Let $ X = $ standard normal. We commonly do this to find the squared error terms.
+
+\begin{align*}
+	f_{y}(y)  &= \frac{\frac{1}{\sqrt{2\pi}}e^{-\frac{1}{2}y}}{2\sqrt{y}} + \frac{\frac{1}{\sqrt{2\pi}} e^{-\frac{1}{2}y}}{2\sqrt{y}} \\
+		  &= \frac{1}{\sqrt{2\pi}} y^{-\frac{1}{2}}e^{-\frac{1}{2}y} \\
+\end{align*}
+
+After this is uunmotivated algebra, but still correct.
+
+\begin{align*}
+	&= \frac{\frac{1}{2}^{2}}{\sqrt{\pi}} y^{\frac{1}{2}- 1} e^{-\frac{1}{2}y} \\
+\end{align*}
+}
+
+
+\chapter{}
+\section{Lecture 16: 17 March 2026} 
+
+How to calculate things when we have a jointly distributed continuous random variables?
+
+When we move from 1d to 2d, our possible values become a whole plane. Thus, a third dimension is needed to see the probabilities. Thus, probabilities are volumes here. 
+
+Think about contour plots, 3d histograms, hex plots, etc. 
+
+$ (X,Y) $ possible values are on the $ (x,y) $ plane, and the probabilities are volumes. 
+
+
+$ X $ and $ Y $ have joint density $ f: \mathbb{R}^{2} \to [0, \infty ) $ 
+\begin{itemize}
+	\item $ f(x,y) \ge 0 \forall x,y$ 
+		The floor is always my x,y plane. 
+	\item $ \int_{-\infty}^{\infty}\int_{-\infty}^{\infty}  f(x,y) dx dy = 1$ 
+	\item $ P((X,Y) \in A) $, where $ A $ is a region on the plane, is $ \iint_{A}f(x,y)dxdy $ 
+\end{itemize}
+
+
+\[
+P(X=Y) 
+\]
+
+
+This is the $ y=x $ line. Thus the probability is the volume under that sheet of the line, which is 0. 
+
+\[
+P(X=Y) = 0
+\]
+
+This is analogous to the single variable case of $ P(X=10) = 0 $. There is no area/volume over a point/line. 
+
+Similarly, in a single variable, we said $ P(X \in dx) \sim f_{X}(x)dx \sim \frac{P(X \in dx)}{dx} $ 
+
+Thus, here we say 
+\[
+	P(X \in dx, Y \in dy) \sim \underbrace{f(x,y)}_{\text{height}} \cdot \underbrace{dxdy}_{\text{base area}}
+\]
+
+\[
+f(x,y) \sim \frac{P(X \in dx, Y \in dy)}{dxdy}
+\]
+
+The density is thus the probability per unit area. 
+
+
+\ex{}{
+\[
+P(x,y) = 24(x-y)y, 0<y<x<1 \text{0, elsewhere}
+\]
+All of the points are on the unit square. Moreover, $ x > y $, which means that this is the bottom half of the unit square. 
+
+\nt{If the domain space is not rectangle-like, there is automatically dependence}
+
+X first
+\begin{align*}
+	\int_{0}^{1} \int_{y}^{1} f(x,y) dxdy &= \int_{0}^{1}\int_{y}^{1} 24(x-y)y dxdy \\
+\end{align*}
+
+\vspace{5mm}
+Y first
+\begin{align*}
+	\int_{0}^{1}\int_{0}^{x}f(x,y)dydx
+\end{align*}
+
+\nt{This is just geometry, not calculus :D}
+
+We verify that this is a density. 
+
+\[
+P(X > 3Y)
+\]
+
+\begin{align*}
+	P(X > 3Y) &=  \int_{0}^{\frac{1}{3}} \int_{3y}^{1} 24y(x-y) dxdy \\
+\end{align*}
+}
+
+\ex{Expectations}{
+\[
+E[g(X,Y)], f(x,y) = 24y(x-y)
+\]
+\begin{align*}
+	E[g(X,Y)] &= \int_{-\infty}^{\infty}\int_{-\infty}^{\infty}g(x,y) f(x,y) dxdy  \\
+	&=  \int_{0}^{1}\int_{y}^{1}g(x,y) f(x,y) dxdy\\
+\end{align*}
+}
+\ex{Marginal Density of X}{
+We want $ f_{X}(x) $, but we only have $ f(x,y)$ 
+
+Therefore, we add up over all y 
+
+\begin{align*}
+	f_{X}(x) &=	\int_{-\infty}^{\infty} f(x,y) dy \\
+\end{align*}
+
+In here, $ y $ varies while everything else is a number. 
+}
+
+\ex{Conditional Density of X, "given Y=y"}{
+\begin{align*}
+	f_{X \mid Y=y} (x) &= \frac{f(x,y)}{f_{Y}(y)} \\
+\end{align*}
+
+\nt{We said $ Y=y $ is 0, therefore we have to look at it somewhat differently. 
+
+	\begin{align*}
+	P(X \in dx \mid Y \in dy) \sim \frac{P(X \in dx, Y \in dy)}{P(Y \in dy)} &= \frac{f(x,y)dxdy}{f_{Y}(y)dy} \\
+	&= \frac{f(x,y)dx}{f_{Y}(y)} \\
+	\end{align*}
+}
+}
+\ex{Independence}{
+
+\begin{align*}
+	f_{X \mid Y=y}(x) &= f_{X}(x) \\
+	&\implies \frac{f(x,y)}{f_{Y}(y)} = f_{X}(x) \\
+	&\iff f(x,y) = f_{X}(x)f_{Y}(y)
+\end{align*}
+
+
+}
+
+\ex{}{
+$ X: exp(\lambda), Y: exp(\mu ) $ 
+
+
+\[
+P(Y > X)
+\]
+
+\begin{align*}
+	P(Y > X) &= \int_{0}^{\infty }\int_{x}^{\infty }\lambda e^{-\lambda x} \mu e^{-\mu y}dydx \\
+	&= \int_{0}^{\infty }\lambda  e^{-\lambda x} \int_{x}^{\infty } \mu e^{-\mu y}dy dx \\
+	&= \int_{0}^{\infty }\lambda e^{-\lambda x} \underbrace{P(Y > x)}_{\text{survival}} \\
+	&= \int_{0}^{\infty } \lambda e^{- \lambda x}e^{-\mu x} dx \\
+	&= \frac{\lambda}{\lambda + \mu } \int_{0}^{\infty } (\lambda + \mu ) e^{- (\lambda +\mu ) x} \\
+	&= \frac{\lambda}{\lambda + \mu } 1 \\
+\end{align*}
+
+This is the exponetnial($ \lambda + \mu  $ )
+
+}
+
+\chapter{}
+
+\section{Lecture 17: 19 March 2026}
+
+What is the joint density of: 
+
+\[
+f(x,y) = 24(x-y)(y), \quad 0<y<x<1
+\]
+
+We take $ U_1, U_2, U_3, U_4 $ i.i.d. uniform(0,1). When we graph these on a number line, we don't know which is which. This can be solved with something that we call an Order Statistic. 
+
+\[
+	U_{(k)} = \text{kth small of $ U_1,U_2,U_3 $ }
+\]
+
+We thus see a labelling of order statistics on the number line, where $ U_1 = min, U_{n} = max $ 
+
+we then find the Joint density of $ U_{(2)} $ and $ U_{(4)} $ 
+
+
+\begin{align*}
+	P(U_{(2)} \in dy, U_{4} \in  dx)
+\end{align*}
+
+
+On the number line, 1 of the $ U $ has to be in the interval 0 to dy, one in dy, one in dy - dx and the last in dx. We now have 4 darts, and see where the darts are falling in different intervals. 
+
+
+We have thus split the unit interval into 5 different categories (1,1,1,1,0). This is the multinomial distribution. 
+
+
+\begin{align*}
+	P(U_{(2)} \in dy, U_{(4)} \in dx) &= \frac{4!}{1!1!1!0!} \cdot y^{1}(1 dy)^{1}(x-y)^{1}(1dx)^{1}(1-x)^{0} \\
+	&= 24 \cdot y (x-y) dxdy \\
+\end{align*}
+
+Joint Density of $ U_{(2)}, U_{(4)} $, which is probability per unit area ($ dxdy $). Which means the probability is 
+
+\[
+f(x,y) = 24y(x-y)
+\]
+
+
+\ex{Density of $ U_{(3)} $ }{
+We need 1 in dx, then 2 before it, and 1 afterwards. 
+
+\begin{align*}
+	P(U_{(3)} \in dx) &= \frac{4!}{2!1!1!} x^{2} (1dx)^{1} (1-x)^{1}  \\
+	&= 12 x^{2} (1-x) dx \\
+\end{align*}
+
+\[
+f_{U_{(3)}} = 12 x^{2}(1-x)
+\]
+
+This is the Beta(3,2) distribution. This is used to model a random probability. 
+}
+
+\dfn{Beta Density}{
+
+beta(r, s) density, where $(r,s)$ are positive integers (for now). 
+
+\begin{align*}
+	f(x) &= \underbrace{C(r,s)}_{\text{constant}} x^{r-1} (1-x)^{s-1}, \quad 0< x< 1\\
+	&= \frac{(r+s-1)!}{(r-1)!(s-1)!} x^{r-1} (1-x)^{s-1} \\
+	&= \frac{\Gamma(r+s)}{\Gamma(r)\Gamma(s)} x^{r-1}(1-x)^{s-1} \\
+\end{align*}
+
+The uniform (0,1) = beta(1,1)
+
+This family can express many opinions (distributions), such as a fair or unfair coin. 
+
+\vspace{5mm}
+For expectations, we know 
+
+
+\begin{align*}
+	\int_{0}^{1}x^{r-1} (1-x)^{s-1} &= \frac{(r-1)!(s-1)!}{(r+s-1)!}, \forall \text{positive integers r,s} \\
+\end{align*}
+
+\begin{align*}
+	E[X] &= \int_{0}^{1}x \cdot C(r,s) x^{r-1}(1-x)^{s-1}dx \\
+	&= C(r,s) \int_{0}^{1} x^{(r+1) - 1}(1-x)^{s-1}dx \\
+	&= \frac{(r+s-1)!}{(r-1)!(s-1)!} \cdot \frac{((r+1) - 1)! (s-1)!}{(r+1+s-1)!} \\
+	&= \frac{r}{r + s} \\
+\end{align*}
+
+}
+
+\subsection{Property of the Standard Normal}
+
+\[
+	\Phi(z) = \frac{1}{\sqrt{2\pi}} e^{-\frac{1}{2}z^{2}}
+\]
+The Rayleigh is $ f(r) = re^{-\frac{1}{2}r^{2}}, r > 0 $. We had this example when we were doing change of variables when $ R = \sqrt{T} $ and $ T : exp(\frac{1}{2}) $, which resulted in $ R $ being Rayleigh. 
+
+If we take $ X, Y $ i.i.d. Standard normal. 
+
+Their joint density is $ \frac{1}{2\pi} e^{-\frac{1}{2} (x^{2} + y^{2})} $. This $ R^{2}= x^{2} + y^{2} $ is also Rayleigh. See the textbook for details. 
+
+We need to check if the normal has a mean. J
+\begin{align*}
+	E[|Z|] &= \int_{-\infty}^{\infty}\vert z \vert \cdot \frac{1}{\sqrt{2\pi}e^{-\frac{1}{2}z^{2}}}dz \\
+	       &=  2 \int_{0}^{\infty } z \frac{1}{\sqrt{2\pi}} e^{-\frac{1}{2}z^{2} dz} , \quad \text{even function}\\
+	       &= \frac{2}{\sqrt{2\pi}} \underbrace{\int_{0}^{\infty } z e^{-\frac{1}{2} z^{2}}dz}_{\text{Rayleigh density}} \\
+	       &=  \frac{2}{\sqrt{2\pi}} 1\\
+\end{align*}
+
+This implies $ E[Z] $ exists, and an Z is an odd function symmetrical around 0, therefore it is 0.
+
+
+
+R : Rayleigh, $ R^{2} \sim exp(\frac{1}{2} $. So $ E[R^{2}] = 2 = E[X^{2} + Y^{2}] =  E[X^{2}] + E[Y^{2}] = 2E[X^{2}] $ 
+
+therefore $ E[X^{2}] = 1, \Var(X) = E[X^{2}] - 0^{2} = E[X^{2}] $ 
+
+\subsection{Sums} 
+$ X \sim normal(\mu _{x}, \sigma_{x}^{2})$, $ Y \sim normal(\mu _{y}, \sigma_{y}^{2} $. $ X \perp Y $ 
+
+$ S = X + Y$
+
+\[
+	E[S] = \mu _{x} + \mu _{Y}
+\]
+
+\[
+\Var(S) = \sigma_{X}^{2} + \sigma_{Y}^{2}
+\]
+
+The question is what is the shape of S? It will also be normal. 
+
+
+
+\chapter{}
+\section{Lecture 18: 31 March 2026}
+
+Working with continuous distributions. Previously working with discrete r.v.s. We are introducing another tail bound. But why do we care? 
+
+\begin{itemize}
+	\item Algorithms are often randomized and not deterministic. 
+	\item needs to face the fact that random picks could be badly wrong. need to figure out what the chance of being badly wrong is, and minimize that chance. 
+\end{itemize}
+
+\subsection{Recap:}
+
+$ X,Y $, $ S = X+Y $ 
+
+\[
+P(S=s) = \sum_{x}^{}P(X =x, Y=s-x)
+\]
+
+If $ X $ and $ Y $ are independent, then this becomes: 
+
+\[
+P(S=s) = \sum_{x \in X}^{} P(X=x)P(Y=s-x)
+\]
+
+
+In Density Case: 
+\[
+f_{S}(s) = \int_{-\infty }^{\infty }  f(x, s-x) dx
+\]
+
+If $ X \perp Y $ 
+
+\[
+F_{S}(s) = \int_{-\infty}^{\infty}f_{X}(x) f_{Y}(s-x) dx
+\]
+
+Convolution Formulas. It can be a pain to calculate, yet you have a machine.  
+
+\subsection{Moment Generating Function}
+
+A Moment of $ X $: 
+
+$ E[X] $ is the first moment of $ X $. This comes from a physics moments of inertia. 
+
+$ E[X^{2}] $ is the second moment 
+
+$ E[X^{k}] $ is the $ k $ th moment, where $ k $ is non negative integer 
+
+
+This is all assuming that the moments exist. 
+
+
+
+\dfn{Moment Generating Function (mgf)}{
+
+\[
+M_{X}(t) = E(e^{tX}, \text{provided} E[e^{tX}] < \infty 
+\]
+Compare: If $ X $ has value $ 0,1,2\dots $ 
+
+Pgf: $ G_{X}(s) = E(s^{X})$  
+
+This is a parallel. In the generating function, $ s $ is analogous to $ e^{t} $ 
+
+
+Moment Generating Function always exists at $ t=0 $, and it is always $ 1 $ 
+
+\vspace{5mm}
+Facts: 
+\begin{itemize}
+	\item The domain of the mgf is an interval. 
+	\item If $ M_{X}(t) $ exists for $ t $ in any neighborhood around $ t=0 $, then the MGF determines the distribution of $ X $ 
+\end{itemize}
+
+
+\[
+M_{X}(t)  = E[1 + \frac{tX}{1!} + \frac{t^{2}x^{2}}{2!} + \frac{t^{3}x^{3}}{3!} + \dots]
+\]
+this is using the taylor series for e. However, there is a need for math needed for this (infinite sums)
+
+
+\begin{align*}
+	&= 1 + \frac{tE[X]}{1!} + \frac{t^{2}E[X^{2}]}{2!} \\
+\end{align*}
+
+\begin{align*}
+	M_{X}'(0) &= \frac{d}{dt} M_{X}(t)\vert_{t=0} \\
+	&= E[X] + \frac{2t E[X^{2}]}{1!} + \dots \\
+	&= E[X] \\
+\end{align*} 
+
+This is the first moment.
+
+\begin{align*}
+	M_{X}''(0) &= \frac{d}{dt} E[X] + \frac{t E[X^{2}]}{1} + \dots \\
+	&= E[X^{2}] \\
+\end{align*}
+
+This is the second moment. Thus, this is why we say that this generates the moments. Thus, if we have the mgf, we can find all the moments, or if we have all the moments, we can find the mgf. 
+
+
+
+Sum: $ X \perp Y, S = X+Y $ 
+
+\begin{align*}
+	M_{S}(t) &= E(e^{tS} \\ 
+	&= E[e^{tX + tY}] \\
+	&= E[e^{tX} \cdot e^{tY}] \\
+	&= E[e^{tX}]E[e^{tY}], \quad \text{by independence} \\
+	&= M_{X}(t) \cdot  M_{Y}(t)\\
+\end{align*}
+}
+
+\subsection{Gamma Family}
+
+\ex{}{
+$ X: gamma(r,\lambda) $, $ f_{X}(x) = \frac{\lambda^{r}}{\Gamma(r)} x^{r-1} e^{-\lambda x}, x > 0 $  
+
+\begin{align*}
+	M_{X}(t) &=  E[e^{tX}] \\
+		 &= \int_{0}^{\infty } e^{tx} \underbrace{f_{X}(x) dx}_{\text{prob of being around x}} \\
+	&= \int_{0}^{\infty }e^{tx} \cdot \frac{\lambda^{r}}{\Gamma(r)} x^{r-1} e^{-\lambda x}dx \\
+	&= \frac{\lambda ^{r}}{\Gamma(r)} \int_{0}^{\infty } x^{r-1} e^{-(\lambda -t)x}dx, \text{for } t < \lambda \\
+	&= \frac{\lambda^{r}}{\Gamma(r)} \cdot \frac{\Gamma(r)}{(\lambda - t)^{r}} \\
+	&= \frac{\lambda^{r}}{(\lambda - t)^{r}} \\
+\end{align*}
+
+
+}
+
+\ex{}{
+
+$ X \sim gamma(r, \lambda) $, $ Y \sim gamma(s, \lambda) $, $ X \perp Y $ 
+
+
+$ S= X+Y $ 
+
+\[
+M_{S}(t) = \left( \frac{\lambda}{\lambda - t} \right) ^{r+s}, t< \lambda 
+\]
+
+This is also a gamma(r+s, $ \lambda $) distribution.
+
+
+}
+\nt{If r is very large for a gamma, we have a normal function}
+
+
+\dfn{chi Squared Distribution}{
+$ Z $  standard normal. $ Z^{2} $ is gamma($ \frac{1}{2} $ , $ \frac{1}{2} $ )
+
+
+If we have a lot of $ Z_1, Z_2, \dots $ i.i.d. standard normals, then:
+
+\[
+Z_{1}^{2} + Z_{2}^{2} + \dots  = gamma(\frac{n}{2}, \frac{1}{2})
+\]
+
+This is the $ \chi^{2}_{n} $
+
+
+If we look at $ \chi^{2}_{2} = gamma(1,\frac{1}{2}) = exp(\frac{1}{2)} $ 
+
+The expectation of gamma(r,s) is $ \frac{r}{s} $, therefore the expectation of a chi squared is $ n $ 
+}
+
+\subsection{MGF of Standard Normal}
+\ex{}{
+$ Z $ standard normal. 
+
+\begin{align*}
+	M_{Z}(t) &= E[e^{tX}]\\
+		 &= \int_{-\infty}^{\infty} e^{tz} \cdot \frac{1}{\sqrt{2\pi}} e^{-\frac{1}{2}z^{2}}dz \\
+		 &= \int_{-\infty}^{\infty} \frac{1}{\sqrt{2\pi}}e^{-\frac{1}{2}(z^{2} - tz)} dz \\
+		 &= e^{\frac{t^{2}}{2}}\underbrace{\int_{-\infty}^{\infty} \frac{1}{\sqrt{2\pi}} e^{-\frac{1}{2} ( z - t)^{2}  }dz}_{\text{normal(t,1) density}} \\
+&= e^{\frac{t^{2}}{2}} \\
+\end{align*} 
+
+}
+
+\chapter{}
+\subsection{}
+
+\ex{Linear Transformation of an MGF}{
+
+\begin{align*}
+M_{aX+b}(t) &= E[e^{t(aX+b)}] \\
+&= E[e^{taX}e^{b}] \\
+&= e^{tb} E[e^{taX}] \\
+&= e^{bt} M_{x}(at) \\
+\end{align*}
+
+}
+\ex{}{
+When we are given a $ Z $ standard normal, the MGF is $ M_{Z}(t) = e^{\frac{t^{2}}{2}} $. Now what if we just want a $ X \sim norm(\mu , \sigma^{2})$.
+
+\[
+X = \sigma Z + \mu 
+\]
+
+Therefore, the MGF is 
+
+\[
+M_{X}(t) = e^{\mu t} e^{\sigma^{2} \frac{t^{2}}{2}}
+\]
+
+\nt{You can find the mean and variance of a MGF Normal by looking at coeffs} 
+}
+\ex{}{
+
+$ X \sim norm $, $ Y \sim norm $ 
+
+\begin{align*}
+	M_{X+Y}(t) &= e^{(\mu _{x} + \mu _{y})t + (\sigma_{x}^{2} + \sigma_{y}^{2} \frac{t^{2}}{2})} \\
+\end{align*}
+
+This actually proves that $ X+Y $ is normal.  
+}
+
+
+We are now going to try to understand why the CLT is true. 
+
+\thm{CLT (Review)}{
+
+	$ X_{1}, X_2, \dots $ i.i.d. mean $ \mu  $ SD $ \sigma $, 	$ S_{n} = \sum_{i=1}^{n} X_{i} $ 
+
+	Thus, for large $ n $, $ S_{n} $ is approx normal. 
+
+	That is $ \frac{S_{n} - n\mu }{\sqrt{n} \sigma} $ is approx standard normal. 
+
+\[
+	S_{n}^{*} = \frac{\sum_{i=1}^{n}x_{i} - \sum_{i=1}^{n}\mu }{\sqrt{n}\mu } = \sum_{i=1}^{n}\frac{1}{\sqrt{n}}\left( \frac{X_{i} - \mu }{\sigma} \right) = \sum_{i=1}^{n}\frac{1}{\sqrt{n}} X_{i}^{*}
+\]
+
+\begin{align*}
+	M_{S_{n}^{*}} = \left( M_{\frac{1}{\sqrt{n}}X^{*}}(t) \right) ^{n} &=\left( M_{X^{*}}(\frac{1}{\sqrt{n}} t) \right)^{2} \\
+									   &=  \left( 1 + \frac{t}{\sqrt{n}} \frac{E[X^{*}]}{1} + \frac{t^{2}}{n} \frac{E[X^{*2}]}{2} + \frac{t^{3}}{n^{\frac{3}{2}}} \frac{E[X^{*3}]}{3!}\right)n  \\
+									   &=\left( 1 + \frac{t^{2}}{n}\frac{1}{2} + \frac{t^{3}}{n^{\frac{3}{2}}} \frac{E[X^{*3}]}{3!} + dots \right)^{n} \\
+									   & \approx (1 + \frac{t^{2}}{2n})^{n} \\
+									   &\approx e^{ -n\log(\frac{-t^{2}}{2n})} \\
+									   &\approx e^{/n \frac{t^{2}}{2n}} \\
+									   &= e^{\frac{t^{2}}{2}} \\
+\end{align*}
+
+This is the MGF of the standard normal.
+
+
+}
+
+\subsection{Chernoff Bound}
+The mgf and tails of the distribution. 
+
+
+If we have the mgf, the tails should already be finite and relatively small, on account of how the mgf is defined (taylor). 
+
+
+\begin{align*}
+	P(X \ge c) &=  P(e^{tX} > e^{tc}), \quad \text{for $ t>0 $, which allows us to use markov} \\
+	&\le \frac{E[e^{tX}]}{e^{tc}}, \quad \text{where $ E[e^{tX}] $ is the MGF}  \\
+	&= M_{X}(t)e^{-ct}, \quad \text{since $ t $ is arbitrary, we have a family of bounds}\\
+\end{align*}
+
+\subsubsection{If we fix $ t >0 $  and vary $ c $ }
+
+\begin{align*}
+	P(X \ge c) \le \underbrace{M_{x}(t)}_{\text{constant}}e^{-tc}
+\end{align*}
+
+
+This means that the tail is below a exponential function. 
+
+
+\subsubsection{If we fix $ c $ and vary $ t $. }
+
+\begin{align*}
+	P(X \ge c) \le M_{x}(t)e^{-ct},  \forall t>0  \\
+\end{align*}
+
+So Chernoff's Bound is:
+
+\[
+P(X \ge c) \le \min_{t>0} M_{X}(t) e^{-tc}
+\]
+
+\subsubsection{Implementation}
+
+
+\paragraph{Step 1:} Define the equation
+
+
+$ X \sim normal(\mu , \sigma^{2}) $ 
+
+\begin{align*}
+	P(X - \mu  \ge c) &\le e^{\sigma^{2} \frac{t^{2}}{2} - tc}, \forall t>0  
+\end{align*}
+
+\paragraph{Step 2:}
+
+Minimize this over $ t>0 $ 
+
+\begin{align*}
+\min_{}: \quad & e^{\sigma^{2} \frac{t^{2}}{2} -tc} \\
+\end{align*}
+
+
+Instead of this, we can instead 
+
+\[
+\min \sigma^{2} \frac{t^{2}}{2} -tc
+\]
+
+Now, we can do this because $ e^{tx} $ is a monotonically increasing function. Its convex.  
+
+\[
+t^{*} = \frac{c}{\sigma^{2}}
+\]
+
+Thus, the best bound is
+\[
+e^{\sigma^{2} (\frac{c}{\sigma^{2}}) - \frac{c}{\sigma^{2}}c} = e^{\frac{-c^{2}}{2t^{2}}}
+\]
+
+
+	\end{document} 

@@ -1,0 +1,408 @@
+
+\documentclass{report}
+
+\input{../../preamble}
+\input{../../macros}
+\input{../../letterfonts}
+
+\title{}
+\author{Ryan Lin}
+\date{}
+
+\begin{document}
+\maketitle
+\section{}
+
+
+
+ 1. Density Operations 
+
+Let the density of $X$ be given by 
+
+$$
+f(x) ~ = ~ 
+\begin{cases}
+\frac{3}{2}(1 - x^2) ~~~~~ \text{ for } 0 \le x \le 1\\
+0 ~~~~~~ \text{ otherwise}
+\end{cases}
+$$
+
+Find numerical values for each of the following. **You may not use Sympy or any other symbolic math programs or websites. Show all the calculus and algebra steps on paper**, and use the code cell below for the final numerical calculations. 
+
+**a)** $P(\vert X - 0.5 \vert > 0.2)$
+
+\begin{align*}
+	P(\vert X - 0.5 \vert > 0.2) &= P(-0.2 < X - 0.5 < 0.2) \\
+	&= P(0.3 < X < 0.7) \\
+	&= \int_{0.3}^{0.7} f(x) dx \\
+	&= \int_{0.3}^{0.7} \frac{3}{2}(1-x^{2}) dx \\
+	&= \frac{3}{2} \left( x - \frac{1}{3}x^{3} \right)^{.7}_{.3} \\
+	&= .442 \\
+\end{align*}
+
+**b)** $P(\vert X - 0.5 \vert > 0.2 \mid X > 0.4)$
+
+\begin{align*}
+	P(\vert X - 0.5 \vert > .2 \mid X > 0.4) &= \frac{P(\vert X - 0.5 \vert > 0.2, X > 0.4)}{P(X>0.4)} \\
+	&= \frac{P(0.3 < X < 0.7, X > 0.4)}{ P(X > 0.4)} \\
+	&= \frac{P(0.4 < X < 0.7)}{P(X > 0.4)} \\
+	&= \frac{\int_{0.4}^{0.7}f(x)dx}{\int_{0.4}^{\infty }f(x)dx} \\
+	&= \frac{\int_{0.4}^{0.7}f(x)dx}{\int_{0.4}^{1}f(x)dx} \\
+	&= \frac{\left( x - \frac{1}{3}x^{3} \right)^{.7}_{.4}}{\left( x - \frac{1}{3}x^{3} \right)_{0.4}^{1}} \\
+	&= \frac{.3105}{.432} \\
+	&= .71875 \\
+\end{align*}
+
+**c)** $E(X)$
+
+
+\begin{align*}
+	E[X] &= \int_{-\infty}^{\infty} x f(x) dx \\
+	&= \int_{0}^{1} x(f) dx \\
+	&= \int_{0}^{1}x \cdot \frac{3}{2}(1-x^{2}) dx \\
+	&= \frac{3}{2} \int_{0}^{1} x - x^{3} dx  \\
+	&= \frac{3}{2} \left[ \frac{1}{2} x^{2} - \frac{1}{4} x^{4} \right]^{1}_{0} \\
+	&= \frac{3}{2} \left( \frac{1}{2} - \frac{1}{4} \right)  \\
+	&= \frac{3}{2} \left( \frac{1}{4} \right)  \\
+	&= \frac{3}{8} \\
+\end{align*}
+**d)** $SD(X)$
+
+\begin{align*}
+	\Var(X) &= E[X^{2}] - E[X]^{2} \\
+	&= \int_{0}^{1} x^{2} f(x) dx - E[X]^{2}\\
+	&= \int_{0}^{1} \frac{3}{2} \left( x^{2} - x^{4} \right) dx - E[X]^{2} \\
+	&= \frac{3}{2} \left[ \frac{1}{3}x^{3} - \frac{1}{5}x^{5}\right]^{1}_{0} - E[X]^{2} \\
+	&= \frac{3}{2} \left( \frac{1}{3} - \frac{1}{5} \right) - \left( \frac{3}{8} \right) ^{2} \\
+	&= \frac{3}{2} \left( \frac{5}{15} - \frac{3}{15} \right) - \frac{9}{64} \\
+	&= \frac{3}{2} \cdot \frac{2}{15} - \frac{9}{64} \\
+	&= \frac{1}{5} - \frac{9}{64} \\
+\end{align*}
+
+\[
+	SD(X) = \sqrt{\Var(X)} = \sqrt{\frac{1}{5} - \frac{9}{64}} \approx .2437 \\
+\]
+
+
+
+
+\newpage
+
+\section{}
+
+
+ 2. Minimum and Average 
+
+In this exercise you will discover properties of the sample minimum and the sample average of i.i.d. samples taken from two well-known distributions. If necessary, you can leave answers in terms of the standard normal cdf $\Phi$.
+
+**(a)** Let $U_1, U_2, \ldots, U_n$ be i.i.d. uniform $(0, 1)$ random variables and let $X_n = \min\{U_1, U_2, \ldots, U_n\}$. Find the survival function of $X_n$ and hence find the density of $X_n$.
+
+The survival function is the probability $ P(X_{n} > x) $, or in this case that a number is greater than the min of the i.i.d. uniform variables. 
+
+
+\begin{align*}
+	S(x) &= P(X_{n} > x) \\
+	&= P(U_1 > x, U_2 > x, \dots, U_{n} > x) \\	
+	&= P(U_1 > x) \cdot P(U_2 > x) \cdot \dots \cdot P(U_{n} > n) \\
+	&= P(U_1 > x)^{n} \\
+	&= \left( \int_{x}^{1} 1 dt\right)^{n} \\
+	&= (1-x)^{n} \\
+\end{align*}
+
+
+\begin{align*}
+	1- S(x) &=  P(X_{n} \le x) \\
+	&= F_{X_{n}}(x) \\
+\end{align*}
+
+Therefore, taking $ \frac{d}{dx} ( 1-S(x)) = f_{X_{n}}(x) $. 
+Thus, the density of $ X_{n} $ is: 
+
+\begin{align*}
+f_{X_{n}}(x) =	\frac{d}{dx} 1 - (1-x)^{n} &= n(1-x)^{n-1} \\
+\end{align*}
+
+**(b)** Let $T_1, T_2, \ldots, T_n$ be i.i.d. exponential $(\lambda)$ random variables and let $Y_n = \min\{T_1, T_2, \ldots, T_n\}$. Find the survival function of $Y_n$ and hence identify the distribution of $Y_n$ as one of the famous ones; remember to provide the relevant parameters.
+
+
+\begin{align*}
+	S(y) &= P(Y_{n} > y) \\
+	&= P(T_1 > y, T_2 > y, \dots, T_{n} > y) \\
+	&= P(T_{1} > y)^{n} \\
+	&= (1-P(T_{1} \le y))^{n} \\
+	&= \left( 1- \int_{0}^{y}  e^{-\lambda t}dt \right)^{n}  \\
+	&= \left( 1- (-e^{-\lambda y}  + 1)  \right)^{n}  \\
+	&=  e^{-n\lambda y}\\
+\end{align*}
+
+The survival function $ S(y) $  and $ Y_{n} $ $ \sim $  $ exp(n\lambda) $ distribution. 
+
+**(c)** Let $U_1, U_2, \ldots, U_n$ be i.i.d. uniform $(0, 1)$ random variables and let $V_n = \frac{1}{n} \sum_{i=1}^n U_i$. For large $n$, find an approximation to the survival function of $V_n$.
+
+For large $ n $, we know that the sum of i.i.d. standard random variables approximately follows the standard normal curve, regardless of the common distribution of the random variables because of the Central Limit theorem.
+
+In our case, the CLT tells us that 
+$ E[S_{n}] = n\mu  $, or $ E[V_{n}] = \frac{1}{n} E[S_{n}] = \mu  = \frac{1}{2} $  and $ Var(V_{n}) = \frac{1}{n^{2}} Var(S_{n}) = \frac{\sigma^{2}}{n} = \frac{1}{12} $ 
+
+We know that all normal distributions are linear transformations of the standard normal curve. 
+
+Therefore 
+
+\begin{align*}
+	P(V_{n} \le v)&\approx \Phi(\frac{v-\mu }{\sigma / \sqrt{n}}) \\
+\end{align*}
+
+Thus, 
+
+\begin{align*}
+S(v) &= 1- P(V \le v) \\	
+     &= 1 - \Phi(\frac{v-\mu }{\sigma / \sqrt{n}}) \\
+\end{align*}
+
+**(d)** Let $T_1, T_2, \ldots, T_n$ be i.i.d. exponential $(\lambda)$ random variables and let $W_n = \frac{1}{n} \sum_{i=1}^n T_i$. For large $n$, find an approximation to the survival function of $W_n$.
+
+With a similar process, i.i.d. rv can be approximated with the normal because of the CLT. 
+
+$ \mu = \frac{1}{\lambda} $, $ \sigma = \frac{1}{\lambda} $ 
+
+
+\begin{align*}
+	S(w) &= P(W_{n} > w) \\
+	     &=1 - P(W \le w) \\
+	     &\approx 1 - \Phi(\frac{w - \mu }{\sigma / \sqrt{n}})
+\end{align*}
+
+\section{}
+
+\newpage
+a.) 
+ Suppose that a particle is fired from the origin in the $(x, y)$-plane in a straight line in a direction at a random angle $\theta$ to the $x$-axis. Let $Y$ be the $y$-coordinate of the point where the particle hits the line $x = 1$. Show that if $\theta$ has the uniform distribution on $(-\pi/2, \pi/2)$, then the density of $Y$ is
+
+$$
+f_Y(y) ~ = ~ \frac{1}{\pi(1 + y^2)}, ~~~ - \infty < y < \infty
+$$
+
+$\tan \theta = \frac{y}{x}$, $ x= \frac{y}{\tan \theta} $. When $ x=1 $, $ y=\tan \theta $. Thus, $ Y = g(\theta) $, which allows us to use change of variables. 
+
+
+\begin{align*}
+	f_{Y}(y) &= \frac{f_{\Theta}(\theta)}{\sec^{2}(\theta)}, \quad \text{at $ \theta = \arctan y $ } \\
+	&= \frac{\frac{1}{\pi}}{\sec^{2}(\theta)}, \quad \text{at $\theta = \arctan y$} \\
+	&=  \frac{1}{\pi \sec^{2}(\theta)}\\
+	&= \frac{1}{\pi (1 + \tan^{2}(\theta)} \\
+	&= \frac{1}{\pi(1 + y^{2})} \\
+\end{align*}
+
+
+**c)** For $Y$ with the Cauchy density, use calculus to show that $E(\lvert Y \rvert ) = \infty$. Thus $E(Y)$ is undefined even though the density of $Y$ is symmetric about 0.
+
+\begin{align*}
+	E(\lvert  Y \rvert ) &= \int_{-\infty}^{\infty} \lvert y \rvert \frac{1}{\pi (1+y^{2})} dy\\
+		&= 2\int_{0}^{\infty } y \frac{1}{\pi (1+y^{2)})}\\
+		&=  \int_{1}^{\infty }\frac{1}{\pi u}du \\
+		&= \frac{1}{\pi} \ln(u) \rvert_{1}^{\infty }  \\
+		&= \frac{1}{\pi} \lim_{u\to \infty } \ln(u) - 0 \\
+		&= \infty  \\
+\end{align*}
+
+\newpage
+\section{}
+In this problem you will start with some calculus exercises and then develop one of the fundamental families of densities. An already-familiar distribution belongs to this family, as you will show in the next exercise (Problem 6). In the next exercise, you will also see that this family has been used to model individual infectiousness due to the novel coronavirus (COVID-19).
+
+Assume that $r > 0$ and $\lambda > 0$ are constants.
+
+**a)** The *Gamma function* of mathematics is defined by
+$$
+\Gamma (r) ~ = ~ \int_0^\infty t^{r-1} e^{-t} dt
+$$
+
+That letter is the upper case Greek letter Gamma. You can assume that the integral converges and that therefore $\Gamma(r)$ is a positive number.
+
+Use integration by parts to show that 
+$$
+\Gamma(r+1) ~ = ~ r\Gamma(r), ~~~ r > 0
+$$
+
+\begin{align*}
+	\Gamma(r+1) &= \int_{0}^{\infty } t^{r+1-1}e^{-t}dt \\
+	&= \int_{0}^{\infty }t^{r}e^{-t}dt \\
+	u = t^{r}, du = rt^{r-1}dt \\
+	dv = e^{-t}dt, v = -e^{-t}\\
+	&= -t^{r}e^{-t} + \int_{0}^{\infty } rt^{r-1}e^{-t}dt \\
+	&= -t^{r} e^{-t} \rvert _{0}^{\infty } + r \Gamma(r) \\
+	&= 0 + r\Gamma(r) \\
+	&= r\Gamma(r) \\
+\end{align*}
+
+
+**b)** Use part (a) and induction to show that if $r$ is a positive integer then $\Gamma(r) = (r-1)!$. Thus the Gamma function is a continuous extension of the factorial function.
+
+
+Show true for $ r=1 $ 
+
+\begin{align*}
+	\Gamma(1) &= \int_{0}^{\infty } t^{0} e^{-t}dt \\
+	&= \int_{0}^{\infty }e^{-t}dt \\
+	&= -e^{-t} \rvert_{0}^{\infty } \\
+	&= 0 - (-1) \\
+	&= 1 \\
+	&= 0! \\
+\end{align*}
+
+
+Assume true for $ r=k $ 
+\begin{align*}
+	\Gamma(r) = (r-1)!
+\end{align*}
+
+
+Show true for $ r=k+1 $ 
+
+\begin{align*}
+	\Gamma(r+1) &= (r)\Gamma(r) \\
+	&= (r)(r-1)! \\
+	&= r! \\
+\end{align*}
+
+
+
+**c)** Let $X$ have density given by
+$$
+f_X(t) =
+\begin{cases}
+\dfrac{1}{\Gamma(r)} t^{r-1}e^{-t}, ~~~ t > 0 \\
+0 ~~~~~~~~~~~~~~~~~~~~ \text{otherwise}
+\end{cases}
+$$
+
+Let $Y = \frac{1}{\lambda} X$. Show that the density of $Y$ is
+
+$$
+f_Y(t) =
+\begin{cases}
+\dfrac{\lambda^r}{\Gamma(r)} t^{r-1}e^{-\lambda t}, ~~~ t > 0 \\
+0 ~~~~~~~~~~~~~~~~~~~~ \text{otherwise}
+\end{cases}
+$$
+
+The density of $Y$ is called the gamma $(r, \lambda)$ density.
+
+$ X = \lambda Y $ 
+
+\begin{align*}
+	f_{Y}(y) &= \frac{f_{X}(x)}{g'(x)}, \text{at $ g^{-1}(y) $ } \\
+	&= \frac{f_{X}(x)}{\frac{1}{\lambda}}, \text{at $ x = \lambda y $ } \\
+	&= \lambda f_{X}(x), \text{at $ x=\lambda y $, $ t>0 $  } \\
+	&= \frac{\lambda}{\Gamma(r)} x^{r-1}e^{-x} \\
+	&= \frac{\lambda}{\Gamma(r)} (\lambda y)^{r-1}e^{-\lambda y} \\
+	&= \frac{\lambda}{\Gamma(r)} \lambda^{r-1} y^{r-1}e^{-\lambda y} \\
+	&= \frac{\lambda^{r}}{\Gamma(r)} y^{r-1}e^{-\lambda y},  t>0   \\
+\end{align*}
+
+**d)** Use (c) and the [textbook](https://data140.org/textbook/content/chapter-16/two-to-one-functions/#square-of-the-standard-normal) to confirm that if $Z$ has the standard normal density then $Z^2$ has the gamma $(1/2, 1/2)$ density. Hence find $\Gamma (1/2)$, and then use (a) to find $\Gamma (3/2)$ and $\Gamma (5/2)$. Please don't leave any integrals in your answers.
+
+We showed in lecture that if $ Z \sim norm(0,1)$, and $ Y = Z^{2} $, then 
+
+\begin{align*}
+	f_{Y}(y) &= \frac{1}{\sqrt{2\pi}} y^{-\frac{1}{2}} e^{-\frac{1}{2}y} \\
+		 &= \frac{\frac{1}{2}^{2}}{\sqrt{\pi}} y^{\frac{1}{2}-1}e^{-\frac{1}{2}y} \\
+		 &= \frac{\frac{1}{2}^{2}}{\Gamma(\frac{1}{2})} y^{\frac{1}{2}-1}e^{-\frac{1}{2}y} \\
+\end{align*}
+
+The textbook states that this is the gamma density function, whereas $ \Gamma(\frac{1}{2}) = \sqrt{\pi} $. 
+
+Therefore: 
+
+\begin{align*}
+	\Gamma(\frac{1}{2}) &= \sqrt{\pi} \\
+	\Gamma(\frac{3}{2}) &= \Gamma(\frac{1}{2} + 1) = \frac{1}{2}\Gamma(\frac{1}{2}) = \frac{1}{2} \sqrt{\pi}, \quad \text{by part a} \\
+	\Gamma(\frac{5}{2}) &= \Gamma(\frac{3}{2} + 1) = \frac{3}{2} \cdot \frac{1}{2}\sqrt{\pi} = \frac{3}{4}\sqrt{\pi}\\
+\end{align*}
+
+
+
+**Shapes of Gamma Densities:** Part (c) shows that the gamma $(r, \lambda)$ density is obtained as a change of scale (units of measurement) starting with a gamma $(r, 1)$ random variable and multiplying it by $1/\lambda$. That is why `stats` calls $1/\lambda$ the *scale parameter* of the gamma density. The parameter $\lambda$ is called the *rate*.
+
+The parameter $r$ determines the shape of the curve and is called the *shape parameter*. To see why, it helps to look at some plots.
+
+The method `stats.gamma.pdf` can be used with the following arguments to return the value of the density:
+- the value of $t$ (possibly an array) at which to evaluate the density
+- $r$
+- $\lambda$ specified as `scale=1/λ`
+
+Run the cell below to see overlaid graphs of the several gamma densities with different values of $r$ but the same rate $\lambda$. You will see why $r$ is called the shape parameter.
+
+\newpage
+\section{} 
+
+
+
+As in Question 4, let $r$ and $\lambda$ be positive constants.
+
+**a)** Use Question 4(c) and properties of densities to evaluate
+$$
+\int_0^\infty t^{r-1}e^{-\lambda t} dt
+$$
+in terms of $r$, $\lambda$, and the Gamma function. For what follows, keep in mind that your formula is correct for all positive $r$.
+
+
+We know that all density functions sum up to 1. 
+
+Therefore 
+
+\begin{align*}
+	\int_{-\infty}^{\infty} f_{Y}(t) &= 1 \\
+	\int_{-\infty }^{0} f_{Y}(t) + \int_{0}^{\infty } f_{Y}(t) dt &= 1 \\
+	\int_{0}^{\infty }f_{Y}(t)dt &= 1 \\
+	\int_{0}^{\infty } \frac{\lambda^{r}}{\Gamma(r)}t^{r-1}e^{-\lambda t}dt  &= 1 \\
+	\frac{\lambda^{r}}{\Gamma(r)}\int_{0}^{\infty }t^{r-1}e^{-\lambda t}dt &= 1 \\
+	\int_{0}^{\infty }t^{r-1}e^{-\lambda t} &= \frac{\Gamma(r)}{\lambda^{r}} \\
+\end{align*}
+
+
+
+
+
+
+
+**b)** Let $T$ have gamma $(r, \lambda)$ density. Use (a) and 5(a) to find a simple formula for $E(T)$ in terms of $r$ and $\lambda$. Please don't leave any integrals or Gamma functions in your answer.
+
+\begin{align*}
+	E[T] &= \int_{0}^{\infty } t \cdot \frac{\lambda ^{r}}{\Gamma(r)} t^{r-1}e^{-\lambda t} dt  \\
+	&= \frac{\lambda^{r}}{\Gamma(r)}\int_{0}^{\infty } t^{r}e^{-\lambda t}dt \\
+	&= \frac{\lambda^{r}}{\Gamma(r)} \int_{0}^{\infty } t^{(r+1) - 1} e^{-\lambda t} \\
+	&= \frac{\lambda ^{r}}{\Gamma(r)} \cdot \frac{r\Gamma(r)}{\lambda ^{r+1}} \\
+	&= \frac{r}{\lambda} \\
+\end{align*}
+
+
+
+**c)** For $T$ as in (b), find $E(T^2)$ in terms of the Gamma function. 
+
+\begin{align*}
+	E[T^{2}] &= \int_{0}^{\infty } \frac{\lambda^{r}}{\Gamma(r)} t^{(r+2) - 1} e^{-\lambda t}dt\\
+		 &= \frac{\lambda^{r}}{\Gamma(r)} \cdot \frac{\Gamma(r+2)}{\lambda^{r+2}} \\
+		 &= \frac{(r+1)(r)\Gamma(r)}{\Gamma(r)\lambda^{2}} \\
+		 &= \frac{(r+1)(r)}{\lambda^{2}} \\
+\end{align*}
+
+
+
+**d)** Find $Var(T)$. **Make sure to simplify all integrals and gamma functions. As usual, show your work.** 
+
+\begin{align*}
+	Var(T) &= E[T^{2}] - E[T]^{2} \\
+	&= \frac{(r+1)(r)}{\lambda^{2}} - \frac{r^{2}}{\lambda^{2}} \\
+	&= \frac{r^{2}+r - r^{2}}{\lambda^{2}} \\
+	&= \frac{r}{\lambda^{2}} \\
+\end{align*}
+
+
+
+
+
+**e)** Identify the gamma $(1, \lambda)$ density as one that has another famous name, and confirm that your answers to (b) and (c) are consistent with what you already know about that density.
+
+
+When $ r=1 $, $ E[T] = \frac{1}{\lambda} $, $ Var(T) = \frac{1}{\lambda^{2}} $, and the density becomes $ e^{-\lambda t}$. This is the exponential($ \lambda $ ) distribution. 
+\end{document}
