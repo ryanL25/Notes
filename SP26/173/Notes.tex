@@ -1094,4 +1094,185 @@ if $ X_{1} \sim ex(1), X_2 \sim ex(2)$
 then $ P(X_{1} < X_{2}) = \frac{1}{3} $ and the $ \min(X_1, X_2) \sim exp(3) $ 
 }
 
+\chapter{MT 2}
+\section{8 April 2026}
+
+Properties of the Poisson Process
+
+\begin{itemize}
+	\item Stationary increments
+	\item Independence: 
+	\item N(t) $ \sim \Poisson(\lambda t) $ 
+	\item N(h) $ \sim \Bern(\lambda h), h \to 0  $ 
+	\item $ T_{i} exp(\lambda) $, i.i.d.
+\end{itemize}
+
+
+\subsection{Nonhomogenous Poisson Processes (NHPP)}
+
+Given $ NHPP(\lambda \mid t) $, we relax stationary 
+\begin{itemize}
+	\item $ m(t) = \int_{0}^{t} \lambda (s) ds  $ 
+	\item Counting Process
+\end{itemize}
+
+\vspace{5mm}
+\subsection{Complex Poisson Processes (CPP)}
+
+$ \{XH\} \sim $ CPP($ \lambda, F $), $ X(t) = \sum_{i=1}^{N}Y_{i} $ , where $ Y_{i} \sim F $  i.i.d.
+
+Thus, $ \{NH\} \sim PP(\lambda) $ 
+
+We have stationary increments because we have batch sizes. We also have independent increments, as the $ Y_{i} $ are independent. 
+
+We can still split and join for our complex poisson process. Split is easy, but join is difficult because we have to think about the speed of each Poisson.
+
+\vspace{5mm}
+Join = $ \{X(t)\} \sim CPP(\lambda_{i}, F_{i} )$. 
+
+So like insurance claims based on different types of claim, where $ F_{i} $ is size of claims. 
+
+\[
+\text{Multiple} \{X(t)\} \to \{X(t)\} \sim CPP(\sum_{}^{}\lambda_{i}, F)
+\]
+Where $ F = F(x) = \sum_{i}^{} \underbrace{\frac{\lambda_{i}}{\sum_{}^{}\lambda _{j}}}_{\text{which event}} F_{i}(x) $ 
+
+\ex{Properties of Complex Poisson Process}{
+
+	$ \{X_{1}(t)\} \sim CPP(1, uniform(2,4)) $. $ \{X_{2}(t) \sim CPP (2, uniform(3,4))\} $ 
+
+
+A process comes from process 1 with probability $ \frac{1}{3} $, therefore the density from 2-3 is $ \frac{1}{2} $ 
+
+Between 3 to 4, it will be $ \frac{5}{6} $. This is because coming from $ X_{2} $ is $1$ with probability $ \frac{2}{3} $, and from $ X_{1} $ of $ \frac{1}{2} $ $ \frac{1}{3}  $
+
+$ \frac{1}{2} \cdot  \frac{1}{2} + \frac{2}{3} \cdot 1  = \frac{5}{6}$ 
+}
+
+\subsection{Mixed Poisson Process}
+
+Let $ \{N(t)\} = MPP(G) $, $ \{N(t) \mid \Lambda = \lambda\} \sim PP(\lambda)  $, $ \Lambda \sim G $ 
+
+\noindent
+This is if we don't know what the arrival rate is, and thus $ G $ is a distribution of what $ \lambda $ rate could be. 
+
+It still has stationary increments. 
+
+It does not have independent increments, because if we know the num arrivals in 1 hour, then that might change our opinion about what happens in the next hour. There is a sense of learning happening here.  (Bayes Law) 
+
+\subsection{Markov Modulated Poisson Process} 
+
+This says what if $ \lambda $ is changing based on its own process. Could be its own DTMC or CTMC.....
+
+For example, if the economy is good, the rate might be higher, or when its bad it would be lower. But we don't know when this would change. 
+
+
+There are also Renewal Processes, and Brownian Motion.
+
+
+\subsection{Continuous Time Markov Chain (CTMC)}
+We still assume continuous time, but discrete space. 
+
+
+\dfn{CTMC Definition 1}{
+
+	$ \{X(t)\} $ is a CTMC if it satisifies the Markov property, which is the future is independent of the past, given the present. 
+
+	\vspace{5mm}
+Mathematically, $ P\{X(t+s) = i \mid X(n), 0 \le n \le s\} = P\{X(t=s) = i \mid X(s)\} $ 
+It is the unique process with cont time and discrete space, but still satifies the Markov Process.
+}
+
+\dfn{CTMC Definition 2}{
+
+	$ \{X(t)\} $ is a CTMC if it changes states according to an embedded DTMC, with transition matrix $ \mathbb{P} $ 
+	and when in state $ i $ changes after exp time with rate $ V_{i} $ 
+ 
+For now, we can assume that $ P $ has no self loops.
+
+
+}
+
+
+\ex{}{
+
+Two machines, one technician. non-preemptive repairs. 
+
+Machine $ i $: time to fail $ \sim exp(\lambda_{i} $, repair $ \sim exp(\mu _{i}) $ 
+
+Possible states:
+\begin{itemize}
+	\item 0: Both machines working
+	\item 1: Machine 1 working on, Machine 2 up
+	\item 2: Machine 2 working on, Machine 1 up
+	\item:(1,2): Machine 1 repairing, 2 broken 
+\item (2,1): 2 under repair, 1 broken
+\end{itemize}
+
+
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}[->,>=stealth',shorten >=2pt , line width =0.5pt, node distance =2cm]
+	\node [circle, draw] (0)  {0};	
+	\node [circle, draw] (1) [right=of 0] {1};
+	\node [circle, draw] (2) [below=of 0] {2};
+	\node [circle, draw] (3) [right=of 1] {(1,2)};
+	\node [circle, draw] (4) [right=of 2] {(2,1)};
+
+	\path (0) edge [bend left] node [above] {$\lambda_{1}$} (1);
+	\path (0) edge [bend left] node [right] {$\lambda_{2}$} (2);
+
+	\path (1) edge [bend left] node [above] {$\lambda_{2}$} (3);
+	\path (1) edge [bend left] node [below] {$\mu _{1}$} (0);
+
+	\path (2) edge [bend left] node [left] {$\mu _{2}$} (0);
+	\path (2) edge [bend left] node [above] {$\lambda_{1}$} (4);
+
+	\path (3) edge node [above] {$\mu _{1}$} (2);
+
+	\path (4) edge [bend right] node [right] {$\mu _{2}$} (1);
+	\end{tikzpicture}
+	\caption{Machine Repair CTMC}
+	\label{fig:}
+\end{figure}
+
+We can think about the rate/prob that we leave from each state as competiting exponentials.
+
+\vspace{5mm}
+
+Question 1:
+If we start from (1,2), what is the expected time until both machines are working again? ($\tau$  is going from state a to state b, $T$ is the time in a state)
+
+\begin{align*}
+	E[\tau_{(1,2), 0}] &= \underbrace{E[T_{(1,2)}]}_{\frac{1}{\mu _{1}}} + E[\tau_{2, 0}]  \\
+	E[\tau_{2,0}] &= \underbrace{\frac{1}{\lambda_{1} + \mu _{2}}}_{\text{move out of state}} + \underbrace{\frac{\lambda_{1}}{\lambda_{1} + \mu _{2}}E[\tau_{(2,1), 0 }]}_{\text{to state (2,1)}} + \underbrace{\frac{\mu _{2}}{\lambda_{1} + \mu _{2}} (0)}_{\text{in state 0}} \\
+	E[\tau_{(2,1),0}] &= \frac{1}{\mu _{2}} + E[\tau_{1,0}] \\
+	E[\tau_{1,0}] &= \frac{1}{\mu _{1} + \lambda_{2}} + \frac{\lambda_{2}}{\lambda_{2} + \mu _{1}} E[\tau_{(1,2), 0}] + \frac{\mu _{1}}{\lambda_{2} + \mu_{1}} (0)  \\
+\end{align*}
+
+\vspace{5mm}
+Question 2:
+Start in (1,2), whats the chance that 2 fails again before 1 fails again? 
+
+What has to happen for this to occur? We go from state $(1,2) \to 2$, which means only 2 is broken. Then $2 \to 0$, otherwise it wouldn't happen. Finally, 2 has to fail, $0 \to1$ 
+}
+
+
+\ex{}{
+M/M/1 queue. 
+
+Exponential arrival rate ($\lambda$), service rate at rate $\mu $, with 1 server. 
+
+
+(see birth death chain for example) 
+
+
+\begin{align*}
+	E[B] &= E[B_{1}] = E[\tau_{1, 0}] \\
+	E[B_{1}] &= \frac{1}{\lambda + \mu } + \frac{\mu}{\lambda + \mu } (0) + \frac{\lambda}{\lambda + \mu }E[B_{2}]\\
+\end{align*}
+
+Now we have an infinite number of equations. Thus, we use the same ideas from when we proved null recurrence for a DTMC.
+}
+
 \end{document}

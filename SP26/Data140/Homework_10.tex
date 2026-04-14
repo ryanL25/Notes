@@ -1,0 +1,1086 @@
+\documentclass[11pt]{article}
+
+    \usepackage[breakable]{tcolorbox}
+    \usepackage{parskip} % Stop auto-indenting (to mimic markdown behaviour)
+    
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % Keep aspect ratio if custom image width or height is specified
+    \setkeys{Gin}{keepaspectratio}
+    % Maintain compatibility with old templates. Remove in nbconvert 6.0
+    \let\Oldincludegraphics\includegraphics
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionFormat{nocaption}{}
+    \captionsetup{format=nocaption,aboveskip=0pt,belowskip=0pt}
+
+    \usepackage{float}
+    \floatplacement{figure}{H} % forces figures to be placed at the correct location
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+
+    \usepackage{iftex}
+    \ifPDFTeX
+        \usepackage[T1]{fontenc}
+        \IfFileExists{alphabeta.sty}{
+              \usepackage{alphabeta}
+          }{
+              \usepackage[mathletters]{ucs}
+              \usepackage[utf8x]{inputenc}
+          }
+    \else
+        \usepackage{fontspec}
+        \usepackage{unicode-math}
+    \fi
+
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics
+                         % to support a larger range
+    \makeatletter % fix for old versions of grffile with XeLaTeX
+    \@ifpackagelater{grffile}{2019/11/01}
+    {
+      % Do nothing on new versions
+    }
+    {
+      \def\Gread@@xetex#1{%
+        \IfFileExists{"\Gin@base".bb}%
+        {\Gread@eps{\Gin@base.bb}}%
+        {\Gread@@xetex@aux#1}%
+      }
+    }
+    \makeatother
+    \usepackage[Export]{adjustbox} % Used to constrain images to a maximum size
+    \adjustboxset{max size={0.9\linewidth}{0.9\paperheight}}
+
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    % The default LaTeX title has an obnoxious amount of whitespace. By default,
+    % titling removes some of it. It also provides customization options.
+    \usepackage{titling}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage{array}     % table support for pandoc >= 2.11.3
+    \usepackage{calc}      % table minipage width calculation for pandoc >= 2.11.1
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    \usepackage{soul}      % strikethrough (\st) support for pandoc >= 3.0.0
+    \usepackage{mathrsfs}
+    
+
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+    \definecolor{ansi-default-inverse-fg}{HTML}{FFFFFF}
+    \definecolor{ansi-default-inverse-bg}{HTML}{000000}
+
+    % common color for the border for error outputs.
+    \definecolor{outerrorbackground}{HTML}{FFDFDF}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \makeatletter
+    \newsavebox\pandoc@box
+    \newcommand*\pandocbounded[1]{%
+      \sbox\pandoc@box{#1}%
+      % scaling factors for width and height
+      \Gscale@div\@tempa\textheight{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+      \Gscale@div\@tempb\linewidth{\wd\pandoc@box}%
+      % select the smaller of both
+      \ifdim\@tempb\p@<\@tempa\p@
+        \let\@tempa\@tempb
+      \fi
+      % scaling accordingly (\@tempa < 1)
+      \ifdim\@tempa\p@<\p@
+        \scalebox{\@tempa}{\usebox\pandoc@box}%
+      % scaling not needed, use as it is
+      \else
+        \usebox{\pandoc@box}%
+      \fi
+    }
+    \makeatother
+
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatibility definitions
+    \def\gt{>}
+    \def\lt{<}
+    \let\Oldtex\TeX
+    \let\Oldlatex\LaTeX
+    \renewcommand{\TeX}{\textrm{\Oldtex}}
+    \renewcommand{\LaTeX}{\textrm{\Oldlatex}}
+    % Document parameters
+    % Document title
+    \title{Homework\_10}
+    
+    
+    
+    
+    
+    
+    
+% Pygments definitions
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\@namedef{PY@tok@w}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\@namedef{PY@tok@c}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cp}{\def\PY@tc##1{\textcolor[rgb]{0.61,0.40,0.00}{##1}}}
+\@namedef{PY@tok@k}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kt}{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\@namedef{PY@tok@o}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ow}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@nb}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nf}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@ne}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.80,0.25,0.22}{##1}}}
+\@namedef{PY@tok@nv}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@no}{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\@namedef{PY@tok@nl}{\def\PY@tc##1{\textcolor[rgb]{0.46,0.46,0.00}{##1}}}
+\@namedef{PY@tok@ni}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@na}{\def\PY@tc##1{\textcolor[rgb]{0.41,0.47,0.13}{##1}}}
+\@namedef{PY@tok@nt}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nd}{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@s}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sd}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@si}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@se}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.36,0.12}{##1}}}
+\@namedef{PY@tok@sr}{\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@ss}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sx}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@m}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@gh}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gu}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gd}{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\@namedef{PY@tok@gi}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.52,0.00}{##1}}}
+\@namedef{PY@tok@gr}{\def\PY@tc##1{\textcolor[rgb]{0.89,0.00,0.00}{##1}}}
+\@namedef{PY@tok@ge}{\let\PY@it=\textit}
+\@namedef{PY@tok@gs}{\let\PY@bf=\textbf}
+\@namedef{PY@tok@ges}{\let\PY@bf=\textbf\let\PY@it=\textit}
+\@namedef{PY@tok@gp}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@go}{\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@gt}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\@namedef{PY@tok@err}{\def\PY@bc##1{{\setlength{\fboxsep}{\string -\fboxrule}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}}
+\@namedef{PY@tok@kc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kd}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kr}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@bp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@fm}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@vc}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vg}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vi}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vm}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sa}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sb}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sc}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@dl}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s2}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sh}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s1}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@mb}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mf}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mh}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mi}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@il}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mo}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ch}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cm}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cpf}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@c1}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cs}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % For linebreaks inside Verbatim environment from package fancyvrb.
+    \makeatletter
+        \newbox\Wrappedcontinuationbox
+        \newbox\Wrappedvisiblespacebox
+        \newcommand*\Wrappedvisiblespace {\textcolor{red}{\textvisiblespace}}
+        \newcommand*\Wrappedcontinuationsymbol {\textcolor{red}{\llap{\tiny$\m@th\hookrightarrow$}}}
+        \newcommand*\Wrappedcontinuationindent {3ex }
+        \newcommand*\Wrappedafterbreak {\kern\Wrappedcontinuationindent\copy\Wrappedcontinuationbox}
+        % Take advantage of the already applied Pygments mark-up to insert
+        % potential linebreaks for TeX processing.
+        %        {, <, #, %, $, ' and ": go to next line.
+        %        _, }, ^, &, >, - and ~: stay at end of broken line.
+        % Use of \textquotesingle for straight quote.
+        \newcommand*\Wrappedbreaksatspecials {%
+            \def\PYGZus{\discretionary{\char`\_}{\Wrappedafterbreak}{\char`\_}}%
+            \def\PYGZob{\discretionary{}{\Wrappedafterbreak\char`\{}{\char`\{}}%
+            \def\PYGZcb{\discretionary{\char`\}}{\Wrappedafterbreak}{\char`\}}}%
+            \def\PYGZca{\discretionary{\char`\^}{\Wrappedafterbreak}{\char`\^}}%
+            \def\PYGZam{\discretionary{\char`\&}{\Wrappedafterbreak}{\char`\&}}%
+            \def\PYGZlt{\discretionary{}{\Wrappedafterbreak\char`\<}{\char`\<}}%
+            \def\PYGZgt{\discretionary{\char`\>}{\Wrappedafterbreak}{\char`\>}}%
+            \def\PYGZsh{\discretionary{}{\Wrappedafterbreak\char`\#}{\char`\#}}%
+            \def\PYGZpc{\discretionary{}{\Wrappedafterbreak\char`\%}{\char`\%}}%
+            \def\PYGZdl{\discretionary{}{\Wrappedafterbreak\char`\$}{\char`\$}}%
+            \def\PYGZhy{\discretionary{\char`\-}{\Wrappedafterbreak}{\char`\-}}%
+            \def\PYGZsq{\discretionary{}{\Wrappedafterbreak\textquotesingle}{\textquotesingle}}%
+            \def\PYGZdq{\discretionary{}{\Wrappedafterbreak\char`\"}{\char`\"}}%
+            \def\PYGZti{\discretionary{\char`\~}{\Wrappedafterbreak}{\char`\~}}%
+        }
+        % Some characters . , ; ? ! / are not pygmentized.
+        % This macro makes them "active" and they will insert potential linebreaks
+        \newcommand*\Wrappedbreaksatpunct {%
+            \lccode`\~`\.\lowercase{\def~}{\discretionary{\hbox{\char`\.}}{\Wrappedafterbreak}{\hbox{\char`\.}}}%
+            \lccode`\~`\,\lowercase{\def~}{\discretionary{\hbox{\char`\,}}{\Wrappedafterbreak}{\hbox{\char`\,}}}%
+            \lccode`\~`\;\lowercase{\def~}{\discretionary{\hbox{\char`\;}}{\Wrappedafterbreak}{\hbox{\char`\;}}}%
+            \lccode`\~`\:\lowercase{\def~}{\discretionary{\hbox{\char`\:}}{\Wrappedafterbreak}{\hbox{\char`\:}}}%
+            \lccode`\~`\?\lowercase{\def~}{\discretionary{\hbox{\char`\?}}{\Wrappedafterbreak}{\hbox{\char`\?}}}%
+            \lccode`\~`\!\lowercase{\def~}{\discretionary{\hbox{\char`\!}}{\Wrappedafterbreak}{\hbox{\char`\!}}}%
+            \lccode`\~`\/\lowercase{\def~}{\discretionary{\hbox{\char`\/}}{\Wrappedafterbreak}{\hbox{\char`\/}}}%
+            \catcode`\.\active
+            \catcode`\,\active
+            \catcode`\;\active
+            \catcode`\:\active
+            \catcode`\?\active
+            \catcode`\!\active
+            \catcode`\/\active
+            \lccode`\~`\~
+        }
+    \makeatother
+
+    \let\OriginalVerbatim=\Verbatim
+    \makeatletter
+    \renewcommand{\Verbatim}[1][1]{%
+        %\parskip\z@skip
+        \sbox\Wrappedcontinuationbox {\Wrappedcontinuationsymbol}%
+        \sbox\Wrappedvisiblespacebox {\FV@SetupFont\Wrappedvisiblespace}%
+        \def\FancyVerbFormatLine ##1{\hsize\linewidth
+            \vtop{\raggedright\hyphenpenalty\z@\exhyphenpenalty\z@
+                \doublehyphendemerits\z@\finalhyphendemerits\z@
+                \strut ##1\strut}%
+        }%
+        % If the linebreak is at a space, the latter will be displayed as visible
+        % space at end of first line, and a continuation symbol starts next line.
+        % Stretch/shrink are however usually zero for typewriter font.
+        \def\FV@Space {%
+            \nobreak\hskip\z@ plus\fontdimen3\font minus\fontdimen4\font
+            \discretionary{\copy\Wrappedvisiblespacebox}{\Wrappedafterbreak}
+            {\kern\fontdimen2\font}%
+        }%
+
+        % Allow breaks at special characters using \PYG... macros.
+        \Wrappedbreaksatspecials
+        % Breaks at punctuation characters . , ; ? ! and / need catcode=\active
+        \OriginalVerbatim[#1,codes*=\Wrappedbreaksatpunct]%
+    }
+    \makeatother
+
+    % Exact colors from NB
+    \definecolor{incolor}{HTML}{303F9F}
+    \definecolor{outcolor}{HTML}{D84315}
+    \definecolor{cellborder}{HTML}{CFCFCF}
+    \definecolor{cellbackground}{HTML}{F7F7F7}
+
+    % prompt
+    \makeatletter
+    \newcommand{\boxspacing}{\kern\kvtcb@left@rule\kern\kvtcb@boxsep}
+    \makeatother
+    \newcommand{\prompt}[4]{
+        {\ttfamily\llap{{\color{#2}[#3]:\hspace{3pt}#4}}\vspace{-\baselineskip}}
+    }
+    
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+\begin{document}
+    
+    \maketitle
+    
+    
+
+    
+    Probability for Data Science
+
+UC Berkeley, Spring 2026
+
+Ani Adhikari
+
+CC BY-NC-SA 4.0
+
+This content is protected and may not be shared, uploaded, or
+distributed.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{1}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{warnings}
+\PY{n}{warnings}\PY{o}{.}\PY{n}{filterwarnings}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ignore}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{prob140}\PY{+w}{ }\PY{k+kn}{import} \PY{o}{*}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{datascience}\PY{+w}{ }\PY{k+kn}{import} \PY{o}{*}
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{numpy}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{np}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{scipy}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{stats}
+
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{plt}
+\PY{o}{\PYZpc{}}\PY{k}{matplotlib} inline
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{matplotlib}
+\PY{n}{matplotlib}\PY{o}{.}\PY{n}{style}\PY{o}{.}\PY{n}{use}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{fivethirtyeight}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \hypertarget{section}{%
+\section{}\label{section}}
+
+    \hypertarget{homework-10-due-monday-april-13th-at-5pm}{%
+\section{Homework 10 (Due Monday, April 13th at
+5PM)}\label{homework-10-due-monday-april-13th-at-5pm}}
+
+    \hypertarget{instructions}{%
+\subsubsection{Instructions}\label{instructions}}
+
+\hypertarget{questions-1-2-3-and-4-can-be-answered-based-on-tuesdays-lecture-and-past-content-alone.}{%
+\paragraph{\texorpdfstring{\textbf{Questions 1, 2, 3, and 4 can be
+answered based on Tuesday's lecture (and past content)
+alone.}}{Questions 1, 2, 3, and 4 can be answered based on Tuesday's lecture (and past content) alone.}}\label{questions-1-2-3-and-4-can-be-answered-based-on-tuesdays-lecture-and-past-content-alone.}}
+
+\hypertarget{we-strongly-encourage-you-to-attempt-questions-2-and-5-independently-relying-on-the-provided-textbook-sections-and-your-own-reasoning.-if-you-find-yourself-stuck-we-recommend-attending-office-hours-or-homework-party-or-posting-your-questions-on-ed.-if-youre-having-trouble-getting-started-on-problems-without-the-use-of-ai-we-encourage-you-to-follow-our-recommendation.}{%
+\paragraph{\texorpdfstring{\textbf{We strongly encourage you to attempt
+Questions 2 and 5 independently, relying on the provided textbook
+sections and your own reasoning. If you find yourself stuck, we
+recommend attending office hours or homework party or posting your
+questions on Ed. If you're having trouble getting started on problems
+without the use of AI, we encourage you to follow our
+recommendation.}}{We strongly encourage you to attempt Questions 2 and 5 independently, relying on the provided textbook sections and your own reasoning. If you find yourself stuck, we recommend attending office hours or homework party or posting your questions on Ed. If you're having trouble getting started on problems without the use of AI, we encourage you to follow our recommendation.}}\label{we-strongly-encourage-you-to-attempt-questions-2-and-5-independently-relying-on-the-provided-textbook-sections-and-your-own-reasoning.-if-you-find-yourself-stuck-we-recommend-attending-office-hours-or-homework-party-or-posting-your-questions-on-ed.-if-youre-having-trouble-getting-started-on-problems-without-the-use-of-ai-we-encourage-you-to-follow-our-recommendation.}}
+
+Your homeworks will generally have two components: a written portion and
+a portion that also involves code. Written work should be completed on
+paper, and coding questions should be done in the notebook. Start the
+work for the written portions of each section on a new page. You are
+welcome to \(\LaTeX\) your answers to the written portions, but staff
+will not be able to assist you with \(\LaTeX\) related issues.
+
+It is your responsibility to ensure that both components of the homework
+are submitted completely and properly to Gradescope. \textbf{Make sure
+to assign each page of your pdf to the correct question. Refer to the
+bottom of the notebook for submission instructions.}
+
+    \hypertarget{how-to-do-your-homework}{%
+\subsubsection{How to Do Your Homework}\label{how-to-do-your-homework}}
+
+The point of homework is for you to try your hand at using what you've
+learned in class. The steps to follow:
+
+\begin{itemize}
+\tightlist
+\item
+  Go to lecture and sections, and also go over the relevant text
+  sections before starting on the homework. This will remind you what
+  was covered in class, and the text will typically contain examples not
+  covered in lecture. The weekly Study Guide will list what you should
+  read.
+\item
+  Work on some of the practice problems before starting on the homework.
+\item
+  Attempt the homework problems by yourself with the text, section work,
+  and practice materials all at hand. Sometimes the week's lab will help
+  as well. The two steps above will help this step go faster and be more
+  fruitful.
+\item
+  At this point, seek help if you need it. Don't ask how to do the
+  problem --- ask how to get started, or for a nudge to get you past
+  where you are stuck. Always say what you have already tried. That
+  helps us help you more effectively.
+\item
+  For a good measure of your understanding, keep track of the fraction
+  of the homework you can do by yourself or with minimal help. It's a
+  better measure than your homework score, and only you can measure it.
+\end{itemize}
+
+    \hypertarget{rules-for-homework}{%
+\subsubsection{Rules for Homework}\label{rules-for-homework}}
+
+\begin{itemize}
+\tightlist
+\item
+  Every answer should contain a calculation or reasoning. For example, a
+  calculation such as \((1/3)(0.8) + (2/3)(0.7)\) or
+  \texttt{sum({[}(1/3)*0.8,\ (2/3)*0.7{]})}is fine without further
+  explanation or simplification. If we want you to simplify, we'll ask
+  you to. But just \({5 \choose 2}\) by itself is not fine; write ``we
+  want any 2 out of the 5 frogs and they can appear in any order'' or
+  whatever reasoning you used. Reasoning can be brief and abbreviated,
+  e.g.~``product rule'' or ``not mutually exclusive.''
+\item
+  You may consult others (see ``How to Do Your Homework'' above) but you
+  must write up your own answers using your own words, notation, and
+  sequence of steps.
+\item
+  We'll be using Gradescope. You must submit the homework according to
+  the instructions at the end of homework set.
+\end{itemize}
+
+\hypertarget{we-will-not-grade-assignments-which-do-not-have-pages-correctly-selected-for-each-question.}{%
+\subsection{\texorpdfstring{\textbf{We will not grade assignments which
+do not have pages correctly selected for each
+question.}}{We will not grade assignments which do not have pages correctly selected for each question.}}\label{we-will-not-grade-assignments-which-do-not-have-pages-correctly-selected-for-each-question.}}
+
+    \hypertarget{preliminary-line-plots}{%
+\subsubsection{Preliminary: Line Plots}\label{preliminary-line-plots}}
+
+In Data 8 you used \texttt{Table.plot} to draw line plots, but in this
+class the line plots have typically been drawn using the plot function
+of matplotlib. Here is the syntax; you are going to need it in the
+exercises. It's easier than setting up tables first, especially when you
+want to overlay multiple plots.
+
+The \texttt{pyplot} module of matplotlib has been imported for you as
+\texttt{plt}. This is its standard abbreviation.
+
+Let \texttt{x} and \texttt{y} be two numerical arrays of the same
+length. Then \texttt{plt.plot(x,\ y)} produces a line plot with values
+of \texttt{x} on the horizontal axis and the corresponding values of
+\texttt{y} on the vertical. The plot ``joins the dots''
+\texttt{(x.item(0),\ y.item(0))}, \texttt{(x.item(1),\ y.item(1))},
+\texttt{(x.item(2),\ y.item(2))}, and so on.
+
+The optional argument \texttt{lw=n} can be used to set a line width of n
+units. Please use \texttt{lw=2} in this homework.
+
+The semicolon at the end of the last line of code in each cell stops
+matplotlib from blurting out text that we don't need here.
+
+Run these cells to see some examples. Note the overlaid plots: they are
+straightforward to draw, and Python chooses a different color for each
+plot.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{3}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{x} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mf}{1.01}\PY{p}{,} \PY{l+m+mf}{0.01}\PY{p}{)}
+\PY{n}{x\PYZus{}squared} \PY{o}{=} \PY{n}{x} \PY{o}{*}\PY{o}{*} \PY{l+m+mi}{2}
+\PY{n}{x\PYZus{}cubed} \PY{o}{=} \PY{n}{x}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{3}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{x\PYZus{}squared}\PY{p}{,} \PY{n}{lw}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{x\PYZus{}cubed}\PY{p}{,} \PY{n}{lw}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}\PY{p}{;}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    You can add titles, labels, and legends.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{4}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{x\PYZus{}squared}\PY{p}{,} \PY{n}{lw}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{label} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Square}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{x\PYZus{}cubed}\PY{p}{,} \PY{n}{lw}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{label} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Cube}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{x}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Powers of \PYZdl{}x\PYZdl{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{;}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    As another example, the code below was used in Homework 8 Exercise 4d to
+plot gamma densities.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{5}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{t} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{25}\PY{p}{,} \PY{l+m+mf}{0.01}\PY{p}{)}
+\PY{n}{r\PYZus{}1} \PY{o}{=} \PY{n}{stats}\PY{o}{.}\PY{n}{gamma}\PY{o}{.}\PY{n}{pdf}\PY{p}{(}\PY{n}{t}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{,} \PY{n}{scale}\PY{o}{=}\PY{l+m+mi}{1}\PY{o}{/}\PY{l+m+mf}{0.25}\PY{p}{)}
+\PY{n}{r\PYZus{}1\PYZus{}5} \PY{o}{=} \PY{n}{stats}\PY{o}{.}\PY{n}{gamma}\PY{o}{.}\PY{n}{pdf}\PY{p}{(}\PY{n}{t}\PY{p}{,} \PY{l+m+mf}{1.5}\PY{p}{,} \PY{n}{scale}\PY{o}{=}\PY{l+m+mi}{1}\PY{o}{/}\PY{l+m+mf}{0.25}\PY{p}{)}
+\PY{n}{r\PYZus{}2} \PY{o}{=} \PY{n}{stats}\PY{o}{.}\PY{n}{gamma}\PY{o}{.}\PY{n}{pdf}\PY{p}{(}\PY{n}{t}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{,} \PY{n}{scale}\PY{o}{=}\PY{l+m+mi}{1}\PY{o}{/}\PY{l+m+mf}{0.25}\PY{p}{)}
+\PY{n}{r\PYZus{}2\PYZus{}5} \PY{o}{=} \PY{n}{stats}\PY{o}{.}\PY{n}{gamma}\PY{o}{.}\PY{n}{pdf}\PY{p}{(}\PY{n}{t}\PY{p}{,} \PY{l+m+mf}{2.5}\PY{p}{,} \PY{n}{scale}\PY{o}{=}\PY{l+m+mi}{1}\PY{o}{/}\PY{l+m+mf}{0.25}\PY{p}{)}
+\PY{n}{r\PYZus{}3} \PY{o}{=} \PY{n}{stats}\PY{o}{.}\PY{n}{gamma}\PY{o}{.}\PY{n}{pdf}\PY{p}{(}\PY{n}{t}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{,} \PY{n}{scale}\PY{o}{=}\PY{l+m+mi}{1}\PY{o}{/}\PY{l+m+mf}{0.25}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{t}\PY{p}{,} \PY{n}{r\PYZus{}1}\PY{p}{,} \PY{n}{lw}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{gamma (1, 0.25)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{t}\PY{p}{,} \PY{n}{r\PYZus{}1\PYZus{}5}\PY{p}{,} \PY{n}{lw}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{gamma (1.5, 0.25)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{t}\PY{p}{,} \PY{n}{r\PYZus{}2}\PY{p}{,} \PY{n}{lw}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{gamma (2, 0.25)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{t}\PY{p}{,} \PY{n}{r\PYZus{}2\PYZus{}5}\PY{p}{,} \PY{n}{lw}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{gamma (2.5, 0.25)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{t}\PY{p}{,} \PY{n}{r\PYZus{}3}\PY{p}{,} \PY{n}{lw}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{gamma (3, 0.25)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZdl{}t\PYZdl{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Gamma Densities: Same Rate and Different Shape Parameters}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{;}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \newpage
+
+    \hypertarget{poisson-mgf}{%
+\subsection{1. Poisson MGF}\label{poisson-mgf}}
+
+Let \(X\) have Poisson(\(\mu\)) distribution, and let \(Y\) independent
+of \(X\) have Poisson \((\lambda)\) distribution.
+
+\textbf{a)} Derive the moment generating function of \(X\). The answer
+is in the textbook. Your task here is to show why it's true.
+
+\begin{align*}
+	M_{X}(t) &= E[e^{tX}] \\
+	&= \sum_{k=0}^{\infty } e^{tk} e^{-\mu } \frac{\mu ^{k}}{k!} \\
+	&= e^{-\mu } \sum_{k=0}^{\infty } e^{tk} \frac{\mu ^{k}}{k!} \\
+	&= e^{-\mu } \left( 1 + e^{t} \frac{\mu }{1} + e^{2t} \frac{\mu ^{2}}{2!} + \dots\right)  \\
+	&= e^{-\mu } \left( 1 + \frac{\left( e^{t}\mu  \right)^{1} }{1!} + \frac{\left( e^{t}\mu  \right) ^{2}}{2!} + \dots \right)  \\
+	&= e^{-\mu } e^{e^{t}\mu } \\
+	&= e^{e^{t}\mu  - \mu } \\
+	&= e^{\mu ( e^{t} - 1)} \\
+\end{align*}
+
+
+
+\textbf{b)} Use the result of (a) to show that the distribution of
+\(X+Y\) is Poisson.
+
+
+\begin{align*}
+	M_{X+Y}(t) &= E[e^{tX}e^{tY}] \\
+	&= e^{\mu (e^{t}-1)} \cdot e^{\lambda (e^{t}-1)} \\
+	&= e^{\mu (e^{t}-1) + \lambda(e^{t-1)})} \\
+	&= e^{(e^{t}-1)(\mu +\lambda)} \\
+\end{align*}
+
+This is the MGF for a Poisson distribution with parameter $\mu + \lambda$ 
+
+
+    \newpage
+
+    \hypertarget{gamma-tail-bound}{%
+\subsection{2. Gamma Tail Bound}\label{gamma-tail-bound}}
+
+Before you do this exercise, carefully study a
+\href{https://data140.org/textbook/content/chapter-19/chernoff-bound/\#application-to-the-normal-distribution}{relevant
+example} in the textbook. You will have to follow similar steps.
+
+You will need the
+\href{https://data140.org/textbook/content/chapter-19/moment-generating-functions/\#mgf-of-a-gamma-r-lambda-random-variable}{mgf
+of the gamma distribution}. Also remember that you found the gamma mean
+and variance in Homework 8.
+
+If you want more information, read through
+\href{https://data140.org/textbook/content/chapter-12/bounds/}{Ch. 12.3}
+(Tail Bounds),
+\href{https://data140.org/textbook/content/chapter-19/moment-generating-functions/}{Ch.
+19.2} (MGFs), and
+\href{https://data140.org/textbook/content/chapter-19/chernoff-bound/}{Ch.
+19.4} (Chernoff Bounds) in its entirety. If you have any questions, come
+to office hours or post them on Ed.
+
+Let \(X\) have the gamma \((r, \lambda)\) distribution.
+
+\textbf{a)} Show that \(P(X \ge 2E(X)) \le \left(\frac{2}{e}\right)^r\).
+
+
+\begin{align*}
+	P(X \ge 2E[X]) &= P(e^{tX} \ge e^{2tE[X]})  \\
+		       &\le \min_{t>0}\frac{E[e^{tX}]}{e^{2tE[X]}} \\
+		       &= \min_{t>0} \frac{M_{X}(t)}{e^{2tE[X]}} \\
+		       &= \min_{t>0}\left( \frac{\lambda}{\lambda-t} \right) ^{r} / e^{2 \frac{rt}{\lambda}}  \\
+\end{align*}
+
+The minimum value of this function is where the log of that function is minimized.
+
+$$
+	f(t) = \log (\left( \frac{\lambda}{\lambda - rt} \right) ^{r} / e^{2 \frac{rt}{\lambda}}) = r\log\left( \frac{\lambda}{\lambda-t} \right) - 2 \frac{rt}{\lambda} = r\log(\lambda) - r\log(\lambda-t) - \frac{2rt}{\lambda}\\
+$$
+
+\begin{align*}
+	\frac{df}{dt} &= \frac{r}{\lambda - \hat t} - \frac{2r}{\lambda} = 0\\
+	\lambda - \hat t &= \frac{\lambda}{2} \\
+	\hat t &= \lambda - \frac{\lambda}{2}  \\
+	\hat t &= \frac{\lambda}{2} \\
+\end{align*}
+
+Plugging back into the original function:
+
+\begin{align*}
+	\min_{t>0} \left( \frac{\lambda}{\lambda-t}^{r} \right) / e^{2 \frac{rt}{\lambda}} &= \left( \frac{\lambda}{\lambda - \frac{\lambda}{2}} \right)^{r} / e^{2 r \frac{\lambda}{2} / \lambda} \\
+	&= \left( \frac{\lambda}{\frac{\lambda}{2}} \right) ^{r} / e^{r} \\
+	&= \left( \frac{2^{r}}{e^{r}} \right)  \\
+	&= \left( \frac{2}{e} \right) ^{r} \\
+\end{align*}
+
+
+\textbf{b)} Find Markov's and Chebyshev's bounds on \(P(X \ge 2E(X))\).
+
+
+Markov:
+\begin{align*}
+	P(X \ge 2E[X]) &\le \frac{E[X]}{2E[X]}\\
+	&= \frac{1}{2} \\
+\end{align*}
+
+Chebyshev's
+
+\begin{align*}
+	P(X \ge 2E[X]) &= P(X - E[X] \ge E[X]) \\
+		       &\le P(\vert X - E[X] \vert \ge E[X]) \\
+		       &\le \frac{Var(X)}{E[X]^{2}} \\ 
+		       &\le \frac{r}{\lambda^{2}} / \frac{r^{2}}{\lambda^{2}}\\
+		       &= \frac{1}{r} \\
+\end{align*}
+
+
+\textbf{c) {[}CODE{]}} Fix \(\lambda = 1\). Display overlaid plots of
+the following four graphs as functions of \(r\), for \(r\) in the
+interval \((0.5, 15)\) :
+
+\begin{itemize}
+\tightlist
+\item
+  The exact tail probability \(P(X \ge 2E(X))\)
+\item
+  The bound in Part \textbf{a}: \(\left(\frac{2}{e}\right)^r\)
+\item
+  Chebyshev's bound on \(P(X \ge 2E(X))\)
+\item
+  Markov's bound on \(P(X \ge 2E(X))\)
+\end{itemize}
+
+The code uses \texttt{plt.plot} which you have used before. The
+expression \texttt{stats.gamma.cdf(x,\ r,\ scale=1)} evaluates to the
+cdf of the gamma \((r, 1)\) distribution at the point \(x\).
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Answer to c}
+\PY{n}{r} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{l+m+mf}{0.05}\PY{p}{,} \PY{l+m+mi}{15}\PY{p}{,} \PY{l+m+mf}{0.1}\PY{p}{)} 
+
+\PY{n}{markov\PYZus{}bound} \PY{o}{=} \PY{o}{.}\PY{o}{.}\PY{o}{.}
+
+\PY{n}{chebyshev\PYZus{}bound} \PY{o}{=} \PY{o}{.}\PY{o}{.}\PY{o}{.}
+
+\PY{n}{part\PYZus{}a\PYZus{}bound} \PY{o}{=} \PY{o}{.}\PY{o}{.}\PY{o}{.}
+
+\PY{c+c1}{\PYZsh{} Use as many lines as you need for the exact values}
+\PY{n}{exact} \PY{o}{=} \PY{o}{.}\PY{o}{.}\PY{o}{.}
+\PY{o}{.}\PY{o}{.}\PY{o}{.}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{r}\PY{p}{,} \PY{n}{exact}\PY{p}{,} \PY{n}{lw}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Exact Chance}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{r}\PY{p}{,} \PY{n}{part\PYZus{}a\PYZus{}bound}\PY{p}{,} \PY{n}{lw}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Part (a) Bound}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{r}\PY{p}{,} \PY{n}{chebyshev\PYZus{}bound}\PY{p}{,} \PY{n}{lw}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Chebyshev Bound}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{r}\PY{p}{,} \PY{n}{markov\PYZus{}bound}\PY{p}{,} \PY{n}{lw}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Markov Bound}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZdl{}r\PYZdl{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylim}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlim}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{15}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZdl{}P(X }\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{geq 2E(X))\PYZdl{} for \PYZdl{}X\PYZdl{} gamma \PYZdl{}(r, 1)\PYZdl{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{;}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \newpage
+
+    \hypertarget{mle-of-the-exponential-rate}{%
+\subsection{3. MLE of the Exponential
+Rate}\label{mle-of-the-exponential-rate}}
+
+For \(n > 1\), let \(X_1, X_2, \ldots , X_n\) be i.i.d. exponential
+\((\lambda )\) variables.
+
+\textbf{a)} Let \(\hat{\lambda}_n\) be the maximum likelihood estimate
+(MLE) of the parameter \(\lambda\). Find \(\hat{\lambda}_n\) in terms of
+the sample mean \(\bar{X}_n = \frac{1}{n} \sum_{i=1}^n X_i\). The
+subscript \(n\) in \(\bar{X}_n\) is there to remind us that we have the
+average of \(n\) values. It doesn't refer to the \(n\)th sampled value
+\(X_n\).
+
+
+\begin{align*}
+	lik(\lambda) &= \prod_{i=1}^{n}\lambda e^{-\lambda X_{i}} \\
+	&= \lambda^{n} e^{-n\lambda\sum_{i=1}^{n}X_{i}}\\
+\end{align*}
+
+$$ \min_{\lambda} lik(\lambda) = \min_{\lambda} L(\lambda)$$ 
+
+\begin{align*}
+	L(\lambda) &=\log( \lambda^{n}e^{-\lambda \sum_{i=1}^{n} X_{i}}) \\
+&= n\log(\lambda) - \lambda \sum_{i=1}^{n}X_{i} \\
+\end{align*}
+
+
+\begin{align*}
+\frac{dL}{d\lambda} &= \frac{n}{\lambda} -  \sum_{i=1}^{n}X_{i} = 0\\ 
+\frac{n}{\lambda} &= \sum_{i=1}^{n}X_{i} \\
+\hat \lambda &=  \frac{n}{\sum_{i=1}^{n}X_{i}}  \\
+&= \frac{1}{\bar X_{n}} \\
+\end{align*}
+
+
+
+\textbf{b)} Use facts about sums and linear transformations to find the
+distribution of \(\bar{X}_n\) with little or no calculation. Recognize
+it as one of the famous ones and provide its name and parameters. Use it
+to find \(E(\hat{\lambda}_n)\).
+
+The sum of exponential random variables is a gamma distribution. Then we apply a linear transformation of $\frac{1}{n}$ to that gamma distribution. Thus, $\sum_{i=1}^{n}X$ is a Gamma($n, \lambda$), and $\bar X$ is a Gamma($n, n\lambda$) distribution. Thinking about it as adding i.i.d. exponential($n\lambda$) r.v.s also works.  
+
+
+\begin{align*}
+	E[\hat \lambda_{n}] &= E[\frac{1}{\bar X_{n}}]\\
+	&= \int_{0}^{\infty } \frac{1}{x} f_{\bar X_{n}}(x) dx \\
+	&= \int_{0}^{\infty } x^{-1} \frac{(n\lambda)^{n}}{\Gamma(n)} x^{n-1}e^{-n\lambda x}dx \\
+	&= \int_{0}^{\infty } \frac{(n\lambda)^{n}}{\Gamma(n)} x^{(n-1) - 1}e^{-n\lambda x}dx \\
+	&= \frac{(n\lambda)^{n}}{\Gamma(n)} \int_{0}^{\infty } x^{(n-1) -1}e^{-n\lambda x}dx \\
+	&= \frac{(n\lambda)^{n}}{\Gamma(n)} \frac{\Gamma(n-1)}{(n\lambda)^{n-1}} \\
+	&= n\lambda \cdot \frac{\Gamma(n-1)}{\Gamma(n)} \\
+	&= \frac{n\lambda}{n-1} \\
+	&= \lambda \left(\frac{n}{n-1}\right) \\
+\end{align*}
+
+
+
+
+\textbf{c)} Is \(\hat{\lambda}_n\) an unbiased estimate of \(\lambda\)?
+If it is biased, does it overestimate on average, or does it
+underestimate? Is it asymptotically unbiased? That is, does
+\(E(\hat{\lambda}_n)\) converge to \(\lambda\) as \(n \to \infty\)?
+
+No, $\hat \lambda$ is not an unbiased estimator of $\lambda$. It will overestimate on average, because of the $\frac{n}{n-1}$ term. However, as $n\to \infty $, $\frac{n}{n-1} \to 1$, which means that it converges to $\lambda$. 
+    \newpage
+
+    \hypertarget{mle-and-map-estimates}{%
+\subsection{4. MLE and MAP Estimates}\label{mle-and-map-estimates}}
+
+The coin is tossed 10 times and the resulting sequence is HTTHHHTHTH. In
+the parts below, we refer to this information as ``the data''.
+
+\textbf{a)} Under the assumption that the coin lands heads with a fixed
+unknown probability \(p\), find the MLE of \(p\) based on the data.
+
+
+\begin{align*}
+	lik(p) &= p^{6}(1-p)^{4} \\ 
+	L(p) &= 6\log(p) + 4\log(1-p)\\
+	\frac{dL}{dp} &= \frac{6}{p} + \frac{4}{1-p} \\
+	\frac{6}{\hat p} - \frac{4}{1 - \hat p} &= 0 \\
+	\frac{6(1-\hat p) - 4p}{1-\hat p } &= 0 \\
+	6 - 6\hat p - 4 \hat p  &= 0 \\
+	10\hat p &= 6 \\
+\hat p = \frac{6}{10} 
+\end{align*}
+
+
+\textbf{b)} Suppose now that the coin lands heads with a random
+probability \(X\). Let the prior density of \(X\) be uniform on the unit
+interval. Find the MAP estimate of the probability of heads, given the
+data.
+
+
+We showed during lecture that the MAP estimate given a prior beta(r, s) density, will be beta(r+k, s+n-k).
+
+A uniform(0,1) distribution is the same as the beta(1,1) distribution. Thus, the postier distribution will be beta(1+6 = 7, 1+4 =5). Therefore the mode of this distribution is:
+
+$$\frac{r+k-1}{r+s+n-2} = \frac{6}{10}$$
+
+\textbf{c)} Show that if \(r > 1\) and \(s > 1\) then the mode of the
+beta \((r, s)\) distribution is \((r-1)/(r+s-2)\). Remember to ignore
+multiplicative constants and take the log before maximizing.
+
+
+The beta pdf is:
+
+$$\frac{\Gamma(r+s)}{\Gamma(r)\Gamma(s)}x^{r-1}(1-x)^{s-1} = C(r,s)x^{r-1}(1-x)^{s-1}$$
+
+The mode is where this density is maximised. Since r and s are constants, we only care about the x value, and we do not care about the constant as it does not depend on x. 
+Furthermore, maximizing the log of this function also maximises the original. 
+
+Thus
+$$
+	\max_{x, r>1, s>1} g(x)  = (r-1)\log(x) + (s-1)\log(1-x) 
+$$
+
+\begin{align*}
+	\frac{dg}{dx} = \frac{r-1}{x} - \frac{s-1}{1-x} &= 0 \\
+	(r-1)(1-x) - (s-1)(x) &= 0 \\
+	(r - rx -1 +x) - (sx - x) &= 0 \\
+	r - rx - sx - 1 +2x &= 0 \\
+	r - 1 -x(r + s - 2) &= 0 \\
+	\boxed{\hat x = \frac{1-r}{r+s-2}}
+\end{align*}
+
+\textbf{d)} Suppose instead that the prior density of \(X\) is
+\(f(x) = 4x^3\) if \(0 < x < 1\) and \(0\) otherwise. Find the MAP
+estimate of the probability of heads, given the data.
+
+
+\begin{align*}
+	f_{X \mid S_{10}=  6} &\propto f_{X}(p)dp \binom{10}{6}p^{6}(1-p)^{4} \\
+	&= 4p^{3} \binom{10}{6} p^{6}(1-p)^{4} \\
+	&\propto p^{3} p^{6}(1-p)^{4} = p^{9}(1-p)^{4}
+\end{align*}
+
+\begin{align*}
+	\log(f(p)) &= 9\log(p) + 4\log(1-p) \\
+	\frac{9}{\hat p} - \frac{4}{1-\hat p } &= 0 \\
+	9(1-\hat p) - 4(\hat p) &= 0\\
+	9 - 13\hat p   &= 0 \\
+	\hat p &= \frac{9}{13} \\
+\end{align*}
+
+    \newpage
+
+    \hypertarget{heads-in-tosses-of-a-random-coin}{%
+\subsection{5. Heads in Tosses of a Random
+Coin}\label{heads-in-tosses-of-a-random-coin}}
+
+Before you do this exercise, carefully read through
+\href{https://data140.org/textbook/content/chapter-20/independence-revisited/}{Ch.
+20.2} (Independence, Revisisted) and
+\href{https://data140.org/textbook/content/chapter-21/updating-and-prediction/}{Ch.
+21.1} (Updating and Prediction). For more assistance, look through Ch.
+21 Ex.2 and Ch. 21 Ex.3, which is done in Friday's section. If you have
+any questions, come to office hours or post them on Ed.
+
+Let \(X\) be a random proportion with a prior distribution that is beta
+\((2, 3)\). Given \(X=p\), let \(I_1, I_2, I_3, \ldots\) be i.i.d.
+Bernoulli \((p)\).
+
+\textbf{a)} Plot the prior density of \(X\).
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Answer to a}
+
+\PY{n}{x} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mf}{1.01}\PY{p}{,} \PY{l+m+mf}{0.01}\PY{p}{)}
+\PY{o}{.}\PY{o}{.}\PY{o}{.}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Beta \PYZdl{}(2, 3)\PYZdl{} density}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{;}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \textbf{b)} Let \(H_7 = \sum_{k=1}^7 I_k\). For each
+\(h = 0, 1, \ldots, 7\), plot the posterior density of \(X\) given
+\(H_7 = h\). All \(8\) plots should be on the same graph.
+
+Use as many lines of code as you need. You don't have to include labels
+and a legend, but the title should say which densities you are plotting.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Answer to b}
+
+\PY{o}{.}\PY{o}{.}\PY{o}{.}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{... (...) Densities for \PYZdl{}0 }\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{leq h }\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{leq 7}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{;}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \textbf{c)} What is the MAP estimate of the random probability of heads
+given \(H_7 = 2\)? Calculate the estimate using the appropriate formula
+and confirm that your answer agrees with the estimate visible in the
+appropriate graph above.
+
+\textbf{d)} Find \(P(I_8 = 1 \mid H_7 = 2)\). Your answer should be a
+decimal value.
+
+\textbf{e)} Find \(P(I_8 = 1, I_9 = 1, I_{10} = 1 \mid H_7 = 2)\). Your
+answer should be a decimal value. Is it equal to the cube of the answer
+to Part (d)? If not, which is bigger?
+
+    \newpage
+
+    \hypertarget{submission-instructions}{%
+\subsection{Submission Instructions}\label{submission-instructions}}
+
+Many assignments throughout the course will have a written portion and a
+code portion. Please follow the directions below to properly submit both
+portions.
+
+\hypertarget{written-portion}{%
+\subsubsection{Written Portion}\label{written-portion}}
+
+\begin{itemize}
+\tightlist
+\item
+  Scan all the pages into a PDF. You can use any scanner or a phone
+  using applications such as CamScanner. Please \textbf{DO NOT} simply
+  take pictures using your phone.
+\item
+  Please start a new page for each question. If you have already written
+  multiple questions on the same page, you can crop the image in
+  CamScanner or fold your page over (the old-fashioned way). This helps
+  expedite grading.
+\item
+  It is your responsibility to check that all the work on all the
+  scanned pages is legible.
+\item
+  If you used \(\LaTeX\) to do the written portions, you do not need to
+  do any scanning; you can just download the whole notebook as a PDF via
+  LaTeX.
+\end{itemize}
+
+\hypertarget{code-portion}{%
+\subsubsection{Code Portion}\label{code-portion}}
+
+\begin{itemize}
+\tightlist
+\item
+  Save your notebook using
+  \texttt{File\ \textgreater{}\ Save\ and\ Checkpoint}.
+\item
+  Generate a PDF file using
+  \texttt{File\ \textgreater{}\ Download\ As\ \textgreater{}\ PDF\ via\ LaTeX}.
+  This might take a few seconds and will automatically download a PDF
+  version of this notebook.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    If you have issues, please post a follow-up on the general Homework
+    10 Ed thread.
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{submitting}{%
+\subsubsection{Submitting}\label{submitting}}
+
+\begin{itemize}
+\tightlist
+\item
+  Combine the PDFs from the written and code portions into one PDF.
+  \href{https://smallpdf.com/merge-pdf}{Here} is a useful tool for doing
+  so.
+\item
+  Submit the assignment to Homework 10 on Gradescope.
+\item
+  \textbf{Make sure to assign each page of your pdf to the correct
+  question.}
+\item
+  \textbf{It is your responsibility to verify that all of your work
+  shows up in your final PDF submission.}
+\end{itemize}
+
+If you are having difficulties scanning, uploading, or submitting your
+work, please read the
+\href{https://edstem.org/us/courses/94054/discussion/7533569}{Ed Thread}
+on this topic and post a follow-up on the general Homework 10 Ed thread.
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+\end{document}
