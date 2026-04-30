@@ -1,0 +1,72 @@
+
+\documentclass{report}
+
+\input{../../preamble}
+\input{../../macros}
+\input{../../letterfonts}
+
+\title{\Huge{164 Project}\ }
+\author{\huge{Ryan Lin}}
+\date{}
+
+\begin{document}
+\maketitle
+\newpage% or \cleardoublepage
+% \pdfbookmark[<level>]{<title>}{<dest>}
+\pdfbookmark[section]{\contentsname}{toc}
+\tableofcontents
+\pagebreak
+
+\chapter{}
+\section{Introduction}
+
+PencilBrain AI is a startup looking to leverage AI to maintain its platform geared to academic support resources. The target demographic are high school and college students looking for assistance in school work for math and history courses. As a result we want our AI to select the best model to handle math and knowledge prompts. However to maintain credibility, we can not neglect coding prompts, but it is not a high priority for our model matching. To further boost credibility, we need to ensure that our company can provide high quality answers using our AI platform. Additionally, since we are a start up, our business model needs to weigh budget as a critical factor and we currently run on a smaller scale budget compared to competitors. We also don’t have much existing technical or computer infrastructure, meaning in a fixed costs for self hosted open source models.  Overall, we are looking to explore or LLM options to optimize the quality of Math and Knowledge prompts while sustaining our mid level budget.  
+
+	We will formulate our model as a multi-stage stochastic optimization problem. This suits our needs because we don’t know what prompt the user will input at time of use, and we want to maximize quality while minimizing costs. Our limited time and budget results in a limited model count that we are able to support, therefore we need to have made such decisions beforehand. This is our stage 1 decision. After we simulate random prompting from users, we can decide on which types of prompts that we want to route prompt types towards. For example, we could route AIME style math prompts to GPT-5. Finally, we can simulate whether or not the model actually answered the question correctly. If not, we can decide to elevate the question to another model to hopefully get a better result. For this process, a multi stage stochastic optimization model is a good tool to solve this problem. 
+
+
+\section{Optimization Model}
+Parameters:
+\begin{itemize}
+	\item $\mathcal{M} := \{m\}_{m=1}^{M}$ the set of candidate models
+	\item $\mathcal{P} := \{p\}_{i=i}^{P}$ be the set of prompts
+	\item $C_{p, m} $ be the costs that each candidate model incurs from resolving prompt $p$. $p \in \mathcal{P}, m \in \mathcal{M}$  
+	\item $C_{o}$ be the cost incurred from supporting an open source model
+	\item $D$ be the costs incurred from supporting additional models of different parent companies.
+\end{itemize}
+
+\noindent
+Decision Variables: 
+\begin{itemize}
+	\item $x_{p,m} \in \{0,1\}$ binary decision whether to assign a model $m$ to prompt $p$ initially
+	\item $y_{m_1, m_2} \in \{0,1\}$: binary decision to assign model $m_1$ to model $m_2$ if model $m_1$ fails at meeting minimum requirements.
+\end{itemize}
+
+Our general optimization will be: 
+\begin{align*}
+	\min_{x, y}: \quad & \sum_{p \in \mathcal{P}}C(p, m) - \alpha Q(p, m) \\
+\end{align*}
+
+
+
+\[
+Q(p, m) = \begin{cases}
+	10, \quad &\text{if prompt is General Knowledge or Maths} \\
+	5, &\text{if prompt is Coding}
+\end{cases}
+\]
+
+\[
+C(p, m) =
+
+
+\]
+
+
+
+
+
+
+
+
+\end{document}

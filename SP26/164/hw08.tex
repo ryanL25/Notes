@@ -1,0 +1,131 @@
+
+\documentclass{report}
+
+\input{../../preamble}
+\input{../../macros}
+\input{../../letterfonts}
+
+\title{Assignment 9}
+\author{Ryan Lin}
+\date{}
+
+\begin{document}
+\maketitle
+\section{Question 1}
+\subsection{Mixed Integer Problem}
+
+Original Problem: 
+\begin{align*}
+	\min_{w \in \mathbb{R}^{d}, b \in \mathbb{R}}: \quad & \frac{1}{n} \sum_{i=1}^{n} \vert y^{(i)} - w^{T}x^{(i)} - b \vert \\
+\text{s.t}: \quad & \lVert w \rVert_{0} \le k \\
+\end{align*}
+
+Reformulation:
+
+Let $t_{i}$ be the error term $\vert y^{(i)} - w^{T}x^{(i)} - b \vert$ 
+
+Let $z_{i}$ be a binary variable indicating the use of feature $j \in J$ 
+
+\begin{align*}
+\min_{w,b, z, t}: \quad & \frac{1}{n} \sum_{i=1}^{n} t_{i} \\
+\text{s.t}: \quad &  t_{i} \ge  (y^{(i)}  - w^{T} x^{(i)} - b) \forall  i \in N \\
+		  &t_{i} \ge - (y^{(i)}  - w^{T} x^{(i)} - b) \forall i \in N \\
+		  & M \cdot z_j \ge w_{j} \forall j \in J \\
+		  & M \cdot z_{j} \ge -w_{j} \forall j \in J\\
+		  & \sum_{j=1}^{d} z_j \le k  \forall  j \in J\\
+		  & z_j \in \{0,1\}
+		  & t_{i} \ge 0 
+\end{align*}
+
+\newpage
+\subsection{ $k$  unknown}
+
+\[
+	Q^{*}(k) = \frac{1}{L} \sum_{\ell=1}^{L} \left[ \frac{1}{\vert D_{\ell}^{\text{val}}\vert} \sum_{i \in D_{\ell}^{\text{val}}}^{} \left\vert y^{(i)} - w^{*}(k; D_{\ell}^{\text{train}})^{T}x^{(i)} - b^{*}(k; D_{\ell}^{\text{train}})\right\vert \right]
+\]
+
+Let $t_{i}$ be the residuals from the training data. 
+
+Let $v_{i}$  be the residuals from the validation data. 
+
+Let $z_{i}$ be a binary variable indicating the use of feature $i \in J$ 
+
+
+\begin{align*}
+\min_{w, b, t, z}: \quad & \frac{1}{L} \sum_{\ell = 1}^{L} \frac{1}{\vert D_{\ell}^{\text{train}}\vert} \sum_{i \in D_{\ell}^{\text{train}}}^{} t_{\ell, i}\\
+\text{s.t}: \quad &  t_{\ell, i} \ge  (y^{(i)}  - w^{T}_{\ell} x^{(i)} - b_{\ell}) \forall  i \in D_{\ell}^{\text{train}} \\
+		  &t_{\ell, i} \ge - (y^{(i)}  - w^{T}_{\ell} x^{(i)} - b_{\ell}) \forall i \in D_{\ell}^{\text{train}} \\
+		  & Mz_{\ell, j} \ge w_{\ell, j} \forall j \in J, \ell, in L\\
+		  & Mz_{\ell, j} \ge -w_{\ell, j} \forall j\in J, \ell \in  L\\
+		  & \sum_{j=1}^{d} z_{\ell, j} \le k \forall \ell \\
+		  & v_{\ell, i} \ge  (y^{(i)} - w^{T}_{\ell}x^{(i)} - b_{(\ell)}) \forall i \in D_{\ell}^{\text{val}} \\
+		  & v_{\ell, i} \ge -(y^{(i)} - w_{\ell}^{T}x^{(i)} - b_{\ell}) \forall i \in D_{\ell}^{\text{val}}\\
+		  &z_{\ell, j} \in \{0,1\}\\
+		  &t_{\ell, i}, v_{\ell, i} \ge 0 \\
+\end{align*}
+
+\newpage
+\subsection{Findings}
+
+\begin{itemize}
+	\item The validation error curve does have a clear elbow at the true support size of 4 as the CV error barely decreases past that point. 
+	\item Yes, it does better on both MAE and MSE than the ridge regression. 
+\end{itemize}
+
+
+\newpage
+\section{Question 2} 
+
+Let $q_{i} \in \{0,1\}$ denote show or no show of appointment $i$ 
+
+\begin{align*}
+	\min_{x,y}: \quad & \sum_{\omega \in \Omega}^{} p^{\omega} \left[ \sum_{i=1}^{n}( c_{i}^{\omega} w_{i}^{\omega} + c_{i}^{u} + c_{i}^{a}y_{i}^{\omega} ) + c^{o}W^{\omega}\right]\\
+	% if the person has no show, then 0 service time. 
+\text{s.t}: \quad & \bar s_{i}^{\omega} = q_{i}s_{i}^{\omega} - \gamma_{i}y_{i}^{\omega} \\
+		  &w_{i}^{\omega} - u_{i-1}^{\omega} = \bar s_{i-1}^{\omega} + w_{i-1}^{\omega} - x_{i-1} \\
+		  &W^{\omega} - u_{n}^{\omega} = \bar s_{n}^{\omega}  + w_{n}^{\omega} - \left( T - \sum_{j=1}^{n-1} x_{j} \right) \\
+		  &x_{i} \ge 0, u_{i}^{\omega}, w_{i}^{\omega}, W^{\omega}, \bar s_{i}^{\omega} \ge 0 \\
+		  &w_{1}^{\omega} = 0 \\
+		  &y_{i}^{\omega} \in \{0,1\}\\
+		  &y_{i}^{\omega} = y_{i}^{\omega^{`}}
+		  % make sure service times are positive
+		  y_{i}^{\omega} \le q_{i}
+\end{align*}
+
+Only constraint 1 needs to be modified and the last constraint needs to be added.
+
+
+\newpage
+\subsection{2}
+
+\[
+	y_{2}^{0, 0, 0} = y_{2}^{0,0,1} = y_{2}^{0,0,2} = y_{2}^{0, x, y} \forall x,y \in \{0,1,2\}
+\]
+
+\[
+	y_{2}^{1, 0, 0} = y_{2}^{1,0,1} = y_{2}^{1,0,2} = y_{2}^{1, x, y} \forall x,y \in \{0,1,2\}
+\]
+
+
+\[
+	y_{2}^{2, 0, 0} = y_{2}^{2,0,1} = y_{2}^{2,0,2} = y_{2}^{2, x, y} \forall x,y \in \{0,1,2\}
+\]
+
+\begin{align*}
+y_3^{0,0,0} = y_3^{0, 0, 1} = y_3^{0,0,2}\\
+y_3^{0,1,0} = y_3^{0, 1, 1} = y_3^{0,1,2}\\
+y_3^{0,2,0} = y_3^{0, 2, 1} = y_3^{0,2,2}\\
+y_3^{1,0,0} = y_3^{1, 0, 1} = y_3^{1,0,2}\\
+y_3^{1,1,0} = y_3^{1, 1, 1} = y_3^{1,1,2}\\
+y_3^{1,2,0} = y_3^{1, 2, 1} = y_3^{1,2,2}\\
+y_3^{2,0,0} = y_3^{2, 0, 1} = y_3^{2,0,2}\\
+y_3^{2,1,0} = y_3^{2, 1, 1} = y_3^{2,1,2}\\
+y_3^{2,2,0} = y_3^{2, 2, 1} = y_3^{2,2,2}\\
+\end{align*}
+
+\newpage
+\subsection{3}
+With Non-anticipativity relaxed, we have a decrease in total costs from 7.6 to 5.6. The total wait time, idle time, overtime goes down. In addition, the use of the assistance increases. In the policy structure, we see that there are now no overlap between appointments, and an earlier last appointment, since the nurse is cheaper than the overtime/waiting/idle costs. 
+
+This is because we know exactly what sessions take longer, and thus we need to reduce them with help. 
+\end{document}
