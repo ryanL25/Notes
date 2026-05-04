@@ -2893,4 +2893,963 @@ $ k=0,1,2,\dots, n $
 \end{align*}
 
 AKA, if you know nothing prior, you know nothing afterwards.
-	\end{document} 
+
+
+\chapter{}
+\section{14 April 2026} 
+
+Criteria we have for estimators: 
+\begin{itemize}
+	\item Unbiased $E[X] = \theta$ 
+	\item Maximum likelihood
+	\item Prior and Posterior Estimators 
+	\item Least Squares
+\end{itemize}
+
+\subsection{Least Squares Estimator}
+
+Given $X$, estimate $Y$. 
+In other words, $E(Y\mid X = x)$, which is your estimate of $Y$ given a fixed point $X=x$. when $x$ changes, the estimate changes. If we connect all the points on this estiamte,this gives us a graph of averages. 
+
+This is the function: 
+\[
+E[Y \mid X] = \hat Y = b(X), ~~\text{predictor or estimator of Y given X}
+\]
+\nt{X could be multiple features, but Y is a single variable. Thus, we can have multiple predictors to one output. we also have made no assumptions about X or Y.
+
+\vspace{5mm}
+$b(X)$ stands for best. When we see $\mid X$, always think about within the vertical strip}
+
+In general: 
+
+\[
+	\underbrace{D_{w}}_{\text{within vert strip}} = Y - b(X)
+\]
+
+\begin{align*}
+	E[D_{w} \mid X] &= E[Y-b(X) \mid X] = E[Y \mid X] - E[b(X) \mid X] \\
+			&= \underbrace{b(x)}_{\text{by dfn}} - b(X) \\
+	&= 0 \\
+\end{align*}
+
+\[
+	E[D_{w}] = E[E[D_{w} \mid X]] = 0
+\]
+
+Thus, on average, our error will be 0.
+
+\begin{align*}
+	\Cov(D_{w}, g(X)) &= E[D_{w} \cdot g(X)] - E[D_{w}] E[g(X)] \\
+	&= E[D_{w}g(X)] \\
+	&= E[E[D_{w}g(X) \mid X]] \\
+	&= E[\underbrace{g(X)}_{\text{constant, bc $\mid X$ }}E[D_{w} \mid X]] \\
+	&= E[g(X) \cdot  0] \\
+	&= 0 \\
+\end{align*}
+
+This is the analogue of finding the cov between the residual vector and a function of X. We've shown that the errors are also uncorrelated with any function of X
+
+\dfn{Least Squares}{
+
+	Estimate: h(X)
+
+	\[
+		MSE(h) = E\left[(Y - h(X))^{2}\right]
+	\]
+
+	We want the $h$  for which $MSE$ is minimised. 
+
+
+\begin{align*}
+	MSE(h) &= E[((Y-b(X)) - \underbrace{(b(X) - h(X))}_{g(X)})^2]\\
+	&= E[\left( D_{w} + g(X) \right) ^{2}] \\
+	&= E[D_{w}^{2}] + E[g(X)] + 2E[D_{w}g(x)] \\
+	&= MSE(b) + \text{non neg} +  0 \\
+	&\ge MSE(b)
+\end{align*}	
+
+Thus, the centre of a vertical strip is the least squared error. In other words, $b(X) = E[Y \mid X]$  is the least squares predictor of Y given X. 
+
+However, this is just a general function. Its a conditional expectation, based on $X = x$ for each vertical strip.  What we want to do is constrain this estimator within a class of functions to be more helpful.
+}
+
+Let $B(X)$  be the least squares estimate of Y.
+\begin{align*}
+	MSE(b) &= E[D_{w}^{2}] \\ 
+	&= E[E[D_{w}^{2} \mid X]] \\
+\end{align*}
+
+Conditional variance of Y given X
+
+\begin{align*}
+	\Var(Y \mid X) &= E[(Y - E[Y \mid X])^{2} \mid X]  \\
+\end{align*}
+
+In common language, this is the variance of Y within a vertical strip. 
+
+
+Thus going back to the original problem: 
+
+\begin{align*}
+	MSE(b) &= E[E[D_{w}^{2} \mid X]] \\
+	&= E[E[(Y-E[Y \mid X])^{2} \mid X]] \\
+	&= E[\Var(Y \mid X)] \\
+\end{align*}
+
+Thus the mse of our best estimator is the expectation of the conditional variance. this measures how much the data varies in one vertical strip, which isn't that helpful in telling how good our predictor is. 
+
+Instead, we want to have a measure of the variation of the best estimate (the average), or how much the estimator points vary. If its larger, then that means that we have a pretty good estimator. (See football shaped graphs of y=x and y= 1) 
+
+\begin{align*}
+	Y-E[Y] &= (Y-b(X)) + (b(X) - E[Y]) \\
+	&= D_{w} + (b(X) - E[Y]) \\
+\end{align*}
+
+\begin{align*}
+	\Var(Y) &= E[(Y-E[Y])^{2}] = E[D_{w}^{2}] + E[(b(X) - E[Y])^{2}] + 2(0) \\
+	&= E[(Y - b(X))^{2}] + E[(b(X) - E[Y])^{2}] \\
+	&= E[\Var(Y \mid X)] + \Var(b(X)) \\
+\end{align*}
+
+
+Thus, $\Var(Y) = E[\Var(Y \mid X)] + \Var(E[Y \mid X])$. The first term measures how much the points vary from our estimate (how variable are the vert strips). The second term measures variability in the centers of our vertical strips. How much do the centres differ from each other. 
+
+\chapter{}
+\section{16 April 2026}
+
+\subsection{Least Squares Continued} 
+
+\subsubsection{Review}
+Attribute $X$, Response $Y$ , Data $(X,Y)$, then Least Squares predictor is $E[Y \mid X]$. The MSE of this predictor is $E[(Y - E[Y \mid X])] = E[\Var(Y \mid X)]$ 
+
+The Variance Decomposition is 
+
+\[
+	\Var(Y) = \underbrace{E[\Var(Y \mid X)]}_{\text{error var}} + \underbrace{\Var(E[Y \mid X])}_{\text{variability in centers}}
+\]
+
+Therefore, we need variability in centers to be high, or else we would be guessing the same thing for any x. 
+
+\[
+1 = \frac{E[\Var(Y \mid X)]}{\Var(Y)} + \frac{\Var(E[Y \mid X])}{\Var(Y)}
+\]
+
+We thus have two proportions here: the proportion of variance that comes from the errors and one that comes from the centers being different from each other. We hope the first one is small and the second large. 
+
+Thus the second term is our $r^{2}$ or the proportion of the changes of response that comes from changes in your predicted values. 
+
+Saying "proportion of varaibility that is explained by the model" is a bunch of rubbish. It is purely just a ratio of two variances, and  a proportion of squared distances for $r^{2}$. We do want this number to be high, but it doesn't have a great interpretation. 
+
+
+\subsection{Mixtures of Distributions} 
+
+Toss a fair coin. If we get heads, our rv is normal(0,1). If tails, our rv is normal(7, 1)
+
+
+\begin{align*}
+	E[X] &= E[E[X \mid \text{result of toss}]] \\
+	&= \frac{1}{2} \cdot 0 + \frac{1}{2} \cdot 7 \\
+\end{align*}
+
+
+\begin{align*}
+	E[\Var(X \mid \text{toss})] &= \frac{1}{2} \cdot 1 + \frac{1}{2} \cdot 1 = 1 \\
+\end{align*}
+
+However, 
+\[
+\Var(X) \ge E[\Var(X \mid toss)] + \text{variability in centers}
+\]
+
+Thus, we can't just averages variances, but also find where the means are. 
+
+
+\ex{Basic Mixtures}{
+
+	R.V. M (for mixture) is created by tossing a $p$ coin. 
+
+
+	Toss a coin that lands heads with prob $p$ and tails with probability $q$.
+If the coin lands heads, then $M = X$ , with mean $\mu _{x}$  and var $\sigma_{x}^{2}$. If tails, them $M=Y$ with mean $\mu _{Y}$  and var $\sigma_{Y}^{2}$ 
+
+\vspace{5mm}
+What are $E[M]$ and $\Var(M)$? 
+
+\[
+	E[M \mid \text{toss}] =\begin{cases}
+		\mu _{X} &\text{w.p}~p\\
+		\mu _{Y} &\text{w.p}~q
+	\end{cases}
+\]
+\[
+\Var(M \mid \text{toss}) = \begin{cases}
+	\sigma_{x}^{2}, &\text{w.p}~p\\
+	\sigma_{Y}^{2} &\text{w.p}~q
+\end{cases}
+\]
+
+Thus, 
+
+\[
+E[M] = E[E[M \mid \text{toss}]] = \mu _{X} p + \mu _{Y} q
+\]
+
+\begin{align*}
+	\Var(M) &= [\sigma_{X}^{2} p + \sigma_{Y}^{2}q] + \left(\mu _{X}^{2}p + \mu _{Y}^{2}q - E[M]^{2} \right) \\
+\end{align*}
+
+}
+\ex{Variance of Geometric}{
+i.i.d. Bernoulii(p) trials. $X$  is the number of trials until the first success. 
+
+If we condition on the first toss. With $p$, X = 1. With $q$, $X = 1 + X^{*}$ , where $X^{*} \stackrel{d}{=} X$ 
+
+\vspace{5mm}
+$E[X \mid \text{first toss}]$  is 1 with probability $p$, $1 + \mu _{X}$  with probability $q$ 
+
+Note: We are doing recursion here because there is an infinite horizon.
+
+\vspace{5mm}
+$\Var(X \mid \text{first toss})$  is $0$  with probability $p$, and $\sigma^{2}_{X}$  with probability $q$. 
+
+\vspace{5mm}
+Therefore:	
+
+\[
+\mu _{X} = 1p + (1+\mu_{X})q  = 1 + \mu _{X}q
+\] 
+\[
+p\mu _{X} = 1 \implies \mu _{X} = \frac{1}{p}
+\]
+
+
+\begin{align*}
+	\sigma_{X}^{2} &= [0p + \sigma_{X}^{2}q] + \left( 1^{2} \cdot p + \left( 1 + \frac{1}{p}^{2} \right) \cdot q - \frac{1}{p^{2}} \right)  \\
+	p\sigma^{2}_{X} &= \left( p + \left( 1 + \frac{2}{p} + \frac{1}{p^{2}} \right) q - \frac{1}{p^{2}}  \right)  \\
+	\sigma^{2}_{X} &= \frac{q}{p^{2}}
+\end{align*}
+
+
+}
+
+\ex{}{
+$N$ is a random count (0,1,2,3,...) with mean $\mu_{N}$ and var $\sigma^{2}_{N}$ 
+
+Independent of $N$: $X_{1}, X_2, X_3, \dots$ i.i.d. with $\mu _{X}$, $\sigma_{X}^{2}$ 
+
+$S_{N} = X_1 + X_2+\dots + X_{N}$
+
+\[
+	E[S_{N} \mid N] = N \cdot \mu _{X}
+\]
+
+\[
+\Var(S_{N} \mid N) = N \cdot \sigma_{X}^{2}
+\]
+
+\begin{align*}
+	E[S_{n}] &= E[E[S_{N} \mid N]]  \\
+	&=  E[N\mu _{X}] \\
+	&= \mu _{N}\mu_{X} \\
+\end{align*}
+
+\begin{align*}
+	\Var(S_{N}) &= E[\Var(S_{N} \mid N)] + \Var(E[S_{N} \mid N]) \\
+	&= E[N\sigma^{2}_{X}] + \Var(N\mu _{X}) \\
+	&= \mu_{N} \sigma^{2}_{X} + \sigma^{2}_{N}\mu _{X}^{2}  \\
+\end{align*}
+
+Let $X_{0} = 1$ be one infected individual. We assume that $1$ infected individual give rise to $x$ infected individuals, that are independent of each other.
+
+\begin{align*}
+	X_{0} &=  1 \\
+	X_1 &= X, \text{mean $\mu _{X}$ number of people a single person infects } \\
+	X_2 &= X_{21} + X_{22} + \dots + X_{2, X_1}\\
+\end{align*}
+
+Total expected infected:
+\[
+	E[1+X_1 + [X_{21} + X_{22} + \dots +X_{2, X_1}] = 1 + \mu _{X} + \mu _{X}\mu _{X} = 1 + \mu _{X} + \mu _{X}^{2}
+\]
+
+Thus expected total in $n$ generations is: 
+\[
+1 + \mu _{X} + \mu _{X}^{2} + \mu _{X}^{3} + \dots \mu _{X}^{n}
+\]
+
+
+}
+\chapter{}
+\section{21 April 2026}
+
+\subsection{Regression} 
+
+\subsubsection{Notation}
+Random Vectors: 
+
+\[
+	\mathbb{X}_{n \times 1} = \begin{bmatrix}
+		X_1\\
+		X_2\\
+		X_3\\
+		\vdots
+	\end{bmatrix}
+\]
+
+Mean Vector:
+\[
+\mu  = E[X_{i}]
+\]
+\[
+\mu _{n \times 1} = \begin{bmatrix}
+	\mu_{1}\\
+	\mu _{2}\\
+	\vdots\\
+\mu _{n}
+\end{bmatrix}
+\]
+
+
+Covariance Matrix: $(i,j)$  element is the $\Cov(X_{i}, X_{j}) = \sigma_{ij}$. The diagonal of this matrix is the variances. 
+\[ \Sigma_{n \times m} = 
+\begin{bmatrix}
+	\sigma_{1}^{2} & \sigma_{12} &\sigma_{13} &\dots  &\sigma_{1n} \\
+	\sigma_{21} &\sigma_{2}^{2} &\sigma_{23} &\dots &\sigma_{2n} \\
+	\vdots \\
+	\sigma_{n1} &\sigma_{n2} &\sigma_{n3}&\dots &\sigma^{2}_{n}
+\end{bmatrix}
+\]
+
+We want to look at transformations of form 
+
+\[
+	\underbrace{A}_{n \times n}\underbrace{X}_{n \times 1} + \underbrace{b}_{n \times 1}
+\]
+This is an affine transformation. The $Ax$  is a linear transformation, and the $b$  leads to the word affine. Sometimes, we equate affine and linear transformation, affine is just more formal. 
+
+
+Suppose we want to look at linear combination of $X$s. 
+
+\[
+\begin{bmatrix}
+	X_2\\
+	X_1+X_2 \\
+	X_1- Xn\\
+	\bar X
+\end{bmatrix} 
+=  AX
+\]
+Where $A$ has dim $4 \times n$  : 
+
+\[
+	A = 
+\begin{bmatrix}
+	0 &1 &0  &\dots &0\\
+	1 &1 &0  &\dots &0\\
+	1 &0 &0  &\dots &-1\\
+	\frac{1}{n} &\frac{1}{n} &\frac{1}{n} &\dots &\frac{1}{n}
+\end{bmatrix}
+\]
+
+Let $Y_{m\times 1} = AX + b$  
+
+\[
+	Y_{i} = \underbrace{A_{i*}}_{\text{row $i$ }}X+ b_{i}
+\]
+
+These are just multiple linear combinations of $X$ of ordinary random variables, therefore: 
+
+\[
+	E[Y_{i}] = a_{i1}\mu_{1} + a_{i2}\mu _{2} + \dots + a_{i3}\mu _{3} + b(i) 
+\]
+
+So: 
+\[
+\mu _{Y} = A\mu _{X} + b
+\]
+
+or the mean of an affine transformation does exactly what you want it to do. 
+
+\paragraph{
+Covariance Matrix of $Y$}
+
+By definition, the $(i,j)$ matrix is $\Cov(Y_i, Y_j) $ 
+
+
+
+\[
+\Cov(Y_{i}, Y_j) = \Cov(A_{i*} X + b(i), A_{j*}X + b(i)) =\Cov(A_{i*}X, A_{j*}X)
+\]
+
+\[
+= \Cov(\sum_{k=1}^{n}a_{ik} X_{k}, \sum_{l=1}^{n}a_{jl}X_{l})
+\]
+
+Using Bilinearity of Covariance:
+
+\begin{align*}
+&= \sum_{k=1}^{n}\sum_{l=1}^{n} a_{ik} a_{jk} \Cov(X_k, X_{l})\\
+&= \sum_{k=1}^{n} \sum_{l=1}^{n}a_{ik} \Cov(X_k, Xl)t_{lj}, \quad t_{lj} \text{is the (l,j) elem of $A^{T}$ } \\
+&= (i,j) \text{elem of } A\Sigma_{X}A^{T} \\
+\end{align*}
+
+
+In summary:
+
+\[
+\mu _{Y} = A\mu _{X} + b
+\]
+\[
+\Sigma_{y} = A \Sigma_{X} A^{T}
+\]
+
+Case $m=1$: 
+
+\[
+Y = a_{1} X_{1} + a_{2}X_2 + \dots + a_{n}x_{n} + b
+\]
+
+\[
+\Var(Y) = a \Sigma_{X} a^{T} \ge 0 
+\]
+Thus, the covariance matrix is a Positive Semidefinite Matrix, because any vector $a$ results in a positive scalar.
+
+We will only consider $\Sigma_{X}$ positive definite, which means $a \Sigma_{X}a >0$ for all $a$. This is because if the variance is 0, it is a linear combination of variables that we already have. In this case, we now know that the matrix is full rank, and has an inverse. 
+
+
+\subsection{Multivariate normal}
+$Z_1, Z_2, \dots, Z_{n}$ i.i.d. standard normal. 
+
+$z$  is normal($\mathbb{0}, \mathbb{1}$) 
+
+
+Thus, $\mathbb{X}$ is a multivariate normal if $\mathbb{X} = Az + b$ 
+
+
+\nt{
+
+	\[
+	f_{X,Y}(x,y) \text{ bivariate normal} \implies X,Y \sim normal
+	\]
+
+
+	\[
+		X, Y \sim normal(0,1) \not\implies f_{X,Y}(x,y) \quad \text{bivariate normal} 
+	\]
+
+}
+
+\begin{enumerate}
+	\item A linear transformation of $X$ is also multivariate normal
+	\item Each marginal of $X$  is normal 
+	\item If elemnts of $X$  are pairwise uncorrelated, then they are independent. 
+\end{enumerate}
+Before, we knew that if $X_1 \perp X_2$ is normal, then $X_1 + X_2$ is also normal. However, now we know that in general, if $X,Y$ bivariate normal that $X_1 + X_2 $ is also normal, regardless of independence. 
+
+
+
+\chapter{}
+\section{23 April 2026}
+From last time: 
+
+Z : normal($0, \mathbb{I})$ 
+
+
+We have no conditions on the 
+\[
+X = AZ + bk
+\]
+
+If we take the matrix 
+\[ A = 
+\begin{bmatrix}
+	\mathbb{1} &\mathbb{0} &\dots	
+\end{bmatrix}
+\]
+
+then our transformation is just 
+
+\[
+X = \begin{bmatrix}
+	Z_1\\
+	Z_1\\
+	Z_1
+\end{bmatrix}
+\]
+There is nothing happening in 3d here. It is just a standard normal. 
+
+However, if we start to enforce constraints, 
+and $A$  is actually invertible, then the density of $X$  is n dimensional. This also forces $A$  to be $n \times n$ 
+
+
+\begin{align*}
+	f(x) &= \frac{1}{\sqrt{2\pi}^{n} \sqrt{\det(\Sigma)}} e^{-\frac{1}{2} (x - \mu)^{T} \Sigma^{-1} (x-\mu )} \\
+\end{align*}
+
+This is multivariatenormal($\mu , \Sigma$)
+
+
+\[
+\mu = A 0 + b = b
+\]
+
+\begin{align*}
+	\Sigma &= A \Sigma_{Z} A^{T}\\
+	       &= A \mathbb{I} A^{T} \\
+	       &= \forall ^{T} \\
+\end{align*}
+
+
+\begin{align*}
+	\det(\Sigma) &= \det(A)^{2} > 0 \\
+\end{align*}
+
+
+Density of $\mathbb{Z}$
+
+\begin{align*}
+	f_{Z} (z) &= \prod_{i=1}^{n}  \frac{1}{\sqrt{2\pi}} exp(-\frac{1}{2} z_{i}^{2})\\
+		  &=\frac{1}{\sqrt{2\pi}^{n}} exp(-\frac{1}{2} \sum_{}^{} z_{i}^{2})  \\
+		  &= \frac{1}{\sqrt{2\pi}^{2}} exp(-\frac{1}{2} z^{T}z) \\
+\end{align*}
+
+
+Density of $X$ 
+\[
+x = Az + \mu 
+\]
+\[
+x - \mu = Az
+\]
+
+\[
+z = A^{-1} (x - \mu )
+\]
+
+\begin{align*}
+	f_{X}(x) &= \frac{1}{\text{constant}}f_{Z}(z) , \quad z = A^{-1} (x-\mu )  \\
+		 &= \frac{1}{\sqrt{2\pi}}^{n} exp(-\frac{1}{2} (x-\mu )^{T}(A^{-1})^{T} A^{-1} (x-\mu ) \cdot \frac{1}{\text{constant}} \\
+		 &= \frac{1}{\sqrt{2\pi}^{n}} exp(-\frac{1}{2} (x-\mu )^{T} \Sigma^{-1} (x-\mu )) \cdot  \frac{1}{\text{constant} = \vert \det(A)\vert = \sqrt{\Sigma }}\\ 
+\end{align*}
+
+
+This relationship is an if and only if relationship, for an invertible transformation and the density. 
+
+
+\ex{}{
+
+	$X \sim $ multivariatenormal($\mu , \Sigma$ )
+
+
+	When pairwise uncorrelated $\implies$ independence. 
+
+
+	\vspace{5mm}
+If pairwise uncorrelated, 
+
+\[
+	\Sigma = \sigma^{2} \mathbb{I}
+\]
+
+\[
+\det(\Sigma) = \sigma_{1}^{2}\sigma_{2}^{2}\sigma_{3}^{2}\dots
+\]
+
+\[
+	\sqrt{\det(\Sigma)} = \sigma_{1} \sigma_2 \sigma_3\dots
+\]
+
+
+\begin{align*}
+f_{X} (x) &= \frac{1}{\sqrt{2\pi}^{n} \sigma_1 \sigma_2 \dots \sigma_{n}} exp(-\frac{1}{2} (x-\mu )^{T} \frac{1}{\sigma^{2}} \mathbb{I} (x-\mu )) \\
+	  &= \frac{1}{\sqrt{2\pi}^{n} \sigma_1\sigma_2\dots\sigma_{n}} exp(-\frac{1}{2} \sum_{}^{} \frac{x_{i} - \mu _{i}}{\sigma_{i}}^{2} \\
+	  &= \prod \frac{1}{\sqrt{2\pi} \sigma_{i}} e^{-\frac{1}{2} ( \frac{x_{i} - \mu _{i}}{\sigma_{i}} ) ^{2}} \\
+	  &= \text{product of the densities} \\
+\end{align*}
+}
+
+
+\ex{}{
+$X_1, X_2$  i.i.d. normal. 
+
+\vspace{5mm}
+$\begin{bmatrix}
+	X_1\\X_2
+\end{bmatrix}$ bivariate normal 
+
+These two statements are identical.
+
+
+
+What is the joint distribution of $S$  and $D$, where $S = X_{1} + X_{2}$ and $D = X_{1} - X_{2}$ 
+
+The joint distribution of $S$ and $D$  is multivariate normal. 
+
+
+Mean vector: 
+
+\[
+\mu = \begin{bmatrix}
+	2\mu  \\ 0
+\end{bmatrix}
+\]
+
+
+\begin{align*}
+	\Cov(S, D) &= \Cov(X_{1} + X_{2}, X_{1} - X_2) \\
+	&= \Cov(X_1, X_1) + \Cov(X_1, -X_2) + \Cov(X_{2}, X_1) + \Cov(X_2, -X_2) \\
+	&= \sigma^{2} - \sigma^{2} \\
+	&= 0 \\
+\end{align*}
+\[
+\Sigma = \begin{bmatrix}
+	2\sigma^{2} &0 \\
+	0 &2\sigma^{2}
+\end{bmatrix}
+\]
+
+Therefore the sum and the difference are independent. 
+}
+
+
+build the standard bivariate normal with correlation $\rho$. 
+
+\nt{Even though its standard, it doesn't imply that all variables are uncorrelated.}
+Start with $X,Z$ i.i.d. standard normal. 
+
+
+Build $\begin{bmatrix}
+	X \\Y
+\end{bmatrix}$ standard bivariate normal with correlation $\rho$ 
+
+\[
+\begin{bmatrix}
+	X \\
+	Y
+\end{bmatrix} 
+= \begin{bmatrix}
+	a &b\\
+	c &d
+\end{bmatrix}\begin{bmatrix}
+	X \\
+	Z
+\end{bmatrix}
+\]
+\begin{align*}
+	a=1, b=0\\
+	\Cov(X,Y) &= \rho ,\quad \text{if sd =1, corr = cov }\\
+	&= \Cov(X, cX + dZ) \\
+	&= c\Cov(X, X) + d\Cov(X,Z) \\
+	&= c \cdot 1 =  d \cdot 0 \\
+	&= c \\
+\end{align*}
+
+\begin{align*}
+	\Var(Y) &= 1 \\
+	&= \Var(\rho X + dZ) \\
+	&= p^{2} \cdot 1  + d^{2} \cdot 1 \\ 
+	d &= \sqrt{1- \rho^{2}} \\
+\end{align*}
+
+
+Therefore
+$X,Y$  standard bivariate normal with corr $\rho$  $\iff$  $Y = \rho X + \sqrt{1-\rho^{2}} Z$, when $X $ and $Z$  are i.i.d. standard normal.
+
+
+This is saying we have $Y$ as a predictor of feature $X$ with some Gaussian noise.
+
+
+Least Squares predictor of $Y$ : 
+
+\begin{align*}
+	E[Y \mid X] &=  \rho X + \sqrt{1-p^{2}}E[Z] \\
+	&= \rho X \\
+\end{align*}
+
+This is the best possible predictor, as a function of $X$. What we learn from here is that if our data is jointly multivariate normal, then that line is the best amongst ALL functions. 
+
+\chapter{}
+
+
+\section{29 April 2026}
+
+$X,Y$ standard bivariate normal, correlation $\rho$. 
+
+Then 
+\[
+	Y = \underbrace{\rho X}_{\text{signal}} + \underbrace{\sqrt{1-\rho^{2}}Z}_{\text{Noise}}, 
+\]
+
+Where $X \perp Z$. Thus the \textbf{best (least squares) among all predictors} based on $X$ is 
+
+\[
+\hat Y = E[Y \mid X] = \rho X
+\] 
+This is linear in $X$, hence it is also the best linear predictor. 
+
+\begin{align*}
+	MSE &= E[ (Y - \rho X)^{2}] \\
+	&= 1-\rho^{2} \\
+\end{align*}
+
+
+Thus, this is the same as $E[\underbrace{E[(Y-\rho X)^{2} \mid X]}_{\Var(Y \mid X)}]$ 
+
+\begin{align*}
+	Y &= \rho X + \sqrt{1-\rho^{2}}Z \\
+	\Var(Y \mid X) &= E[ (Y - \rho X)^{2} \mid X] \\
+	&= E[( 1 - \rho^{2})Z^{2} \mid X ] \\
+	&= E[(1-\rho^{2})Z^{2}] \\
+	&= 1-\rho^{2} \\
+\end{align*}
+
+Therefore for every strip, the variability in the strip is the same. 
+
+
+In original units, when $X, Y$ are bivariate normal($\mu _{x}, \mu _{Y}, \sigma_{x}^{2}, \sigma_{Y}^{2}, \rho$) . 
+
+\nt{Notice "Given X" is equivalent to saying "given $X_{\text{su}}$".} 
+
+
+
+\begin{align*}
+	\hat Y &= E[Y  \mid X] \\
+	&= E[Y \mid X_{\text{su}}] \\
+	&= E[\sigma_{Y} Y_{\text{su}} + \mu_{Y} \mid X]  \\
+	&= \sigma_{Y}E[Y_{\text{su}} \mid X _{\text{su}}] + \mu _{Y} \\
+	&= \sigma_{Y} \rho X_{\text{su}} + \mu _{Y} \\
+	&= \sigma_{Y} \rho \frac{X- \mu _{X}}{\sigma_{X}} + \mu_{Y} \\
+	&= \rho \frac{\sigma_{Y}}{\sigma_{X}} X + \left( \mu _{Y} - \rho \frac{\sigma_{X}}{\sigma_{Y}} \mu _{X} \right)  \\
+\end{align*}
+
+
+
+\subsection{No assumption of normality}
+
+We are given any joint distribution of $X, Y$. Can we find a "least squares" line? 
+
+
+Predictor: $aX + b$, MSE(a,b) for each slope, intercept pair. 
+
+
+\[
+MSE(a,b) = E[\left( Y- (aX + b) \right) ^{2}]
+\]
+
+Minimize w.r.t b first. Fix a. 
+
+
+\begin{align*}
+	MSE_{a}(b) &= E[ \left( (Y - aX) -b \right)^{2} ] \\
+	&= E[ (Y -aX) ^{2} - 2b(Y-aX) + b^{2} ] \\
+	\frac{d}{db} &=  -2E[Y -aX] + 2b  \\
+	\hat b &= E[Y-aX] \\
+	&= E[Y] - aE[X] \\
+	&= \mu _{Y} - a \mu _{X} \\
+\end{align*}
+
+\begin{align*}
+	MSR_{b}(a) &= E[ (Y- (aX + \mu _{Y} - a\mu _{X}))^{2} ] \\
+	&= E[ (( Y - \mu _{Y}) - a(X-\mu _{X}))^{2}] \\
+	&= E[( D_{Y} - aD_{X})^{2}] \\
+	&= \Var(Y) + a^{2}\Var(X) - 2a \Cov(X,Y) \\
+\frac{d}{da}	&= 2a \sigma_{X} -2 \Cov(X,Y) \\
+\hat a &= \frac{\Cov(X,Y)}{\sigma_{X}^{2}} \\
+&= \frac{\rho \sigma_{Y} \sigma_{X}}{\sigma_{X}^{2}} \\
+&= \rho \frac{\sigma_{Y}}{\sigma_{X}} \\
+\end{align*}
+
+This means that this is the same exact line as before. Thus the general linear regression equation is the exact same. The key here is that if there is a way to make the data bivariate normal, we will always have the best predictor from the linear regression.
+
+
+\subsection{Standard Multiple Regression Model}
+
+Say we have height $x$ and weight $y$. A bad model is $y= a + bx$, which assumes weight is a perfect linear function of height. 
+
+A better model is 
+
+\[
+	y = a+ bx + \underbrace{\epsilon}_{\text{random error}}
+\]
+
+Perhaps a better model is
+\[
+y = a + bx + cx^{2} + \epsilon
+\]
+
+This is still linear in the coefficient, meaning that irregardless of what function we have on $x$, our model is still linear. 
+
+If we have $n$ individuals: $1,2, \dots, n$. 
+
+$p-1$  predictor variables (attributes): $x_1, x_2, \dots, x_{p-1}$. Assume we can measure these without error.
+
+Model: 
+
+\[
+Y_{i} = \beta_{0} + \beta_{1}x_{i, 1} + \beta_{2} x_{i, 2} + \dots + \beta_{p-1} x_{i, p-1} + \epsilon_{i}
+\]
+Where $\epsilon_{i}$ are i.i.d. normal(0, $\sigma_{2}$) 
+
+
+Table: 
+
+Constant, Random, Observable, Unobservable
+
+\begin{itemize}
+	\item $\beta_{k}$: Constant, Unobservable
+	\item $x_{i, \ell}$: Constant, Observable 
+	\item $\epsilon$: random by assumption, unobservable. 
+	\item $Y_{i}$: Random ($\epsilon$), observable.
+\end{itemize}
+
+
+Let us write it in terms of matrices 
+
+
+\[
+Y = \begin{bmatrix}
+	Y_1\\
+	Y_2\\
+	\vdots
+\end{bmatrix}
+\]
+
+\[
+X = \begin{bmatrix}
+	1 &x_{11} & x_{12}. \dots x_{1, p-1}\\
+	1 &x_{21} &x_{22}. \dots x_{2, p-1}\\
+	\vdots \\
+	1 &x_{n,1} &x_{n, 2}, \dots & x_{n, p-1}
+\end{bmatrix}
+\]
+
+Each row is an individual, each column is a attribute. 
+
+
+there is also an epsilon for each person. $\beta$ is a $p \times 1$ column vector
+
+Thus 
+
+\[
+	\mathbb{Y} = \mathbb{X}\beta + \epsilon
+\]
+
+
+
+\chapter{}
+\section{Last Lecture!}
+
+\subsection{Multiple Regression Model}
+
+
+
+\[
+	\mathbb{Y}_{n \times 1} = \mathbb{X\beta} + \mathbb{\epsilon}
+\]
+
+Assumptions: 
+\begin{itemize}
+	\item $n$ number of individuals
+	\item Where $\mathbb{X}$  is a matrix of fixed known attribute values.   (design matrix)
+	\item $\beta$ are unknown and unobservable, but nonrandom
+	\item $\epsilon$ is a multivariate normal$(0, \sigma^{2} I_{n})$. Or in other words, i.i.d. normal(0, $\sigma^{2}$ )
+\end{itemize}
+
+Goal: estimate $\beta$ and hence develop a way to predict $Y$ (response) for a new individual.
+
+
+For any set of numerical values $\mathbb{Y}$ and $\mathbb{X}$, what is the least squares estimate of $Y$ of the form $\mathbb{X\gamma}$?
+
+\[
+	MSE(\gamma) =\frac{1}{2} \sum_{i=1}^{n} (Y_{i} - (\mathbb{X}\gamma)_{i})^{2}
+\]
+\nt{No expectation because its purely numbers here}
+
+We need to find the $\gamma$ that minimizes MSE. This is equivalent to minimizing 
+
+\[
+SSE = \sum_{i=1}^{n} \left( Y_{i} - (X\gamma)_{i}) \right) ^{2} = \lVert Y - X\gamma \rVert_{2}^{2}
+\]
+
+\paragraph{Guess the answer:} For the least squares estimate $\hat \beta$, the error should be orthogonal to the columns/span of $\mathbb{X}$. That is: $Y - X \hat \beta$ has to be orthogonal to the columns of $X$. Or 
+
+\[
+\mathbb{X}^{T} (\mathbb{Y} - X \hat \beta)  = 0 \iff X^{T}Y = X^{T}X\hat \beta 
+\]
+
+If $X^{T}X$ is full rank and thus invertible, then 
+
+\[
+\hat \beta = \left( X^{T} X \right)^{-1} X^{T}Y
+\]
+
+
+Let us define residual vector: 
+
+\[
+e = Y - X\hat \beta 
+\]
+
+We know that $X^{T}e = 0$ 
+
+\begin{align*}
+	\lVert Y - X\gamma \rVert^{2} &= \lVert (Y - X \hat \beta) + (X \hat \beta - X \gamma)\rVert^{2}  \\
+	&= \lVert Y = X\hat \beta\rVert^{2} + \lVert X \hat \beta - X\gamma \rVert^{2} + 2 (Y- X\hat \beta) \cdot  (X \hat \beta - XY) \\
+	&= SSE(\hat \beta ) + \text{non-neg constant} + 2 \underbrace{e \cdot (X \delta)}_{0}, \text{where} \delta = \hat \beta - \gamma \\
+	&\ge SSE(\hat B) \\
+\end{align*}
+
+Therefore the best least squares estimate is $\hat \beta$ 
+
+
+\subsection{Inference in the Multiple regression model}
+
+Using $\hat \beta$ as the estimated parameter vector.
+
+The Model is 
+
+\[
+Y = X \beta  + \epsilon = \text{signal} + \text{noise}
+\]
+We would like to know what was the signal. 
+
+\[
+\hat Y = X \hat \beta
+\]
+
+\[
+e = Y - X \hat \beta = Y - \hat Y
+\]
+
+Thus rewriting our model:
+
+\[
+	Y = \underbrace{X\hat \beta}_{\text{est signal}}  +\underbrace{e}_{\text{est noise}} 
+\]
+
+
+Distribution of: 
+
+\begin{itemize}
+	\item Y: multivariate normal$(X\beta, \sigma^{2} I_{n} )$
+	\item $\hat \beta$: multivariate normal$( \left( X^{T}X \right) ^{-1} X^{T} \mu _{Y} = \beta, \sigma^{2} \left( X^{T}X \right) ^{-1} $ 
+		\begin{itemize}
+			\item we have shown that $\hat \beta$ is unbiased.
+		\end{itemize}
+\end{itemize}
+
+
+\begin{align*}
+	\Sigma_{\hat \beta} &= A\Sigma_{Y}A^{T} \\
+	&= (X^{T}X)^{-1}X^{T} \sigma^{2} I_{n} \left( X^{T} (X^{T}X)^{-1} \right)  \\
+	&= \sigma^{2} (X^{T}X)^{-1} X^{T} X (X^{T}X)^{-1} \\
+	&= \sigma^{2} (X^{T}X)^{-1} \\
+\end{align*}
+
+
+Distribution of slope $\hat \beta_{1} \sim Normal(\beta_{1}, \Sigma_{\hat \beta}(1,1) $ 
+
+Because we know the distribution of each parameter, we can make a confidence interval, or bound it. For example, a $95\%$ CI for $\beta _{1}$: $\hat \beta_{1} \pm 2 \sigma_{\hat \beta _{1}}$  
+
+
+\end{document} 

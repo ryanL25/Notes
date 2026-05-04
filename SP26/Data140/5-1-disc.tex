@@ -1,0 +1,93 @@
+
+\documentclass{report}
+
+\input{../../preamble}
+\input{../../macros}
+\input{../../letterfonts}
+
+\title{Discussion}
+\author{Ryan Lin}
+\date{}
+
+\begin{document}
+\maketitle
+\section{}
+
+
+\ex{ch 24 ex 7}{
+Let X, Y iid normal. S = X + Y
+
+
+a.) 
+
+\[
+\begin{bmatrix}
+X \\
+S
+\end{bmatrix}   = \begin{bmatrix}
+1 &0\\
+1 &1
+\end{bmatrix} \begin{bmatrix}
+	X \\
+	Y
+\end{bmatrix}
+\]
+
+\[
+	X_{su} = \rho S_{su} + \sqrt{1-\rho^{2}}Z
+\]
+
+\begin{align*}
+	\frac{X - \mu _{X}}{\sigma_{X}} &= \rho \frac{S - \mu _{S}}{\sigma_{S}} + \sqrt{1-\rho^{2}} Z \\
+	X &= \sigma_{X} \left( \rho (\frac{S - \mu _{S}}{\sigma_{S}} + \sqrt{1-\rho^{2}}Z \right) + \mu _{X} \\
+	(X \mid S=s) &= \sigma_{X} \left( \rho \left( \frac{s-\mu _{S}}{\sigma_{S}} \right)  + \sqrt{1-\rho^{2}}Z \right) + \mu _{X} \\
+\end{align*}
+
+Thus, $X \mid S=s \sim Normal( \sigma_{X} \frac{\rho(S-\mu _{S}}{\sigma_{S}}) + \mu _{X}, \sigma_{X}^{2}(1-\rho))$ 
+
+
+b.) 
+\[
+E[X \mid S] = \sigma_{X} \rho \left( S- \mu _{s} / \sigma_{S} \right) +\mu _{X}
+\]
+
+\begin{align*}
+	MSE(E[X \mid S] ) &= E[E[ \left( X - E[X \mid S] \right) ^{2} \mid S]] \\
+	&= E[ \Var( X \mid S)] \\
+	&= E[\Var( X)] \\
+	&= E[\sigma_{x}^{2}(1-\rho^{2})] \\
+	&= \sigma_{X}^{2}(1-\rho^{2}) \\
+\end{align*}
+
+
+}
+
+
+\ex{MR Mc1}{
+
+1.) Random Vectors are $Y$ and $\epsilon$ 
+
+2.) $\hat \beta$ is a random vecotr. 
+
+3.) We need to know $X$ is full column rank for $\hat \beta $ to exist.
+}
+
+
+\ex{Hw13 Q2}{
+$D_{i} = X_{i} - \bar X $ 
+
+a.) 
+
+\begin{align*}
+	\Cov(D_{i}, \bar X) &= \Cov(X_{i}, \bar X) + \Var(\bar X) \\
+	&= \frac{\sigma^{2}}{n} - \frac{\sigma^{2}}{n} \\
+	&= 0 \\
+\end{align*}
+
+b.) What is joint distribution of $\bar X$ . Since each part of the peice is a linear combination of $X_i$, therefore the entire thing is multivariate normal. 
+
+MVN( 
+}:
+
+
+\end{document}

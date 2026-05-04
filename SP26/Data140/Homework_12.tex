@@ -1,0 +1,1182 @@
+\documentclass[11pt]{article}
+
+    \usepackage[breakable]{tcolorbox}
+    \usepackage{parskip} % Stop auto-indenting (to mimic markdown behaviour)
+    
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % Keep aspect ratio if custom image width or height is specified
+    \setkeys{Gin}{keepaspectratio}
+    % Maintain compatibility with old templates. Remove in nbconvert 6.0
+    \let\Oldincludegraphics\includegraphics
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionFormat{nocaption}{}
+    \captionsetup{format=nocaption,aboveskip=0pt,belowskip=0pt}
+
+    \usepackage{float}
+    \floatplacement{figure}{H} % forces figures to be placed at the correct location
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+
+    \usepackage{iftex}
+    \ifPDFTeX
+        \usepackage[T1]{fontenc}
+        \IfFileExists{alphabeta.sty}{
+              \usepackage{alphabeta}
+          }{
+              \usepackage[mathletters]{ucs}
+              \usepackage[utf8x]{inputenc}
+          }
+    \else
+        \usepackage{fontspec}
+        \usepackage{unicode-math}
+    \fi
+
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics
+                         % to support a larger range
+    \makeatletter % fix for old versions of grffile with XeLaTeX
+    \@ifpackagelater{grffile}{2019/11/01}
+    {
+      % Do nothing on new versions
+    }
+    {
+      \def\Gread@@xetex#1{%
+        \IfFileExists{"\Gin@base".bb}%
+        {\Gread@eps{\Gin@base.bb}}%
+        {\Gread@@xetex@aux#1}%
+      }
+    }
+    \makeatother
+    \usepackage[Export]{adjustbox} % Used to constrain images to a maximum size
+    \adjustboxset{max size={0.9\linewidth}{0.9\paperheight}}
+
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    % The default LaTeX title has an obnoxious amount of whitespace. By default,
+    % titling removes some of it. It also provides customization options.
+    \usepackage{titling}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage{array}     % table support for pandoc >= 2.11.3
+    \usepackage{calc}      % table minipage width calculation for pandoc >= 2.11.1
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    \usepackage{soul}      % strikethrough (\st) support for pandoc >= 3.0.0
+    \usepackage{mathrsfs}
+    
+
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+    \definecolor{ansi-default-inverse-fg}{HTML}{FFFFFF}
+    \definecolor{ansi-default-inverse-bg}{HTML}{000000}
+
+    % common color for the border for error outputs.
+    \definecolor{outerrorbackground}{HTML}{FFDFDF}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \makeatletter
+    \newsavebox\pandoc@box
+    \newcommand*\pandocbounded[1]{%
+      \sbox\pandoc@box{#1}%
+      % scaling factors for width and height
+      \Gscale@div\@tempa\textheight{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+      \Gscale@div\@tempb\linewidth{\wd\pandoc@box}%
+      % select the smaller of both
+      \ifdim\@tempb\p@<\@tempa\p@
+        \let\@tempa\@tempb
+      \fi
+      % scaling accordingly (\@tempa < 1)
+      \ifdim\@tempa\p@<\p@
+        \scalebox{\@tempa}{\usebox\pandoc@box}%
+      % scaling not needed, use as it is
+      \else
+        \usebox{\pandoc@box}%
+      \fi
+    }
+    \makeatother
+
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatibility definitions
+    \let\Oldtex\TeX
+    \let\Oldlatex\LaTeX
+    \renewcommand{\TeX}{\textrm{\Oldtex}}
+    \renewcommand{\LaTeX}{\textrm{\Oldlatex}}
+    % Document parameters
+    % Document title
+
+    \input{../../macros.tex}
+    \title{Homework\_12}
+    
+    
+    
+    
+    
+    
+% Pygments definitions
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\@namedef{PY@tok@w}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\@namedef{PY@tok@c}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cp}{\def\PY@tc##1{\textcolor[rgb]{0.61,0.40,0.00}{##1}}}
+\@namedef{PY@tok@k}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kt}{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\@namedef{PY@tok@o}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ow}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@nb}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nf}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@ne}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.80,0.25,0.22}{##1}}}
+\@namedef{PY@tok@nv}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@no}{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\@namedef{PY@tok@nl}{\def\PY@tc##1{\textcolor[rgb]{0.46,0.46,0.00}{##1}}}
+\@namedef{PY@tok@ni}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@na}{\def\PY@tc##1{\textcolor[rgb]{0.41,0.47,0.13}{##1}}}
+\@namedef{PY@tok@nt}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nd}{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@s}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sd}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@si}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@se}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.36,0.12}{##1}}}
+\@namedef{PY@tok@sr}{\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@ss}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sx}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@m}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@gh}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gu}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gd}{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\@namedef{PY@tok@gi}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.52,0.00}{##1}}}
+\@namedef{PY@tok@gr}{\def\PY@tc##1{\textcolor[rgb]{0.89,0.00,0.00}{##1}}}
+\@namedef{PY@tok@ge}{\let\PY@it=\textit}
+\@namedef{PY@tok@gs}{\let\PY@bf=\textbf}
+\@namedef{PY@tok@ges}{\let\PY@bf=\textbf\let\PY@it=\textit}
+\@namedef{PY@tok@gp}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@go}{\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@gt}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\@namedef{PY@tok@err}{\def\PY@bc##1{{\setlength{\fboxsep}{\string -\fboxrule}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}}
+\@namedef{PY@tok@kc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kd}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kr}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@bp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@fm}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@vc}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vg}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vi}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vm}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sa}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sb}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sc}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@dl}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s2}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sh}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s1}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@mb}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mf}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mh}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mi}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@il}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mo}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ch}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cm}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cpf}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@c1}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cs}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % For linebreaks inside Verbatim environment from package fancyvrb.
+    \makeatletter
+        \newbox\Wrappedcontinuationbox
+        \newbox\Wrappedvisiblespacebox
+        \newcommand*\Wrappedvisiblespace {\textcolor{red}{\textvisiblespace}}
+        \newcommand*\Wrappedcontinuationsymbol {\textcolor{red}{\llap{\tiny$\m@th\hookrightarrow$}}}
+        \newcommand*\Wrappedcontinuationindent {3ex }
+        \newcommand*\Wrappedafterbreak {\kern\Wrappedcontinuationindent\copy\Wrappedcontinuationbox}
+        % Take advantage of the already applied Pygments mark-up to insert
+        % potential linebreaks for TeX processing.
+        %        {, <, #, %, $, ' and ": go to next line.
+        %        _, }, ^, &, >, - and ~: stay at end of broken line.
+        % Use of \textquotesingle for straight quote.
+        \newcommand*\Wrappedbreaksatspecials {%
+            \def\PYGZus{\discretionary{\char`\_}{\Wrappedafterbreak}{\char`\_}}%
+            \def\PYGZob{\discretionary{}{\Wrappedafterbreak\char`\{}{\char`\{}}%
+            \def\PYGZcb{\discretionary{\char`\}}{\Wrappedafterbreak}{\char`\}}}%
+            \def\PYGZca{\discretionary{\char`\^}{\Wrappedafterbreak}{\char`\^}}%
+            \def\PYGZam{\discretionary{\char`\&}{\Wrappedafterbreak}{\char`\&}}%
+            \def\PYGZlt{\discretionary{}{\Wrappedafterbreak\char`\<}{\char`\<}}%
+            \def\PYGZgt{\discretionary{\char`\>}{\Wrappedafterbreak}{\char`\>}}%
+            \def\PYGZsh{\discretionary{}{\Wrappedafterbreak\char`\#}{\char`\#}}%
+            \def\PYGZpc{\discretionary{}{\Wrappedafterbreak\char`\%}{\char`\%}}%
+            \def\PYGZdl{\discretionary{}{\Wrappedafterbreak\char`\$}{\char`\$}}%
+            \def\PYGZhy{\discretionary{\char`\-}{\Wrappedafterbreak}{\char`\-}}%
+            \def\PYGZsq{\discretionary{}{\Wrappedafterbreak\textquotesingle}{\textquotesingle}}%
+            \def\PYGZdq{\discretionary{}{\Wrappedafterbreak\char`\"}{\char`\"}}%
+            \def\PYGZti{\discretionary{\char`\~}{\Wrappedafterbreak}{\char`\~}}%
+        }
+        % Some characters . , ; ? ! / are not pygmentized.
+        % This macro makes them "active" and they will insert potential linebreaks
+        \newcommand*\Wrappedbreaksatpunct {%
+            \lccode`\~`\.\lowercase{\def~}{\discretionary{\hbox{\char`\.}}{\Wrappedafterbreak}{\hbox{\char`\.}}}%
+            \lccode`\~`\,\lowercase{\def~}{\discretionary{\hbox{\char`\,}}{\Wrappedafterbreak}{\hbox{\char`\,}}}%
+            \lccode`\~`\;\lowercase{\def~}{\discretionary{\hbox{\char`\;}}{\Wrappedafterbreak}{\hbox{\char`\;}}}%
+            \lccode`\~`\:\lowercase{\def~}{\discretionary{\hbox{\char`\:}}{\Wrappedafterbreak}{\hbox{\char`\:}}}%
+            \lccode`\~`\?\lowercase{\def~}{\discretionary{\hbox{\char`\?}}{\Wrappedafterbreak}{\hbox{\char`\?}}}%
+            \lccode`\~`\!\lowercase{\def~}{\discretionary{\hbox{\char`\!}}{\Wrappedafterbreak}{\hbox{\char`\!}}}%
+            \lccode`\~`\/\lowercase{\def~}{\discretionary{\hbox{\char`\/}}{\Wrappedafterbreak}{\hbox{\char`\/}}}%
+            \catcode`\.\active
+            \catcode`\,\active
+            \catcode`\;\active
+            \catcode`\:\active
+            \catcode`\?\active
+            \catcode`\!\active
+            \catcode`\/\active
+            \lccode`\~`\~
+        }
+    \makeatother
+
+    \let\OriginalVerbatim=\Verbatim
+    \makeatletter
+    \renewcommand{\Verbatim}[1][1]{%
+        %\parskip\z@skip
+        \sbox\Wrappedcontinuationbox {\Wrappedcontinuationsymbol}%
+        \sbox\Wrappedvisiblespacebox {\FV@SetupFont\Wrappedvisiblespace}%
+        \def\FancyVerbFormatLine ##1{\hsize\linewidth
+            \vtop{\raggedright\hyphenpenalty\z@\exhyphenpenalty\z@
+                \doublehyphendemerits\z@\finalhyphendemerits\z@
+                \strut ##1\strut}%
+        }%
+        % If the linebreak is at a space, the latter will be displayed as visible
+        % space at end of first line, and a continuation symbol starts next line.
+        % Stretch/shrink are however usually zero for typewriter font.
+        \def\FV@Space {%
+            \nobreak\hskip\z@ plus\fontdimen3\font minus\fontdimen4\font
+            \discretionary{\copy\Wrappedvisiblespacebox}{\Wrappedafterbreak}
+            {\kern\fontdimen2\font}%
+        }%
+
+        % Allow breaks at special characters using \PYG... macros.
+        \Wrappedbreaksatspecials
+        % Breaks at punctuation characters . , ; ? ! and / need catcode=\active
+        \OriginalVerbatim[#1,codes*=\Wrappedbreaksatpunct]%
+    }
+    \makeatother
+
+    % Exact colors from NB
+    \definecolor{incolor}{HTML}{303F9F}
+    \definecolor{outcolor}{HTML}{D84315}
+    \definecolor{cellborder}{HTML}{CFCFCF}
+    \definecolor{cellbackground}{HTML}{F7F7F7}
+
+    % prompt
+    \makeatletter
+    \newcommand{\boxspacing}{\kern\kvtcb@left@rule\kern\kvtcb@boxsep}
+    \makeatother
+    \newcommand{\prompt}[4]{
+        {\ttfamily\llap{{\color{#2}[#3]:\hspace{3pt}#4}}\vspace{-\baselineskip}}
+    }
+    
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+\begin{document}
+    
+    \maketitle
+    
+    
+
+    
+    Probability for Data Science
+
+UC Berkeley, Spring 2026
+
+Ani Adhikari
+
+CC BY-NC-SA 4.0
+
+This content is protected and may not be shared, uploaded, or
+distributed.
+
+    \hypertarget{homework-12-due-monday-april-27th-at-5-pm}{%
+\section{Homework 12 (Due Monday, April 27th at 5
+PM)}\label{homework-12-due-monday-april-27th-at-5-pm}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{warnings}
+\PY{n}{warnings}\PY{o}{.}\PY{n}{filterwarnings}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ignore}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{prob140}\PY{+w}{ }\PY{k+kn}{import} \PY{o}{*}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{datascience}\PY{+w}{ }\PY{k+kn}{import} \PY{o}{*}
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{numpy}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{np}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{scipy}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{stats}
+
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{plt}
+\PY{o}{\PYZpc{}}\PY{k}{matplotlib} inline
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{matplotlib}
+\PY{n}{matplotlib}\PY{o}{.}\PY{n}{style}\PY{o}{.}\PY{n}{use}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{fivethirtyeight}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{hw12\PYZus{}grader}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{Autograder}
+\PY{n}{grader} \PY{o}{=} \PY{n}{Autograder}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \hypertarget{instructions}{%
+\subsubsection{Instructions}\label{instructions}}
+
+\hypertarget{questions-1-2-and-3-can-be-answered-based-on-tuesdays-lecture-and-past-content-alone.}{%
+\paragraph{\texorpdfstring{\textbf{Questions 1, 2, and 3 can be answered
+based on Tuesday's lecture (and past content)
+alone.}}{Questions 1, 2, and 3 can be answered based on Tuesday's lecture (and past content) alone.}}\label{questions-1-2-and-3-can-be-answered-based-on-tuesdays-lecture-and-past-content-alone.}}
+
+\hypertarget{we-strongly-encourage-you-to-attempt-questions-1-and-2-independently-relying-on-the-provided-textbook-sections-your-own-reasoning-and-our-ai-tools-see-below.-if-you-find-yourself-stuck-we-recommend-attending-office-hours-or-homework-party-or-posting-your-questions-on-ed.-if-youre-having-trouble-getting-started-on-problems-without-the-use-of-ai-we-encourage-you-to-follow-our-recommendation.}{%
+\paragraph{\texorpdfstring{\textbf{We strongly encourage you to attempt
+Questions 1 and 2 independently, relying on the provided textbook
+sections, your own reasoning, and our AI tools (see below). If you find
+yourself stuck, we recommend attending office hours or homework party or
+posting your questions on Ed. If you're having trouble getting started
+on problems without the use of AI, we encourage you to follow our
+recommendation.}}{We strongly encourage you to attempt Questions 1 and 2 independently, relying on the provided textbook sections, your own reasoning, and our AI tools (see below). If you find yourself stuck, we recommend attending office hours or homework party or posting your questions on Ed. If you're having trouble getting started on problems without the use of AI, we encourage you to follow our recommendation.}}\label{we-strongly-encourage-you-to-attempt-questions-1-and-2-independently-relying-on-the-provided-textbook-sections-your-own-reasoning-and-our-ai-tools-see-below.-if-you-find-yourself-stuck-we-recommend-attending-office-hours-or-homework-party-or-posting-your-questions-on-ed.-if-youre-having-trouble-getting-started-on-problems-without-the-use-of-ai-we-encourage-you-to-follow-our-recommendation.}}
+
+Your homeworks will generally have two components: a written portion and
+a portion that also involves code. Written work should be completed on
+paper, and coding questions should be done in the notebook. Start the
+work for the written portions of each section on a new page. You are
+welcome to \(\LaTeX\) your answers to the written portions, but staff
+will not be able to assist you with \(\LaTeX\) related issues.
+
+It is your responsibility to ensure that both components of the homework
+are submitted completely and properly to Gradescope. \textbf{Make sure
+to assign each page of your pdf to the correct question. Refer to the
+bottom of the notebook for submission instructions.}
+
+    \hypertarget{how-to-do-your-homework}{%
+\subsubsection{How to Do Your Homework}\label{how-to-do-your-homework}}
+
+The point of homework is for you to try your hand at using what you've
+learned in class. The steps to follow:
+
+\begin{itemize}
+\tightlist
+\item
+  Go to lecture and sections, and also go over the relevant text
+  sections before starting on the homework. This will remind you what
+  was covered in class, and the text will typically contain examples not
+  covered in lecture. The weekly Study Guide will list what you should
+  read.
+\item
+  Work on some of the practice problems before starting on the homework.
+\item
+  Attempt the homework problems by yourself with the text, section work,
+  and practice materials all at hand. Sometimes the week's lab will help
+  as well. The two steps above will help this step go faster and be more
+  fruitful.
+\item
+  At this point, seek help if you need it. Don't ask how to do the
+  problem --- ask how to get started, or for a nudge to get you past
+  where you are stuck. Always say what you have already tried. That
+  helps us help you more effectively.
+\item
+  For a good measure of your understanding, keep track of the fraction
+  of the homework you can do by yourself or with minimal help. It's a
+  better measure than your homework score, and only you can measure it.
+\end{itemize}
+
+    \hypertarget{rules-for-homework}{%
+\subsubsection{Rules for Homework}\label{rules-for-homework}}
+
+\begin{itemize}
+\tightlist
+\item
+  Every answer should contain a calculation or reasoning. For example, a
+  calculation such as \((1/3)(0.8) + (2/3)(0.7)\) or
+  \texttt{sum({[}(1/3)*0.8,\ (2/3)*0.7{]})}is fine without further
+  explanation or simplification. If we want you to simplify, we'll ask
+  you to. But just \({5 \choose 2}\) by itself is not fine; write ``we
+  want any 2 out of the 5 frogs and they can appear in any order'' or
+  whatever reasoning you used. Reasoning can be brief and abbreviated,
+  e.g.~``product rule'' or ``not mutually exclusive.''
+\item
+  You may consult others (see ``How to Do Your Homework'' above) but you
+  must write up your own answers using your own words, notation, and
+  sequence of steps.
+\item
+  We'll be using Gradescope. You must submit the homework according to
+  the instructions at the end of homework set.
+\end{itemize}
+
+\hypertarget{must-read-special-rules-on-this-hw-for-jupytutor}{%
+\subsubsection{\texorpdfstring{\textbf{{[}MUST READ{]} Special Rules on
+this HW for
+Jupytutor}}{{[}MUST READ{]} Special Rules on this HW for Jupytutor}}\label{must-read-special-rules-on-this-hw-for-jupytutor}}
+
+\begin{itemize}
+\tightlist
+\item
+  In this homework, we are demoing a new AI Tutor for Data 140 called
+  Jupytutor.
+\item
+  The tutor will be available to help you solve Question 2 only. It will
+  appear the below autograder cell if you fail the test case.
+\item
+  If you do not want to use the tutor, click the 3 dots in the bottom
+  left corner, and click ``Turn off Jupytutor for this notebook''.
+\item
+  It should not appear below any other cells, but if it does, you should
+  ignore the outputs of those windows as the AI is missing context for
+  the other questions.
+\item
+  \textbf{Grading for Question 2:} Although we provide an autograder for
+  Q2 to check your work, you must still show your work and answer in the
+  written part of the homework. \textbf{Passing the autograder alone
+  does not guarantee full credit for Q2}.
+\item
+  Recommended Usage: ask ``how do I start/continue this question?'' if
+  you are stuck. The AI is familiar with parts of our course textbook
+  and notation.
+\item
+  If any technical issues with Jupytutor arise, please post on Ed.
+\end{itemize}
+
+\hypertarget{we-will-not-grade-assignments-which-do-not-have-pages-correctly-selected-for-each-question.}{%
+\subsection{\texorpdfstring{\textbf{We will not grade assignments which
+do not have pages correctly selected for each
+question.}}{We will not grade assignments which do not have pages correctly selected for each question.}}\label{we-will-not-grade-assignments-which-do-not-have-pages-correctly-selected-for-each-question.}}
+
+    \newpage
+
+    \hypertarget{overlapping-counts}{%
+\subsection{1. Overlapping Counts}\label{overlapping-counts}}
+
+Consider a sequence of i.i.d. Bernoulli \((p)\) trials. Consider the
+three variables \(X\), \(Y\), and \(V\) defined by:
+
+\begin{itemize}
+\tightlist
+\item
+  \(X\) is the number of successes in trials 1 through 100
+\item
+  \(Y\) is the number of successes in trials 51 through 100
+\item
+  \(V\) is the number of successes in trials 51 through 150
+\end{itemize}
+
+\textbf{a)} For each of \(X\), \(Y\), and \(V\), say what the
+distribution is and provide the parameters.
+
+
+$X \sim \Binom(100, p), Y \sim \Binom(50, p), V \sim \Binom(100, p) $ 
+
+
+
+\textbf{b)} Fix \(k\) in the range \(0, 1, \ldots, 100\) and find the
+conditional distribution of \(Y\) given \(X = k\). Recognize this as a
+famous one and provide the parameters. Start with \(P(Y = y|X=x)\) and
+use the
+\href{https://data140.org/textbook/content/chapter-02/multiplication/\#division-rule}{Division
+Rule}.
+
+
+Let $Z$  be the number of successes in trials 1 through 50, $\sim \Binom(50, p)$ 
+
+\begin{align*}
+	P(Y=y \mid X = x) &= \frac{P(Y=y, X=x)}{P(X=x)} \\
+&= \frac{P(Z = x-y)P(Y=y)}{P(X=x)} \\
+\end{align*}
+
+\begin{align*}
+	P(y=y \mid X=k) &= \frac{P(Z = k-y) P(Y=y)}{P(X=k)} \\
+	&= \binom{50}{k-y} p^{k-y}(1-p)^{50-k+y} \binom{50}{y}p^{y} (1-p)^{50-y} / \binom{100}{k}p^{k} (1-p)^{100-k}\\
+	&= \binom{50}{k-y} \binom{50}{y} p^{k} (1-p)^{100-k} / \binom{100}{k}p^{k} (1-p)^{100-k}\\
+	&= \binom{50}{k-y} \binom{50}{y} / \binom{100}{k} \\
+\end{align*}
+
+This is the hypergeometric(100, 50, k)  distribution.
+
+
+\textbf{c)} Find the least squares predictor of \(Y\) based on \(X\) and
+say whether it is a linear function of \(X\). (If it is, then the best
+linear predictor is in fact the best among all predictors.) Find
+\(Var(Y \mid X)\). For a reminder of the least squares predictor, read
+through
+\href{https://data140.org/textbook/content/chapter-22/least-squares-predictor/\#best-predictor}{Ch.
+22.2.2} (Least Squares Predictor).
+
+
+\begin{align*}
+	E[Y \mid X] &= X \frac{50}{100} \\
+	&= \frac{1}{2}X \\
+\end{align*}
+
+This is a linear function of $X$. 
+
+
+\begin{align*}
+	\Var(Y \mid X) &= X \frac{50}{100} \cdot \frac{50}{100} \cdot \frac{100-X}{100-1} \\
+	&= \frac{1}{4} X \cdot \frac{100-X}{99} \\
+\end{align*}
+
+
+
+\textbf{d)} Find \(E(V \mid X)\), \(Var(V \mid X)\), and the correlation
+\(r(X, V)\). The equation for correlation can be found
+\href{https://data140.org/textbook/content/chapter-13/covariance/\#correlation}{here}.
+
+Let $Z$  be the number of successes in trials between 101 and 150.
+
+
+\begin{align*}
+	E[V \mid X] &= E[Y + Z \mid X] \\
+	&= E[Y \mid X] + E[Z \mid X]	\\
+	&= E[Y \mid X]  + E[Z] \\
+	&= \frac{1}{2}X + 50p \\
+\end{align*}
+
+
+\begin{align*}
+	\Var(V \mid X) &= \Var(Y + Z \mid X) \\
+	&= \Var(Y \mid X) + \Var(Z \mid X) \\
+	&= \frac{1}{4} X \cdot \frac{100-X}{99} + 50p(1-p) \\
+\end{align*}
+
+
+$$
+	r(X,V) = \frac{\Cov(X,V)}{SD(X)SD(V)} 
+$$
+
+
+\begin{align*}
+	\Cov(X, V) &= \Cov(X, Y + Z) \\
+	&= \Cov(X, Y) + \Cov(X, Z) \\
+	&= \Cov(X, Y) \\
+\end{align*}
+
+Let $I_{i}$ be an indicator variable indicating if trial $i$ is a success.
+
+\begin{align*}
+	\Cov(X,Y) &= \Cov(\sum_{i=1}^{100} I_{i}, \sum_{i=51}^{100} I_{i})\\
+&= \Cov(\sum_{i=1}^{50} I_{i}, 0) + \Cov(\sum_{i=51}^{100} I_{i}, \sum_{i=51}^{100} I_{i}) \\
+&= \Var(\sum_{i=51}^{100} I_{i}) \\
+&= 50 \Var(I_{1}) \\
+&= 50 p(1-p) \\
+\end{align*}
+
+
+\begin{align*}
+	\Cov(X, Y) &= 50p(1-p) \\
+	r(X,V) &= \frac{50p(1-p)}{\sqrt{100 p(1-p)}{\sqrt{100 p(1-p)}}} \\
+	&= \frac{50p(1-p)}{100p(1-p)} \\
+	&= \frac{1}{2} \\
+\end{align*}
+
+
+\textbf{e)} Simulate 20,000 \((X, V)\) pairs for \(p = 0.5\) and draw
+the scatter plot of the observed points. Plot \(E(V \mid X)\) as a
+function of \(X\) on the same plot. Use the cell below. The arrays
+\texttt{x} and \texttt{v} should contain the observed values of \(X\)
+and \(V\). The array \texttt{exp\_V\_given\_x} should contain
+\(E(V \mid X = x)\) for each \(x\) in \texttt{x}, using the formula you
+derived in \textbf{d}.
+ 
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{25}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Simulation for e}
+
+\PY{n}{p} \PY{o}{=} \PY{l+m+mf}{0.5}
+
+\PY{n}{y} \PY{o}{=} \PY{n}{stats}\PY{o}{.}\PY{n}{binom}\PY{o}{.}\PY{n}{rvs}\PY{p}{(}\PY{l+m+mi}{50}\PY{p}{,} \PY{n}{p}\PY{p}{,} \PY{n}{size} \PY{o}{=} \PY{l+m+mi}{20\PYZus{}000}\PY{p}{)}
+\PY{n}{x} \PY{o}{=} \PY{n}{stats}\PY{o}{.}\PY{n}{binom}\PY{o}{.}\PY{n}{rvs}\PY{p}{(}\PY{l+m+mi}{50}\PY{p}{,} \PY{n}{p}\PY{p}{,} \PY{n}{size} \PY{o}{=} \PY{l+m+mi}{20\PYZus{}000}\PY{p}{)} \PY{o}{+} \PY{n}{y}
+\PY{n}{v} \PY{o}{=} \PY{n}{y} \PY{o}{+} \PY{n}{stats}\PY{o}{.}\PY{n}{binom}\PY{o}{.}\PY{n}{rvs}\PY{p}{(}\PY{l+m+mi}{50}\PY{p}{,} \PY{n}{p}\PY{p}{,} \PY{n}{size}\PY{o}{=} \PY{l+m+mi}{20\PYZus{}000}\PY{p}{)}
+\PY{n}{exp\PYZus{}V\PYZus{}given\PYZus{}x} \PY{o}{=} \PY{p}{(}\PY{l+m+mf}{0.5} \PY{o}{*} \PY{n}{x}\PY{p}{)} \PY{o}{+} \PY{l+m+mi}{50} \PY{o}{*} \PY{n}{p}
+
+\PY{c+c1}{\PYZsh{} Don\PYZsq{}t change the lines below}
+\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{6}\PY{p}{,} \PY{l+m+mi}{6}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{axes}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{set\PYZus{}aspect}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{equal}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xticks}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{l+m+mi}{30}\PY{p}{,} \PY{l+m+mi}{71}\PY{p}{,} \PY{l+m+mi}{10}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{yticks}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{l+m+mi}{30}\PY{p}{,} \PY{l+m+mi}{71}\PY{p}{,} \PY{l+m+mi}{10}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{v}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{darkblue}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{s}\PY{o}{=}\PY{l+m+mi}{10}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{exp\PYZus{}V\PYZus{}given\PYZus{}x}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{gold}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{s}\PY{o}{=}\PY{l+m+mi}{10}\PY{p}{)}\PY{p}{;}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_9_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    Complete the cell below so that the \texttt{x\_su} is \texttt{x} in
+standard units, \texttt{v\_su} is \texttt{v} in standard units, and the
+last line evaluates to the observed correlation between \texttt{x} and
+\texttt{v}. Check that the output is consistent with your calculation in
+\textbf{d}.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{26}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Part e continued}
+
+\PY{n}{x\PYZus{}su} \PY{o}{=} \PY{p}{(}\PY{n}{x} \PY{o}{\PYZhy{}} \PY{n}{np}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{n}{x}\PY{p}{)}\PY{p}{)} \PY{o}{/} \PY{n}{np}\PY{o}{.}\PY{n}{std}\PY{p}{(}\PY{n}{x}\PY{p}{)}
+\PY{n}{v\PYZus{}su} \PY{o}{=} \PY{p}{(}\PY{n}{v} \PY{o}{\PYZhy{}} \PY{n}{np}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{n}{v}\PY{p}{)}\PY{p}{)} \PY{o}{/} \PY{n}{np}\PY{o}{.}\PY{n}{std}\PY{p}{(}\PY{n}{v}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} expectation of x * v }
+
+\PY{l+m+mi}{1}\PY{o}{/}\PY{l+m+mi}{20\PYZus{}000} \PY{o}{*} \PY{n}{np}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{n}{x\PYZus{}su} \PY{o}{*} \PY{n}{v\PYZus{}su}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{26}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+0.50436291167647651
+\end{Verbatim}
+\end{tcolorbox}
+          \newpage
+
+    \hypertarget{midterms-1-and-2}{%
+\subsection{2. Midterms 1 and 2}\label{midterms-1-and-2}}
+
+Before attempting this problem, read through
+\href{https://data140.org/textbook/content/chapter-23/multivariate-normal-vectors/\#sum-and-difference}{Ch.
+23.2.2} (Sum and Difference of a Bivariate Normal). For a problem
+related to this one, look at Ch. 23.5 Ex.3, which will be done in
+Wednesday's section.
+
+In a large class, the distribution of scores in Midterms 1 and 2 is
+approximately bivariate normal. Define the following notation.
+
+\begin{itemize}
+\tightlist
+\item
+  For \(i = 1, 2\), \(\mu_i\) is the class average on Midterm \(i\), and
+  \(\sigma_i^2\) is the class variance on Midterm \(i\)
+\item
+  The correlation between Midterm 1 and 2 scores in the class is
+  \(\rho\)
+\end{itemize}
+
+For both questions below, \textbf{find the answer in terms of rho or
+constants}. Then, set the variables in the cells below to the exact
+answer in the case that \(\rho\) = 0.6, and double check your solution
+with our autograder.
+
+    \textbf{a)} For approximately what proportion of the students was the
+Midterm 2 score (in standard units) higher than the Midterm 1 score (in
+standard units)? First \textbf{find the answer in terms of rho or
+constants}, then find the answer numerically in the cell below.
+\begin{align*}
+P(Z_2 \ge Z_1) &= P(Z_2 - Z_1 \ge 0) \\
+\end{align*}
+
+$D = Z_2 - Z_1 \sim$ Normal($0, 2-2\rho = 2(1-\rho)$)
+\begin{align*}
+	P(Z_2 - Z_1 \ge 0) &= P(\frac{(D) - (0)}{2(1-\rho)} \ge 0)\\
+			   &= \Phi(0)
+\end{align*}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{8}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} answer to a}
+\PY{n}{rho} \PY{o}{=} \PY{l+m+mf}{0.6} \PY{c+c1}{\PYZsh{} don\PYZsq{}t change this line}
+\PY{n}{q2a\PYZus{}answer} \PY{o}{=} \PY{l+m+mf}{.5}
+\PY{n}{q2a\PYZus{}answer}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{8}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+0.5
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{9}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{grader}\PY{o}{.}\PY{n}{grade\PYZus{}q2a}\PY{p}{(}\PY{n}{q2a\PYZus{}answer}\PY{p}{)} \PY{c+c1}{\PYZsh{} don\PYZsq{}t change this line}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+CORRECT
+    \end{Verbatim}
+
+    \textbf{b)} For approximately what proportion of the students did the
+two midterm scores (each in standard units) differ by more than 1? Round
+your answer to the nearest 5 decimal places. First \textbf{find the
+answer in terms of rho or constants}, then find the answer numerically
+in the cell below.
+
+\begin{align*}
+	P(\vert D \vert  \ge 1) &= 1 - P(-1 \le D \le 1)  \\
+	&= 1 - (P(D \le 1) - P(D \le -1)) \\
+	&= 1 - (\Phi(\frac{1}{\sqrt{2(1-\rho)}}) - \Phi(-\frac{1}{\sqrt{2(1-\rho)}})) \\
+\end{align*}
+
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{21}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} answer to b}
+\PY{n}{rho} \PY{o}{=} \PY{l+m+mf}{0.6} \PY{c+c1}{\PYZsh{} don\PYZsq{}t change this line}
+\PY{n}{q2b\PYZus{}answer} \PY{o}{=} \PY{l+m+mi}{1} \PY{o}{\PYZhy{}} \PY{p}{(}\PY{n}{stats}\PY{o}{.}\PY{n}{norm}\PY{o}{.}\PY{n}{cdf}\PY{p}{(}\PY{l+m+mi}{1}\PY{o}{/}\PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{l+m+mi}{2}\PY{o}{*}\PY{p}{(}\PY{l+m+mi}{1}\PY{o}{\PYZhy{}}\PY{l+m+mf}{0.6}\PY{p}{)}\PY{p}{)}\PY{p}{)} \PY{o}{\PYZhy{}} \PY{n}{stats}\PY{o}{.}\PY{n}{norm}\PY{o}{.}\PY{n}{cdf}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{o}{/}\PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{l+m+mi}{2}\PY{o}{*}\PY{p}{(}\PY{l+m+mi}{1}\PY{o}{\PYZhy{}}\PY{l+m+mf}{0.6}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+
+\PY{n}{q2b\PYZus{}answer} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{round}\PY{p}{(}\PY{n}{q2b\PYZus{}answer}\PY{p}{,} \PY{l+m+mi}{5}\PY{p}{)} \PY{c+c1}{\PYZsh{} don\PYZsq{}t change this line, this rounds your answer}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+si}{\PYZob{}}\PY{n}{q2b\PYZus{}answer}\PY{l+s+si}{:}\PY{l+s+s2}{.5f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+0.26355
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{22}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{grader}\PY{o}{.}\PY{n}{grade\PYZus{}q2b}\PY{p}{(}\PY{n}{q2b\PYZus{}answer}\PY{p}{)} \PY{c+c1}{\PYZsh{} don\PYZsq{}t change this line}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+CORRECT
+    \end{Verbatim}
+
+
+    \newpage
+
+    \hypertarget{normals-and-coins}{%
+\subsection{3. Normals and Coins}\label{normals-and-coins}}
+
+Let \(X\) be standard normal. Construct a random variable \(Y\) as
+follows:
+
+\begin{itemize}
+\tightlist
+\item
+  Toss a fair coin.
+\item
+  If the coin lands heads, let \(Y = X\).
+\item
+  If the coin lands tails, let \(Y = -X\).
+\end{itemize}
+
+\textbf{a)} Find the cdf of \(Y\) and hence identify the distribution of
+\(Y\).
+
+
+\begin{align*}
+	P(Y \le y) &= P(Y \le y \mid H)P(H) + P(Y \le y \mid  T)P( T) \\
+	&= \frac{1}{2} \Phi(y) + \frac{1}{2}P(-X \le y) \\
+	&= \frac{1}{2} \Phi(y) + \frac{1}{2} P(X \ge -y) \\
+	&= \frac{1}{2} \Phi(y) + \frac{1}{2} (1- \Phi(-y))  \\
+	&= \frac{1}{2}\Phi(y) + \frac{1}{2} (1- (1-\Phi(y)), \quad \text{by symmetry of Normal Dist} \\
+	&= \frac{1}{2} \Phi(y) + \frac{1}{2}\Phi(y)\\ 
+	&= \Phi(y) \\
+\end{align*}
+
+
+Therefore, Y is also standard normal .
+
+
+
+\textbf{b)} Find \(E(XY)\) by conditioning on the result of the toss.
+
+\begin{align*}
+	E[XY] &= E[E[XY \mid \text{toss}]] \\
+	&= E[XY \mid H] P(H) + E[XY \mid T]P(T) \\
+	&= \frac{1}{2} E[XX] + \frac{1}{2} E[X(-X)]	\\
+	&= \frac{1}{2} E[X^{2}] - \frac{1}{2}E[X^{2}] \\
+	&= 0  \\
+\end{align*}
+
+\textbf{c)} Are \(X\) and \(Y\) uncorrelated?
+
+\begin{align*}
+	\Cov(X, Y) &= E[XY] - E[X] E[Y] \\
+	&= 0 - 0(0) \\
+	&= 0 \\
+\end{align*}
+
+Yes $X$ and $Y$ are uncorrelated.
+
+
+\textbf{d)} Are \(X\) and \(Y\) independent?
+
+No, $X$ and $Y$ are not independent, because by definition, $Y$  depends on the result of $X$.  
+
+\textbf{e)} Is the joint distribution of \(X\) and \(Y\) bivariate
+normal?
+
+No $X$ and $Y$ cannot be bivariate normal. Only bivariate normal implies normal, but normal does not imply bivariate normal. It is only bivariate normal if and only if every linear combination of $X$ and $Y$ is also a normal distribution.   
+
+    \newpage
+
+    \hypertarget{slices-of-a-normal-cake}{%
+\subsection{4. Slices of a Normal Cake}\label{slices-of-a-normal-cake}}
+
+This problem needs only the material of a few weeks ago, but it's here
+because the ideas and visualization will be helpful in the next
+exercise. A former 140 staff member told me how he used this method in
+his interview at a major quant firm and surprised the interviewer. (Yes,
+he got the job.) Simple, insightful solutions tend to beat tons of
+calculus even when the calculus is done correctly.
+
+Let \(X\) and \(Y\) be independent standard normal random variables.
+
+\textbf{a)} Find \(P(X > 0, Y > 0)\).
+
+Yes, it's easy. But get a piece of paper and draw the event on the plane
+anyway. Imagine the joint density surface over the plane, and try to
+imagine the relevant volume under the joint density surface as a
+quadrant-shaped slice of a bell-shaped cake. \textbf{Then use the same
+approach for the next two parts.}
+
+\[
+P(X > 0, Y > 0) = \frac{1}{4}
+\]
+\begin{centering}
+	
+\begin{tikzpicture}
+    % 1. Shade the first quadrant (0 to 90 degrees)
+    % The 'fill' command fills the area defined by the path
+    \fill[blue!20] (0,0) -- (2,0) arc (0:90:2) -- cycle;
+
+    % 2. Draw the full circle
+    \draw (0,0) circle (2cm);
+
+    % 3. Optional: Draw the x and y axes
+    \draw[->] (-2.5,0) -- (2.5,0) node[right] {$x$};
+    \draw[->] (0,-2.5) -- (0,2.5) node[above] {$y$};
+\end{tikzpicture}
+
+\end{centering}
+
+\textbf{b)} Find \(P(X > 0, Y > X)\).
+
+
+\[
+P(X > 0, Y > X) = \frac{45}{360} = \frac{1}{8}
+\]
+
+\begin{centering}
+	
+\begin{tikzpicture}
+    % 1. Shade the first quadrant (0 to 90 degrees)
+    % The 'fill' command fills the area defined by the path
+    \fill[blue!20] (0,0) -- (2,0) arc (0:45:2) -- cycle;
+
+    % 2. Draw the full circle
+    \draw (0,0) circle (2cm);
+
+    % 3. Optional: Draw the x and y axes
+    \draw[->] (-2.5,0) -- (2.5,0) node[right] {$x$};
+    \draw[->] (0,-2.5) -- (0,2.5) node[above] {$y$};
+\end{tikzpicture}
+
+\end{centering}
+
+
+
+
+
+
+
+
+\textbf{c)} Find \(P(X > 0, Y > \sqrt{3}X)\).
+
+\[
+	P(X > 0, Y > \sqrt{3}X ) = \frac{30}{360} = \frac{1}{12}
+\]
+
+\begin{centering}
+	
+\begin{tikzpicture}
+    % 1. Shade the first quadrant (0 to 90 degrees)
+    % The 'fill' command fills the area defined by the path
+    \fill[blue!20] (0,0) -- (2,0) arc (0:30:2) -- cycle;
+
+    % 2. Draw the full circle
+    \draw (0,0) circle (2cm);
+
+    % 3. Optional: Draw the x and y axes
+    \draw[->] (-2.5,0) -- (2.5,0) node[right] {$x$};
+    \draw[->] (0,-2.5) -- (0,2.5) node[above] {$y$};
+\end{tikzpicture}
+
+\end{centering}
+
+
+
+
+    \newpage
+
+    \hypertarget{heights-of-mothers-and-daughters}{%
+\subsection{5. Heights of Mothers and
+Daughters}\label{heights-of-mothers-and-daughters}}
+
+The heights of a population of mother-daughter pairs have a bivariate
+normal distribution with correlation 0.5.
+
+\textbf{a)} Of the mothers on the 90th percentile of mothers' heights,
+what proportion have daughters who are taller than the 90th percentile
+of daughters' heights?
+
+$\rho = 0.5$ 
+
+Let $X$ be the height of mothers, with a normal distribution. Let $Y$ be the height of daughters. 
+
+Let $Z_{X}$ be the height of mothers with a standard normal distribution, and let $Z_{Y}$ be the height of daughters with a standard normal distribution. $Z_{X} = \frac{X-\mu _{x}}{\sigma_{X}}, Z_{Y} = \rho Z_{X} + \sqrt{1-\rho^{2}} Z$ 
+
+Let $Z$ be a standard normal variable.
+
+\begin{align*}
+	P(Z_{Y} \ge Z_{X} \mid Z_{X} = \Phi^{-1}(0.9)) &= P(\rho Z_{X} + \sqrt{1-\rho^{2}}Z  \ge Z_{X} \mid Z_{X} = \Phi^{-1}(0.9)) \\
+				    &= P(\sqrt{1-\rho^{2}}Z \ge (1-\rho)Z_{X} \mid Z_{X} = \Phi^{-1}(0.9))  \\
+				    &= P(Z \ge \frac{(1-\rho)Z_{X}}{\sqrt{1-\rho^{2}}} \mid Z_{X} = \Phi^{-1}(0.9) ) \\
+				    &= P(Z \ge \frac{(1-\rho) \Phi^{-1}(0.9)}{\sqrt{1-\rho^{2}}}) \\
+				    &= 1 - \Phi\left( \frac{(1-\rho)\Phi^{-1}(0.9)}{\sqrt{1-\rho^{2}} } \right)  \\
+				    &= 0.23 \\
+\end{align*}
+
+\textbf{b)} In what proportion of mother-daughter pairs are both women
+taller than average? (This means the mothers are taller than the average
+mother and the daughters are taller than the average daughter.)
+
+{[}Hint: Express standard bivariate normal variables in terms of two
+independent standard normal variables, and then apply the ``slices of a
+normal cake'' method.{]}
+
+\begin{align*}
+	P(Z_{X} \ge 0, Z_{Y} \ge 0) &= P(Z_{X} \ge 0, \rho Z_{X} + \sqrt{1-\rho^{2}} Z \ge 0) \\
+				    &= P(Z_{X} \ge 0, Z \ge -\frac{\rho}{\sqrt{1-\rho^{2}}} Z_{X}) \\
+\end{align*}
+
+
+\begin{align*}
+	\alpha = \arctan\left(\frac{\rho}{\sqrt{1-\rho^{2}}} \right)  &=  0.52 \\
+	\theta = \alpha + \frac{\pi}{2}
+\end{align*}
+
+\begin{align*}
+P(Z_{X} \ge 0, Z_{Y}\ge 0) &= \frac{\theta}{2\pi} \\
+	&= 0.33 \\
+\end{align*}
+
+
+    \newpage
+
+    \hypertarget{submission-instructions}{%
+\subsection{Submission Instructions}\label{submission-instructions}}
+
+Many assignments throughout the course will have a written portion and a
+code portion. Please follow the directions below to properly submit both
+portions.
+
+\hypertarget{written-portion}{%
+\subsubsection{Written Portion}\label{written-portion}}
+
+\begin{itemize}
+\tightlist
+\item
+  Scan all the pages into a PDF. You can use any scanner or a phone
+  using applications such as CamScanner. Please \textbf{DO NOT} simply
+  take pictures using your phone.
+\item
+  Please start a new page for each question. If you have already written
+  multiple questions on the same page, you can crop the image in
+  CamScanner or fold your page over (the old-fashioned way). This helps
+  expedite grading.
+\item
+  It is your responsibility to check that all the work on all the
+  scanned pages is legible.
+\item
+  If you used \(\LaTeX\) to do the written portions, you do not need to
+  do any scanning; you can just download the whole notebook as a PDF via
+  LaTeX.
+\end{itemize}
+
+\hypertarget{code-portion}{%
+\subsubsection{Code Portion}\label{code-portion}}
+
+\begin{itemize}
+\tightlist
+\item
+  Save your notebook using
+  \texttt{File\ \textgreater{}\ Save\ and\ Checkpoint}.
+\item
+  Generate a PDF file using
+  \texttt{File\ \textgreater{}\ Download\ As\ \textgreater{}\ PDF\ via\ LaTeX}.
+  This might take a few seconds and will automatically download a PDF
+  version of this notebook.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    If you have issues, please post a follow-up on the general Homework
+    12 Ed thread.
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{submitting}{%
+\subsubsection{Submitting}\label{submitting}}
+
+\begin{itemize}
+\tightlist
+\item
+  Combine the PDFs from the written and code portions into one PDF.
+  \href{https://smallpdf.com/merge-pdf}{Here} is a useful tool for doing
+  so.
+\item
+  Submit the assignment to Homework 12 on Gradescope.
+\item
+  \textbf{Make sure to assign each page of your pdf to the correct
+  question.}
+\item
+  \textbf{It is your responsibility to verify that all of your work
+  shows up in your final PDF submission.}
+\end{itemize}
+
+If you are having difficulties scanning, uploading, or submitting your
+work, please read the
+\href{https://edstem.org/us/courses/94054/discussion/7533569}{Ed Thread}
+on this topic and post a follow-up on the general Homework 12 Ed thread.
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+\end{document}

@@ -328,4 +328,67 @@ I_{n} = \begin{cases}
 	&= 365p(1-p) + 365 \cdot 364 \cdot \frac{363}{365} ^{n} -p^{2} \\
 \end{align*}
 }
+
+
+\chapter{}
+\section{29 April 2026}
+
+\ex{Ch24, Ex1}{
+
+	Show that MSE is $(1-r^{2}) \Var(Y)$ 
+
+
+	\begin{align*}
+		MSE(\hat Y) &= E[ ( Y - \hat Y)^{2}] \\
+		&=  E[ (Y - (a(X-\mu_{X}) + \mu _{y})] \\
+		&= E[ [(Y-\mu _{Y}) - (a (X-\mu _{X})) ]^{2} ] \\
+		&= E[(D_{Y} - aD_{X})^{2}] \\
+		&= E[D_{Y}^{2}] + a^{2}E[D_{X}^{2}] - 2aE[D_{Y}D_{X}] \\
+		&= \Var(Y) + a^{2}\Var(X) - 2a \Cov(X, Y) \\
+		&= \Var(Y) + a^{2} \Var(X) - 2a (r SD(X)SD(Y)) \\
+		&= \Var(Y) + r^{2} \frac{\Var(Y)}{\Var(X)}\Var(X) - 2 r \frac{SD(Y)}{SD(X)} (r SD(X)(SD(Y))) \\
+		&= \Var(Y) + r^{2}\Var(Y) - 2r^{2} \Var(Y) \\
+		&= (1-r^{2}) \Var(Y) \\
+	\end{align*}
+}
+
+\ex{Ch 24 Ex 6}{
+\begin{align*}
+	\max(a,b) &=  (a+b + \vert a - b \vert ) / 2 \\
+\end{align*}
+
+
+$X,Y$ standard bivariate normal with corrlation $\rho$ 
+
+\begin{align*}
+	E[\max(X,Y)] &= E[(X + Y + \vert X - Y \vert) / 2] \\
+	&= \frac{1}{2}E[X] + \frac{1}{2}E[Y] + \frac{1}{2}E[\vert X-Y \vert] \\
+	&= \frac{1}{2} E[\vert X - Y \vert] \\
+	&= \frac{1}{2} \cdot \sqrt{2-2\rho} E[\vert Z \vert] \\
+	&= \frac{1}{2} \cdot \sqrt{2 - 2\rho} \cdot \sqrt{\frac{2}{\pi}} \\
+\end{align*}
+
+We know $E[\vert Z \vert] = \sqrt{\frac{2}{\pi}}$ 
+
+\[
+	X-Y \sim Normal(0, 2 -2\rho)
+\]
+
+\[
+	X-Y = \sqrt{2 - 2 \rho}Z
+\]
+
+
+}
+
+\ex{Ch23, Ex 3}{
+
+\begin{align*}
+	P(\frac{X_1 + X_2}{2} \le X_3 + 1)  &=  \\
+\end{align*}
+
+
+}
+
+
 \end{document}
